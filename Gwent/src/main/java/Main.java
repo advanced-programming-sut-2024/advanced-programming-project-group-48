@@ -3,6 +3,7 @@ public class Main {
         System.out.println("Hello World!");
         System.out.println("salma baraye commit ezafe shodam");
         int ali;
+        int mamad;
     }
 
 }
