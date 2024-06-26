@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import model.User;
 
 import java.util.Random;
@@ -54,7 +53,7 @@ public class RegisterMenuController {
         ErrorText.setText("New User successfully created");
     }
 
-    public void generateRandomPassword(MouseEvent mouseEvent) {
+    public void generateRandomPassword() {
         String password=PasswordGenerator.generateRandomPassword(12);
         RandomPassword.setText(password);
         RegisterPassword.setText(password);
@@ -68,7 +67,7 @@ class PasswordGenerator {
     private static final String SPECIAL_CHARACTERS = "!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?";
     private static final String PASSWORD_ALLOW = CHAR_LOWER + CHAR_UPPER + NUMBER + SPECIAL_CHARACTERS;
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static String generateRandomPassword(int length) {
         if (length < 1) throw new IllegalArgumentException();
