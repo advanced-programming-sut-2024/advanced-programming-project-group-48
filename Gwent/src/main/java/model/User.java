@@ -1,8 +1,13 @@
 package model;
 
+import view.Deck;
+
 import java.util.ArrayList;
 
 public class User {
+    private Deck deck;
+    private GameHistory gameHistory;
+    private Profile profile;
     private String username;
     private String nickname;
     private String password;
