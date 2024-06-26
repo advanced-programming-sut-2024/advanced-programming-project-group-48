@@ -7,15 +7,28 @@ public class User {
     private String nickname;
     private String password;
     private String email;
+    private boolean stayLoggedIn;
     private ArrayList<String> answerOfQuestions = new ArrayList<>(3);
-    private ArrayList<User> allUsers;
+    public static User loggedInUser;
+    private static final ArrayList<User> allUsers= new ArrayList<>();
 
-    public User(String username, String nickname, String password, String email, ArrayList<String> answerOfQuestions) {
+    public void setStayLoggedIn(boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
+
+    public boolean isStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public User(String username, String nickname, String password, String email, String answer1, String answer2, String answer3) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.email = email;
-        this.answerOfQuestions = answerOfQuestions;
+        stayLoggedIn=false;
+        answerOfQuestions.add(answer1);
+        answerOfQuestions.add(answer2);
+        answerOfQuestions.add(answer3);
         allUsers.add(this);
     }
 
@@ -72,7 +85,20 @@ public class User {
         this.answerOfQuestions = answerOfQuestions;
     }
 
-    public void setAllUsers(ArrayList<User> allUsers) {
-        this.allUsers = allUsers;
+    public static boolean usernameExists(String username) {
+        for (User user : allUsers) {
+            if(user.username.equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static User getUserForLogin(String username, String password) {
+        for (User user : allUsers) {
+            if(user.username.equals(username) && user.password.equals(password)) {
+                return user;
+            }
+        }
+        return null;
     }
 }
