@@ -1,7 +1,11 @@
 package controller;
 
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import model.User;
+import view.ForgetPasswordMenu;
+import view.MainMenu;
+import view.RegisterMenu;
 
 import java.util.Random;
 
@@ -20,7 +24,7 @@ public class RegisterMenuController {
     public CheckBox StayLogged;
     public Label RandomPassword;
 
-    public void loginAction() {
+    public void loginAction() throws Exception {
         if (LoginUserName.getText().isEmpty() || LoginPassword.getText().isEmpty()) {
             ErrorText.setText("Please fill all the fields");
             return;
@@ -33,10 +37,8 @@ public class RegisterMenuController {
 
         User.loggedInUser=u;
         u.setStayLoggedIn(StayLogged.isSelected());
-
-//        new ProfileMenu().start(RegisterMenu.appStage);
-//        TODO: set the next stage and scene
-
+        RegisterMenu.appStage.close();
+        new MainMenu().start(new Stage());
     }
 
     public void registerAction() {
@@ -49,6 +51,20 @@ public class RegisterMenuController {
             ErrorText.setText("User Exist");
             return;
         }
+        if(!RegisterUsername.getText().matches("[a-zA-Z0-9-]+")){
+            ErrorText.setText("Username can only contain letters, numbers, and underscores");
+            return;
+        }
+        if(!Email.getText().matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")){
+            ErrorText.setText("Invalid Email");
+            return;
+        }
+
+        if(!RegisterPassword.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")){
+            ErrorText.setText("Invalid Password format");
+            return;
+        }
+
         new User(RegisterUsername.getText(),Nickname.getText(), RegisterPassword.getText(),Email.getText(),Answer1.getText(),Answer2.getText(),Answer3.getText());
         ErrorText.setText("New User successfully created");
     }
@@ -57,6 +73,10 @@ public class RegisterMenuController {
         String password=PasswordGenerator.generateRandomPassword(12);
         RandomPassword.setText(password);
         RegisterPassword.setText(password);
+    }
+
+    public void changeToForgetPassword() throws Exception {
+        new ForgetPasswordMenu().start(RegisterMenu.appStage);
     }
 }
 

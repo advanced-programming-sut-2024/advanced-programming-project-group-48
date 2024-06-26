@@ -8,7 +8,7 @@ public class User {
     private String password;
     private String email;
     private boolean stayLoggedIn;
-    private ArrayList<String> answerOfQuestions = new ArrayList<>(3);
+    private final ArrayList<String> answerOfTheQuestions = new ArrayList<>(3);
     public static User loggedInUser;
     private static final ArrayList<User> allUsers= new ArrayList<>();
 
@@ -26,9 +26,9 @@ public class User {
         this.password = password;
         this.email = email;
         stayLoggedIn=false;
-        answerOfQuestions.add(answer1);
-        answerOfQuestions.add(answer2);
-        answerOfQuestions.add(answer3);
+        answerOfTheQuestions.add(answer1);
+        answerOfTheQuestions.add(answer2);
+        answerOfTheQuestions.add(answer3);
         allUsers.add(this);
     }
 
@@ -48,8 +48,8 @@ public class User {
         return email;
     }
 
-    public ArrayList<String> getAnswerOfQuestions() {
-        return answerOfQuestions;
+    public ArrayList<String> getAnswerOfTheQuestions() {
+        return answerOfTheQuestions;
     }
 
     public ArrayList<User> getAllUsers() {
@@ -60,7 +60,7 @@ public class User {
         this.password = password;
     }
 
-    public User getUserByUsername(String username){
+    public static User getUserByUsername(String username){
         for(User i: allUsers){
             if(i.username.equals(username)){
                 return i;
@@ -79,10 +79,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setAnswerOfQuestions(ArrayList<String> answerOfQuestions) {
-        this.answerOfQuestions = answerOfQuestions;
     }
 
     public static boolean usernameExists(String username) {
