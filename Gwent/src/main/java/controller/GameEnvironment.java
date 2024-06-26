@@ -1,7 +1,7 @@
 package controller;
 
 import model.Card;
-import view.Deck;
+import model.Deck;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;

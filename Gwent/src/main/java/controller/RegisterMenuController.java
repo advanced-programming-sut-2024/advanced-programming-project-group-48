@@ -11,6 +11,9 @@ import java.util.Random;
 
 
 public class RegisterMenuController {
+    public static final String USERNAME_REGEX = "[a-zA-Z0-9-]+";
+    public static final String EMAIL_REGEX = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
     public Label ErrorText;
     public TextField Nickname;
     public TextField RegisterUsername;
@@ -51,16 +54,16 @@ public class RegisterMenuController {
             ErrorText.setText("User Exist");
             return;
         }
-        if(!RegisterUsername.getText().matches("[a-zA-Z0-9-]+")){
+        if(!RegisterUsername.getText().matches(USERNAME_REGEX)){
             ErrorText.setText("Username can only contain letters, numbers, and underscores");
             return;
         }
-        if(!Email.getText().matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")){
+        if(!Email.getText().matches(EMAIL_REGEX)){
             ErrorText.setText("Invalid Email");
             return;
         }
 
-        if(!RegisterPassword.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")){
+        if(!RegisterPassword.getText().matches(PASSWORD_REGEX)){
             ErrorText.setText("Invalid Password format");
             return;
         }

@@ -4,10 +4,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.User;
 import view.MainMenu;
+import view.ProfileMenu;
 import view.RegisterMenu;
 
 public class MainMenuController {
-    public void changeMenuToProfileMenu(MouseEvent mouseEvent) {
+    public void changeMenuToProfileMenu() throws Exception {
+        new ProfileMenu().start(MainMenu.appStage);
+        MainMenu.appStage=null;
     }
 
     public void changeMenuToPreGame(MouseEvent mouseEvent) {

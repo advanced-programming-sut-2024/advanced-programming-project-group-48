@@ -1,6 +1,4 @@
-package view;
-
-import model.Card;
+package model;
 
 import java.util.ArrayList;
 

@@ -7,5 +7,7 @@ module Gwent {
     exports controller to javafx.fxml;
     opens controller to javafx.fxml;
     opens view;
+    exports model;
+    opens model;
 
 }

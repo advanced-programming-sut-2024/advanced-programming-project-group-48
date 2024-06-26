@@ -1,7 +1,5 @@
 package model;
 
-import view.Deck;
-
 import java.util.Date;
 
 public class GameHistory {
