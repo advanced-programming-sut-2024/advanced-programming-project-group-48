@@ -4,51 +4,43 @@ import java.util.Date;
 
 public class GameHistory {
 
-    String opponentUserName;
-    Date dateOfGame;
-    int opponentScoreRound1;
-    int opponentScoreRound2;
-    int opponentScoreRound3;
-    int userScoreRound1;
-    int userScoreRound2;
-    int userScoreRound3;
-    int sumOfScoreOfUser;
-    int sumOfScoreOfOpponent;
-    Deck deck;
+    private final String opponentUsername;
+    private final Date dateOfGame;
+    private final int[] opponentScoresPerRound = new int[3];
+    private final int[] userScorePerRound = new int[3];
 
-
-    public String getOpponentUserName(){
-        return opponentUserName;
+    public GameHistory(int userScoreRound1,int userScoreRound2,int userScoreRound3,
+                       int opponentScoreRound1,int opponentScoreRound2,int opponentScoreRound3,
+                       Date dateOfGame,String opponentUsername){
+        userScorePerRound[0]=userScoreRound1;
+        userScorePerRound[1]=userScoreRound2;
+        userScorePerRound[2]=userScoreRound3;
+        opponentScoresPerRound[0]=opponentScoreRound1;
+        opponentScoresPerRound[1]=opponentScoreRound2;
+        opponentScoresPerRound[2]=opponentScoreRound3;
+        this.dateOfGame=dateOfGame;
+        this.opponentUsername=opponentUsername;
     }
-    public Date getDateOfGame(){
+    private int getTotalScoreOfUser(){
+        return userScorePerRound[0]+userScorePerRound[1]+userScorePerRound[2];
+    }
+    private int getTotalScoreOfOpponent(){
+        return opponentScoresPerRound[0]+opponentScoresPerRound[1]+opponentScoresPerRound[2];
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
+
+    public Date getDateOfGame() {
         return dateOfGame;
     }
-    public int getOpponentScoreRound1(){
-        return opponentScoreRound1;
-    }
-    public int getOpponentScoreRound2(){
-        return opponentScoreRound2;
-    }
-    public int getOpponentScoreRound3(){
-        return opponentScoreRound3;
-    }
-    public boolean winnerOfThisGame(){
-        return true;
-    }
-    public int getUserScoreRound1(){
-        return userScoreRound1;
-    }
-    public int getUserScoreRound2(){
-        return userScoreRound2;
-    }
-    public int getUserScoreRound3(){
-        return userScoreRound3;
-    }
-    public int getSumOfScoreOfUser(){
-        return sumOfScoreOfUser;
-    }
-    public int getSumOfScoreOfOpponent(){
-        return sumOfScoreOfOpponent;
+
+    public int[] getOpponentScoresPerRound() {
+        return opponentScoresPerRound;
     }
 
+    public int[] getUserScorePerRound() {
+        return userScorePerRound;
+    }
 }

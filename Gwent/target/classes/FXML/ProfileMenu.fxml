@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="589.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileMenuController">
+<AnchorPane prefHeight="589.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.ProfileMenuController">
    <children>
       <Button layoutX="179.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" />
       <Label fx:id="ErrorText" alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="356.0" prefHeight="17.0" prefWidth="296.0" text="............................................................................................." textFill="#49c97a">

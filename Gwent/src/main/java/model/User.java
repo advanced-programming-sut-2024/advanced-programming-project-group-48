@@ -1,7 +1,5 @@
 package model;
 
-import controller.DeckCards;
-
 import java.util.ArrayList;
 
 public class User {
@@ -10,10 +8,16 @@ public class User {
     private String password;
     private String email;
     private boolean stayLoggedIn;
-    private DeckCards deck;
-    private ArrayList<String> answerOfQuestions = new ArrayList<>(3);
+    private final ArrayList<String> answerOfQuestions = new ArrayList<>(3);
     public static User loggedInUser;
     private static final ArrayList<User> allUsers= new ArrayList<>();
+    private final GameInformation gameInformation=new GameInformation();
+
+    private Deck deck;
+
+    public Deck getDeck() {
+        return deck;
+    }
 
     public void setStayLoggedIn(boolean stayLoggedIn) {
         this.stayLoggedIn = stayLoggedIn;
@@ -84,10 +88,6 @@ public class User {
         this.email = email;
     }
 
-    public void setAnswerOfQuestions(ArrayList<String> answerOfQuestions) {
-        this.answerOfQuestions = answerOfQuestions;
-    }
-
     public static boolean usernameExists(String username) {
         for (User user : allUsers) {
             if(user.username.equals(username)) {
@@ -104,7 +104,44 @@ public class User {
         }
         return null;
     }
-    public DeckCards getDeck(){
-        return deck;
+    public void increaseNumWins(){
+        gameInformation.numberOfWins++;
     }
+    public void increaseNumDraws(){
+        gameInformation.numberOfDraws++;
+    }
+    public void increaseNumLoses(){
+        gameInformation.numberOfLoses++;
+    }
+    public void increaseNumTotalGames(){
+        gameInformation.numberOfTotalGames++;
+    }
+    public int getNumWins(){
+        return gameInformation.numberOfWins;
+    }
+    public int getNumDraws(){
+        return gameInformation.numberOfDraws;
+    }
+    public int getNumLoses(){
+        return gameInformation.numberOfLoses;
+    }
+    public int getMaxScore(){
+        return gameInformation.maxScore;
+    }
+    public void setMaxScore(int score){
+        if (gameInformation.maxScore < score) gameInformation.maxScore=score;
+    }
+    public int getNumberOfTotalGames(){
+        return gameInformation.numberOfTotalGames;
+    }
+
+
+
+}
+class GameInformation {
+    public int maxScore=0;
+    public int numberOfTotalGames=0;
+    public int numberOfWins=0;
+    public int numberOfLoses=0;
+    public int numberOfDraws=0;
 }

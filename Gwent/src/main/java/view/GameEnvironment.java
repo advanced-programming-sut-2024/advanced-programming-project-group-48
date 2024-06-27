@@ -1,6 +1,6 @@
 package view;
 
-import model.*;
+import model.card.*;
 
 import java.util.ArrayList;
 

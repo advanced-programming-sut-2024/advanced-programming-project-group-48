@@ -9,5 +9,11 @@ module Gwent {
     opens view;
     exports model;
     opens model;
+    exports view.menus;
+    opens view.menus;
+    exports controller.menu.controller to javafx.fxml;
+    opens controller.menu.controller to javafx.fxml;
+    exports model.card;
+    opens model.card;
 
 }

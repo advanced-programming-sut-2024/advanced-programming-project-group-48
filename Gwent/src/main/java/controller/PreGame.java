@@ -1,15 +1,11 @@
 package controller;
-import model.Card;
-import model.Faction;
+import model.card.Card;
+import model.card.Faction;
 import model.User;
 
 import java.io.*;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PreGame {
     private void createGame(Matcher matcher){
