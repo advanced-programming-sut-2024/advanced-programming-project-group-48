@@ -12,7 +12,7 @@ public class User {
     public static User loggedInUser;
     private static final ArrayList<User> allUsers= new ArrayList<>();
     private final GameInformation gameInformation=new GameInformation();
-
+    private final ArrayList<GameHistory> allGameHistories=new ArrayList<>();
     private Deck deck;
 
     public Deck getDeck() {
@@ -57,10 +57,6 @@ public class User {
 
     public ArrayList<String> getAnswerOfQuestions() {
         return answerOfQuestions;
-    }
-
-    public ArrayList<User> getAllUsers() {
-        return allUsers;
     }
 
     public void setPassword(String password) {
@@ -135,8 +131,12 @@ public class User {
         return gameInformation.numberOfTotalGames;
     }
 
-
-
+    public ArrayList<GameHistory> getAllGameHistories() {
+        return allGameHistories;
+    }
+    public void addGameHistory(GameHistory gameHistory){
+        allGameHistories.add(gameHistory);
+    }
 }
 class GameInformation {
     public int maxScore=0;
