@@ -1,10 +1,10 @@
 package model.card;
 
-public abstract class Card {
+public class Card {
+
     private final positions positions;
     private final NameOfCards name;
     private int power;
-    private final int number;
     private String faction;
 
 
@@ -12,7 +12,6 @@ public abstract class Card {
         this.positions = positions;
         this.name = name;
         this.power = power;
-        this.number = number;
         this.faction = faction;
     }
 
@@ -32,9 +31,6 @@ public abstract class Card {
         return power;
     }
 
-    public int getNumber() {
-        return number;
-    }
     public String getFaction(){
         return faction;
     }

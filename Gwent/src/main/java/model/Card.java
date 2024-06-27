@@ -19,10 +19,76 @@ public class Card {
             System.out.println("Medic!");
         }
     };
-
-
-
-
+    static CardAction CommandersHorn = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("CommandersHorn!");
+        }
+    };
+    static CardAction Decoy = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Decoy!");
+        }
+    };
+    static CardAction MoralBoost = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("MoralBoost!");
+        }
+    };
+    static CardAction Muster = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Muster!");
+        }
+    };
+    static CardAction Spy = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Spy!");
+        }
+    };
+    static CardAction TightBond = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("TightBond");
+        }
+    };
+    static CardAction Scorch = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Scorch!");
+        }
+    };
+    static CardAction Berserker = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Berserker!");
+        }
+    };
+    static CardAction Mardroeme = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Mardroeme!");
+        }
+    };
+    static CardAction Transformers = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+            System.out.println("Transformers!");
+        }
+    };
 
 
 
@@ -59,9 +125,6 @@ public class Card {
     public static void main(String[] args) {
         allCards.get(0).performAction();
     }
-
-
-
 
 }
 
