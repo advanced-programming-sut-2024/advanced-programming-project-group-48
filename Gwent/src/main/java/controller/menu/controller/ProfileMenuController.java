@@ -64,18 +64,45 @@ public class ProfileMenuController {
     public void showUserInfo(MouseEvent mouseEvent) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setHeaderText("User Information : 👤");
-        String userInfo = PreGame.showInformationCurrentUser();
-        alert.setContentText(userInfo);
+        StringBuilder userInfo = new StringBuilder();
+        userInfo.append("username: ").append(User.loggedInUser.getUsername()).append("\n")
+                .append("nickname: ").append(User.loggedInUser.getNickname()).append("\n")
+                .append("maxScore: ").append(User.loggedInUser.getMaxScore()).append("\n")
+                .append("ranking: ").append(User.loggedInUser.getUsersBaseRanking().indexOf(User.loggedInUser)+1).append("\n")
+                .append("number of games played: ").append(User.loggedInUser.getNumberOfTotalGames()).append("\n")
+                .append("number of draws: ").append(User.loggedInUser.getNumDraws()).append("\n")
+                .append("number of wins: ").append(User.loggedInUser.getNumWins()).append("\n")
+                .append("number of loses: ").append(User.loggedInUser.getNumLoses());
+        alert.setContentText(userInfo.toString());
         alert.showAndWait();
     }
 
     public void showGameHistory(MouseEvent mouseEvent) {
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setHeaderText("Game History : ");
-        String gameHistory = null;
-//        gameHistory =        //todo
-        alert.setContentText(gameHistory);
-        alert.showAndWait();
+        String numberOfGameHistory = NumberOfGameHistory.toString();
+        if(!numberOfGameHistory.matches("[0-9]+")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("invalid input!!");
+        }
+        else{
+            int numberOfGameHistoris = Integer.parseInt(numberOfGameHistory);
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setHeaderText("Game History : ");
+            StringBuilder gameHistory = null;
+            for(int i = 0; i < numberOfGameHistoris; i++){
+                gameHistory.append("opponent username: ").append(User.loggedInUser.getAllGameHistories().get(i).getOpponentUsername()).append("\n")
+                        .append("date of game: ").append(User.loggedInUser.getAllGameHistories().get(i).getDateOfGame()).append("\n")
+                        .append("score in roun 1️⃣: ").append("\n").append("score of you: ").append(User.loggedInUser.getAllGameHistories().get(i).getUserScorePerRound().toString()).append("\n")
+                        .append("score of your opponent: ").append(User.loggedInUser.getAllGameHistories().get(i).getOpponentScoresPerRound().toString()).append("\n")
+                        .append("score of you in this game: ").append(User.loggedInUser.getAllGameHistories().get(i).getTotalScoreOfOpponent()).append("\n")
+                        .append("score of your your opponent: ").append(User.loggedInUser.getAllGameHistories().get(i).getTotalScoreOfOpponent()).append("\n")
+                        .append("winner🏆🏆: ").append(User.loggedInUser.getAllGameHistories().get(i).getUsernameOfWinner());
+        }
+            alert.setContentText(gameHistory.toString());
+            alert.showAndWait();
+
+        }
+
+
 
     }
     //  TODO: Add back to main menu button

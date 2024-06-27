@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class User {
     private String username;
@@ -11,6 +12,7 @@ public class User {
     private final ArrayList<String> answerOfQuestions = new ArrayList<>(3);
     public static User loggedInUser;
     private static final ArrayList<User> allUsers= new ArrayList<>();
+    private static final ArrayList<User> usersBaseRanking = new ArrayList<User>();
     private final GameInformation gameInformation=new GameInformation();
     private final ArrayList<GameHistory> allGameHistories=new ArrayList<>();
     private Deck deck;
@@ -37,6 +39,7 @@ public class User {
         answerOfQuestions.add(answer2);
         answerOfQuestions.add(answer3);
         allUsers.add(this);
+        usersBaseRanking.add(this);
     }
 
     public String getUsername() {
@@ -99,6 +102,13 @@ public class User {
             }
         }
         return null;
+    }
+    public void rankingUsers(){
+        Collections.sort(usersBaseRanking,(user1, user2) -> user1.getNumWins() - user2.getNumWins());
+    }
+    public ArrayList<User> getUsersBaseRanking(){
+        rankingUsers();
+        return usersBaseRanking;
     }
     public void increaseNumWins(){
         gameInformation.numberOfWins++;

@@ -21,11 +21,17 @@ public class GameHistory {
         this.dateOfGame=dateOfGame;
         this.opponentUsername=opponentUsername;
     }
-    private int getTotalScoreOfUser(){
+    public int getTotalScoreOfUser(){
         return userScorePerRound[0]+userScorePerRound[1]+userScorePerRound[2];
     }
-    private int getTotalScoreOfOpponent(){
+    public int getTotalScoreOfOpponent(){
         return opponentScoresPerRound[0]+opponentScoresPerRound[1]+opponentScoresPerRound[2];
+    }
+    public String getUsernameOfWinner(){
+        if(getTotalScoreOfOpponent() > getTotalScoreOfUser()){
+            return opponentUsername;
+        }
+        return User.loggedInUser.getUsername();
     }
 
     public String getOpponentUsername() {
