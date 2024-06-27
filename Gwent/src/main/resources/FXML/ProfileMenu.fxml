@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="589.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.ProfileMenuController">
    <children>
       <Button layoutX="179.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" />
@@ -30,5 +29,6 @@
       <Button layoutX="210.0" layoutY="502.0" mnemonicParsing="false" onMouseClicked="#showGameHistory" text="Game History" />
       <TextField fx:id="NumberOfGameHistory" layoutX="163.0" layoutY="502.0" prefHeight="26.0" prefWidth="28.0" text="5" />
       <Label layoutX="57.0" layoutY="463.0" text="In the field below you can set number of recent games you want" />
+      <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#changeMenuToMain" text="Back" />
    </children>
 </AnchorPane>

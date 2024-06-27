@@ -6,7 +6,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.GameHistory;
 import model.User;
+import view.menus.MainMenu;
+import view.menus.ProfileMenu;
+
+import java.util.Arrays;
+import java.util.Date;
 
 public class ProfileMenuController {
     public Label ErrorText;
@@ -62,9 +68,16 @@ public class ProfileMenuController {
         ErrorText.setText("Changes saved");
     }
 
-    public void showUserInfo(MouseEvent mouseEvent) {
+    public void showUserInfo() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setHeaderText("User Information : 👤");
+        StringBuilder userInfo = getStringBuilder();
+        alert.setContentText(userInfo.toString());
+        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        alert.showAndWait();
+    }
+
+    private static StringBuilder getStringBuilder() {
         StringBuilder userInfo = new StringBuilder();
         userInfo.append("username: ").append(User.loggedInUser.getUsername()).append("\n")
                 .append("nickname: ").append(User.loggedInUser.getNickname()).append("\n")
@@ -74,41 +87,44 @@ public class ProfileMenuController {
                 .append("number of draws: ").append(User.loggedInUser.getNumDraws()).append("\n")
                 .append("number of wins: ").append(User.loggedInUser.getNumWins()).append("\n")
                 .append("number of loses: ").append(User.loggedInUser.getNumLoses());
-        alert.setContentText(userInfo.toString());
+        return userInfo;
+    }
+
+    public void showGameHistory() {
+        String numberOfGameHistory = NumberOfGameHistory.getText();
+        if(!numberOfGameHistory.matches("[0-9]+")){
+            ErrorText.setText("invalid number gameHistory");
+            return;
+        }
+        int numberOfGameHistories = Integer.parseInt(numberOfGameHistory);
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setHeaderText("Game History : ");
+        StringBuilder gameHistory = new StringBuilder();
+        if(User.loggedInUser.getAllGameHistories().isEmpty()){
+            ErrorText.setText("No game has played");
+            return;
+        }
+        if(User.loggedInUser.getAllGameHistories().size()<numberOfGameHistories){
+            numberOfGameHistories=User.loggedInUser.getAllGameHistories().size();
+        }
+        for(int i =User.loggedInUser.getAllGameHistories().size()-1;i>User.loggedInUser.getAllGameHistories().size()-1-numberOfGameHistories ;i--){
+            gameHistory.append("opponent username: ").append(User.loggedInUser.getAllGameHistories().get(i).getOpponentUsername()).append("\n")
+                    .append("date of game: ").append(User.loggedInUser.getAllGameHistories().get(i).getDateOfGame().toString()).append("\n")
+                    .append("your score per round : ").append(Arrays.toString(User.loggedInUser.getAllGameHistories().get(i).getUserScorePerRound())).append("\n")
+                    .append("opponent score per round : ").append(Arrays.toString(User.loggedInUser.getAllGameHistories().get(i).getOpponentScoresPerRound())).append("\n")
+                    .append("total score of you in this game : ").append(User.loggedInUser.getAllGameHistories().get(i).getTotalScoreOfUser()).append("\n")
+                    .append("total score of your opponent: ").append(User.loggedInUser.getAllGameHistories().get(i).getTotalScoreOfOpponent()).append("\n")
+                    .append("winner🏆🏆: ").append(User.loggedInUser.getAllGameHistories().get(i).getUsernameOfWinner()).append("\n");
+        }
+        alert.setContentText(gameHistory.toString());
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.showAndWait();
-    }
-
-    public void showGameHistory(MouseEvent mouseEvent) {
-        String numberOfGameHistory = NumberOfGameHistory.toString();
-        if(!numberOfGameHistory.matches("[0-9]+")){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("invalid input!!");
-            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-
-        }
-        else{
-            int numberOfGameHistoris = Integer.parseInt(numberOfGameHistory);
-            Alert alert = new Alert(Alert.AlertType.NONE);
-            alert.setHeaderText("Game History : ");
-            StringBuilder gameHistory = null;
-            for(int i = 0; i < numberOfGameHistoris; i++){
-                gameHistory.append("opponent username: ").append(User.loggedInUser.getAllGameHistories().get(i).getOpponentUsername()).append("\n")
-                        .append("date of game: ").append(User.loggedInUser.getAllGameHistories().get(i).getDateOfGame()).append("\n")
-                        .append("score in roun 1️⃣: ").append("\n").append("score of you: ").append(User.loggedInUser.getAllGameHistories().get(i).getUserScorePerRound().toString()).append("\n")
-                        .append("score of your opponent: ").append(User.loggedInUser.getAllGameHistories().get(i).getOpponentScoresPerRound().toString()).append("\n")
-                        .append("score of you in this game: ").append(User.loggedInUser.getAllGameHistories().get(i).getTotalScoreOfOpponent()).append("\n")
-                        .append("score of your your opponent: ").append(User.loggedInUser.getAllGameHistories().get(i).getTotalScoreOfOpponent()).append("\n")
-                        .append("winner🏆🏆: ").append(User.loggedInUser.getAllGameHistories().get(i).getUsernameOfWinner());
-        }
-            alert.setContentText(gameHistory.toString());
-            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            alert.showAndWait();
-
-        }
-
-
 
     }
-    //  TODO: Add back to main menu button
+
+    public void changeMenuToMain() throws Exception {
+        new MainMenu().start(ProfileMenu.appStage);
+        ProfileMenu.appStage=null;
+    }
+
 }
