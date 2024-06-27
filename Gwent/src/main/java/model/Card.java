@@ -89,6 +89,12 @@ public class Card {
             System.out.println("Transformers!");
         }
     };
+    static CardAction NoAbility = new CardAction() {
+        @Override
+        public void execute() {
+            // Define what you want this card to do here
+        }
+    };
 
 
 
