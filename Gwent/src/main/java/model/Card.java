@@ -5,12 +5,15 @@ public abstract class Card {
     private final NameOfCards name;
     private int power;
     private final int number;
+    private String faction;
 
-    public Card(positions positions, NameOfCards name, int power, int number) {
+
+    public Card(positions positions, NameOfCards name, int power, int number, String faction) {
         this.positions = positions;
         this.name = name;
         this.power = power;
         this.number = number;
+        this.faction = faction;
     }
 
     public void setPower(int power) {
@@ -31,5 +34,8 @@ public abstract class Card {
 
     public int getNumber() {
         return number;
+    }
+    public String getFaction(){
+        return faction;
     }
 }

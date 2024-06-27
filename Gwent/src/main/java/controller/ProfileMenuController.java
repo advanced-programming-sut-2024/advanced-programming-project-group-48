@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -61,11 +62,21 @@ public class ProfileMenuController {
     }
 
     public void showUserInfo(MouseEvent mouseEvent) {
-//        TODO: fill this field
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("User Information : 👤");
+        String userInfo = PreGame.showInformationCurrentUser();
+        alert.setContentText(userInfo);
+        alert.showAndWait();
     }
 
     public void showGameHistory(MouseEvent mouseEvent) {
-        //        TODO: fill this field
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Game History : ");
+        String gameHistory = null;
+//        gameHistory =        //todo
+        alert.setContentText(gameHistory);
+        alert.showAndWait();
+
     }
     //  TODO: Add back to main menu button
 }
