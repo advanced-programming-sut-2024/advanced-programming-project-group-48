@@ -2,6 +2,7 @@ package controller.menu.controller;
 
 import controller.PreGame;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -74,6 +75,7 @@ public class ProfileMenuController {
                 .append("number of wins: ").append(User.loggedInUser.getNumWins()).append("\n")
                 .append("number of loses: ").append(User.loggedInUser.getNumLoses());
         alert.setContentText(userInfo.toString());
+        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.showAndWait();
     }
 
@@ -82,6 +84,8 @@ public class ProfileMenuController {
         if(!numberOfGameHistory.matches("[0-9]+")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("invalid input!!");
+            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
         }
         else{
             int numberOfGameHistoris = Integer.parseInt(numberOfGameHistory);
@@ -98,6 +102,7 @@ public class ProfileMenuController {
                         .append("winner🏆🏆: ").append(User.loggedInUser.getAllGameHistories().get(i).getUsernameOfWinner());
         }
             alert.setContentText(gameHistory.toString());
+            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
             alert.showAndWait();
 
         }
