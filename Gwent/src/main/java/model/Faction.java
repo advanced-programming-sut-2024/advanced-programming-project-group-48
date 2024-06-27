@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Faction {
-    private static HashMap<String , ArrayList> faction;
+    private static HashMap<String , ArrayList<String>> faction;
     private static ArrayList<String> CommandersOfNorthenRealms = new ArrayList<>();
     private static ArrayList<String> CommandersOfNilfgaardianEmpire = new ArrayList<>();
     private static ArrayList<String> CommandersOfMonsters = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Faction {
         faction.put("Skellige" , CommandersOfSkellige);
     }
 
-    public static HashMap<String, ArrayList> getFaction() {
+    public static HashMap<String, ArrayList<String>> getFaction() {
         return faction;
     }
 

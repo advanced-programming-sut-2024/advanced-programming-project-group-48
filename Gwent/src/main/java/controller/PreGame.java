@@ -1,8 +1,10 @@
 package controller;
 import model.Card;
+import model.Faction;
 import model.User;
 
 import java.io.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -13,15 +15,25 @@ public class PreGame {
     private void createGame(Matcher matcher){
         //todo
     }
+    private String showFactions(){
+        StringBuilder factions = new StringBuilder();
+        for(String i: Faction.getFaction().keySet()){
+            factions.append(i);
+        }
+        return factions.toString();
+    }
     private String showFaction(){
         return User.loggedInUser.getDeck().getFaction();
     }
     private String selectFaction(Matcher matcher){
         String factionName = matcher.group("factionName");
         User.loggedInUser.getDeck().setFaction(factionName);
+        return "The realm was successfully selected";
+    }
+    private String selectCommander(Matcher matcher){
         String commanderName = matcher.group("commanderName");
         User.loggedInUser.getDeck().setCommander(commanderName);
-        return null;
+        return "The commander was successfully selected";
     }
 
     private String showCards(){

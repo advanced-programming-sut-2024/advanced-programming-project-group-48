@@ -34,7 +34,7 @@ public class ForgetPasswordController {
             ErrorText.setText("Username does not exist");
             return;
         }
-        if (user.getAnswerOfTheQuestions().get(numberOfQuestion-1).equals(AnswerOfTheQuestion.getText())) {
+        if (user.getAnswerOfQuestions().get(numberOfQuestion-1).equals(AnswerOfTheQuestion.getText())) {
             user.setPassword(NewPassword.getText());
             ErrorText.setText("Password changed successfully");
             new RegisterMenu().start(ForgetPasswordMenu.appStage);

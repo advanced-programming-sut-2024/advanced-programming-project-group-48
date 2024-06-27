@@ -5,7 +5,7 @@ import model.*;
 import java.util.ArrayList;
 
 public class GameEnvironment {
-    private factions faction;
+    private Faction faction ;
     private CommandersOfNorthenRealms commander;
     private Row closeRangeRow;
     private Row middleRangeRow;
@@ -35,7 +35,7 @@ public class GameEnvironment {
         this.voteCard = voteCard;
     }
 
-    public factions getFaction() {
+    public Faction getFaction() {
         return faction;
     }
 

@@ -63,7 +63,7 @@ public class User {
         this.password = password;
     }
 
-    public User getUserByUsername(String username){
+    public static User getUserByUsername(String username){
         for(User i: allUsers){
             if(i.username.equals(username)){
                 return i;

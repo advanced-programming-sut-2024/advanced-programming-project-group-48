@@ -62,7 +62,7 @@ public class ProfileMenuController {
     }
 
     public void showUserInfo(MouseEvent mouseEvent) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setHeaderText("User Information : 👤");
         String userInfo = PreGame.showInformationCurrentUser();
         alert.setContentText(userInfo);
@@ -70,7 +70,7 @@ public class ProfileMenuController {
     }
 
     public void showGameHistory(MouseEvent mouseEvent) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setHeaderText("Game History : ");
         String gameHistory = null;
 //        gameHistory =        //todo
