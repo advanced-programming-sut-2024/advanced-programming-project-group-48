@@ -299,9 +299,6 @@ public class Card implements Cloneable{
         action.execute();
     }
 
-    public static void main(String[] args) {
-        allCards.get(0).performAction();
-    }
 
 }
 
