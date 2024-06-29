@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Card {
+public class Card implements Cloneable{
     public final String name;
     public final String faction;
     public final int power;
@@ -11,6 +11,19 @@ public class Card {
     public final boolean isHero;
     private final CardAction action; // The method to be passed
     public static ArrayList<Card> allCards = new ArrayList<>();
+
+
+
+
+    @Override
+    public Card clone() {
+        try {
+            return (Card) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Can't happen
+        }
+    }
+
 
     static CardAction Medic = new CardAction() {
         @Override
