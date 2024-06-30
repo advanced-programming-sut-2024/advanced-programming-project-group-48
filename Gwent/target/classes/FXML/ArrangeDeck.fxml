@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.ArrangeDeck">
+   <children>
+      <StackPane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <ImageView fitHeight="404.0" fitWidth="600.0" opacity="0.3">
+               <image>
+                  <Image url="@../../../../../../../pictures/OIG4.JzVsqSCHg..jfif" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <Pane prefHeight="404.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="219.0" layoutY="14.0" text="Arrange Deck" textFill="#2409ef">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Button layoutX="274.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#showFactions" text="Show Deck" textFill="#3007ff" />
+            <ChoiceBox fx:id="choice_faction" layoutX="236.0" layoutY="113.0" prefWidth="150.0" onAction="#choiseBox" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
