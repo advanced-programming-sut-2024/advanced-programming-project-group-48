@@ -16,7 +16,7 @@ public class GameEnvironment {
     private Card voteCard;
     private int totalScore;
     private int numberOfDiamonds;
-    private ArrayList<Spell> activeAllSpells;
+//    private ArrayList<Spell> activeAllSpells;
 
 
     public ArrayList<Card> getInHandCards(){

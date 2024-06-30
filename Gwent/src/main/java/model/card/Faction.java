@@ -3,13 +3,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Faction {
-    private static HashMap<String , ArrayList<String>> faction;
-    private static ArrayList<String> CommandersOfNorthenRealms = new ArrayList<>();
-    private static ArrayList<String> CommandersOfNilfgaardianEmpire = new ArrayList<>();
-    private static ArrayList<String> CommandersOfMonsters = new ArrayList<>();
-    private static ArrayList<String> CommandersOfScoiaTaell = new ArrayList<>();
-    private static ArrayList<String> CommandersOfSkellige = new ArrayList<>();
-    public static void setFaction() {
+    private static HashMap<String , ArrayList<String>> faction = new HashMap<>();
+    private static ArrayList<String> CommandersOfNorthenRealms;
+    private static ArrayList<String> CommandersOfNilfgaardianEmpire;
+    private static ArrayList<String> CommandersOfMonsters ;
+    private static ArrayList<String> CommandersOfScoiaTaell;
+    private static ArrayList<String> CommandersOfSkellige;
+    static {
+        CommandersOfNorthenRealms = new ArrayList<String>();
+        CommandersOfNilfgaardianEmpire = new ArrayList<String>();
+        CommandersOfMonsters = new ArrayList<String>();
+        CommandersOfScoiaTaell = new ArrayList<String>();
+        CommandersOfSkellige = new ArrayList<String>();
         CommandersOfNorthenRealms.add("The Siegemaster");
         CommandersOfNorthenRealms.add("The Steel-Forged");
         CommandersOfNorthenRealms.add("The King of Temeria");

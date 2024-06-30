@@ -39,7 +39,6 @@ public class Deck {
     }
 
     public String setCommander(String commander){
-        Faction.setFaction();
         if(!Faction.getFaction().get(faction).contains(commander)){
             return "invalid commander";
         }
