@@ -1,6 +1,9 @@
 package view;
 
-import model.card.*;
+import model.Card;
+import model.card.CommandersOfNorthenRealms;
+import model.card.Faction;
+import model.card.Row;
 
 import java.util.ArrayList;
 

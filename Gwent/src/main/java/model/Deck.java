@@ -1,25 +1,34 @@
 package model;
 
-import model.card.Card;
+import model.Card;
 import model.card.Faction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Deck {
-    private String faction;
+    private String faction = "Monsters";
     private String commander;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cards = new ArrayList<>();
+    private HashMap<String , Integer> numberOfCardsInDeckp = new HashMap<>();
+
     public ArrayList<Card> getAllCards(){
         return cards;
     }
+    public ArrayList<Card> getAllCards(User user){
+        return user.getDeck().cards;
+    }
     public String getFaction(){
-        return faction;
+            for(Card i: Card.allCards){
+                numberOfCardsInDeckp.put(i.name , 0);
+            }
+            return faction;
     }
     public String getCommander(){
         return commander;
     }
     public String setCards(Card card){
-        if(!card.getFaction().equals(faction)){
+        if(!card.faction.equals(faction)){
             return "invalid card name!";
         }
         else{
@@ -46,5 +55,9 @@ public class Deck {
             this.commander = commander;
         }
         return "The commander was successfully selected";
+    }
+
+    public HashMap<String, Integer> getNumberOfCardsInDeckp() {
+        return numberOfCardsInDeckp;
     }
 }

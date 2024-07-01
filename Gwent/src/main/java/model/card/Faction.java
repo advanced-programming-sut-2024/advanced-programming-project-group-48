@@ -1,14 +1,22 @@
 package model.card;
+import model.Card;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Faction {
     private static HashMap<String , ArrayList<String>> faction = new HashMap<>();
-    private static ArrayList<String> CommandersOfNorthenRealms;
-    private static ArrayList<String> CommandersOfNilfgaardianEmpire;
-    private static ArrayList<String> CommandersOfMonsters ;
-    private static ArrayList<String> CommandersOfScoiaTaell;
-    private static ArrayList<String> CommandersOfSkellige;
+    private static HashMap<String , ArrayList<String>> factionCard = new HashMap<>();
+    private static ArrayList<String> CommandersOfNorthenRealms = new ArrayList<>();
+    private static ArrayList<String> CommandersOfNilfgaardianEmpire = new ArrayList<>();
+    private static ArrayList<String> CommandersOfMonsters = new ArrayList<>();
+    private static ArrayList<String> CommandersOfScoiaTaell = new ArrayList<>();
+    private static ArrayList<String> CommandersOfSkellige = new ArrayList<>();
+    private static ArrayList<String> cardsOfNorthenRealms = new ArrayList<>();
+    private static ArrayList<String> cardsOfNilfgaardianEmpire = new ArrayList<>();
+    private static ArrayList<String> cardsOfMonsters = new ArrayList<>();
+    private static ArrayList<String> cardsOfScoiaTaell = new ArrayList<>();
+    private static ArrayList<String> cardsOfSkellige = new ArrayList<>();
     static {
         CommandersOfNorthenRealms = new ArrayList<String>();
         CommandersOfNilfgaardianEmpire = new ArrayList<String>();
@@ -42,6 +50,11 @@ public class Faction {
         faction.put("Monsters" , CommandersOfMonsters);
         faction.put("Scoia’taell" , CommandersOfScoiaTaell);
         faction.put("Skellige" , CommandersOfSkellige);
+        factionCard.put("Northen Realms" , cardsOfNorthenRealms);
+        factionCard.put("Monsters" , cardsOfMonsters);
+        factionCard.put("Nilfgaardian Empire" , cardsOfNilfgaardianEmpire);
+        factionCard.put("Scoia’taell" , cardsOfScoiaTaell);
+        factionCard.put("Skellige" , cardsOfSkellige);
     }
 
     public static HashMap<String, ArrayList<String>> getFaction() {
@@ -66,5 +79,29 @@ public class Faction {
 
     public static ArrayList<String> getCommandersOfSkellige() {
         return CommandersOfSkellige;
+    }
+
+    public static ArrayList<String> getCardsOfNorthenRealms() {
+        return cardsOfNorthenRealms;
+    }
+
+    public static ArrayList<String> getCardsOfNilfgaardianEmpire() {
+        return cardsOfNilfgaardianEmpire;
+    }
+
+    public static ArrayList<String> getCardsOfMonsters() {
+        return cardsOfMonsters;
+    }
+
+    public static ArrayList<String> getCardsOfScoiaTaell() {
+        return cardsOfScoiaTaell;
+    }
+
+    public static ArrayList<String> getCardsOfSkellige() {
+        return cardsOfSkellige;
+    }
+
+    public static HashMap<String, ArrayList<String>> getFactionCard() {
+        return factionCard;
     }
 }

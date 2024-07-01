@@ -1,5 +1,7 @@
 package model;
 
+import model.card.Faction;
+
 import java.util.ArrayList;
 
 public class Card implements Cloneable{
@@ -142,6 +144,16 @@ public class Card implements Cloneable{
         this.action = action;
         allCards.add(this);
         this.ability = ability;
+//        if(this.faction.equals("Nilfgaardian Empire") || this.faction.equals("All") )
+//            Faction.getCardsOfNilfgaardianEmpire().add(this.name);
+//        else if(this.faction.equals("Monsters") || this.faction.equals("All"))
+//            Faction.getCardsOfMonsters().add(this.name);
+//        else if(this.faction.equals("Northern Realms") || this.faction.equals("All"))
+//            Faction.getCardsOfNorthenRealms().add(this.name);
+//        else if(this.faction.equals("Scoia'tael") || this.faction.equals("All"))
+//            Faction.getCardsOfScoiaTaell().add(this.name);
+//        else if(this.faction.equals("Skellige") || this.faction.equals("All"))
+//            Faction.getCardsOfSkellige().add(this.name);
     }
 
     static {
@@ -305,9 +317,20 @@ public class Card implements Cloneable{
         new Card("Young Berserker", "Skellige", 2, 3, "Ranged", true, Berserker, "Berserker");
         new Card("Young Vidkaarl", "Skellige", 8, 0, "Ranged", false, TightBond, "TightBond");
     }
+    public static String getFaction(Card card){
+        return card.faction;
+    }
     // Method to call the passed method
     public void performAction() {
         action.execute();
+    }
+    public static Card getCardByName(String username){
+        for(Card i: allCards){
+            if(i.name.equals(username)){
+                return i;
+            }
+        }
+        return null;
     }
 
 
