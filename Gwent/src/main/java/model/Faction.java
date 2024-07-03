@@ -42,7 +42,7 @@ public class Faction {
         faction.put("Northen Realms" , CommandersOfNorthernRealms);
         faction.put("Nilfgaardian Empire" , CommandersOfNilfgaardianEmpire);
         faction.put("Monsters" , CommandersOfMonsters);
-        faction.put("Scoia’taell" , CommandersOfScoiaTaell);
+        faction.put("ScoiaTaell" , CommandersOfScoiaTaell);
         faction.put("Skellige" , CommandersOfSkellige);
 
     }
@@ -79,7 +79,7 @@ public class Faction {
                 return getCommandersOfNilfgaardianEmpire();
             case "Monsters":
                 return getCommandersOfMonsters();
-            case "Scoia’taell":
+            case "ScoiaTaell":
                 return getCommandersOfScoiaTaell();
             case "Skellige":
                 return getCommandersOfSkellige();

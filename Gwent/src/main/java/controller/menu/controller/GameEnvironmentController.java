@@ -46,19 +46,6 @@ public class GameEnvironmentController {
     public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.oppenentUser.getDeck());
 
     public void initialize() {
-        String userFaction = "Monsters";
-        remainingCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/lg/faction_" + userFaction.toLowerCase() + ".jpg"))));
-        drawRandomCards(User.loggedInUser.getDeck().getAllCards(), gameEnvironment.inHandCards, 10);
-        int count=0;
-        for (int i = 0; i < gameEnvironment.inHandCards.length; i++) {
-            if(gameEnvironment.inHandCards[i]!=null){
-                count++;
-            }
-        }
-        for (int i = 0; i < count; i++) {
-            ((ImageView) inHandCards.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/lg/" + gameEnvironment.inHandCards[i].name.toLowerCase()+ ".jpg"))));
-
-        }
 
     }
 
