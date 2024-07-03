@@ -1,18 +1,15 @@
 package controller.menu.controller;
 
-import controller.PreGame;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import model.GameHistory;
 import model.User;
 import view.menus.MainMenu;
 import view.menus.ProfileMenu;
 
 import java.util.Arrays;
-import java.util.Date;
 
 public class ProfileMenuController {
     public Label ErrorText;

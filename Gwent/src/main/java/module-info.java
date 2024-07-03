@@ -4,16 +4,14 @@ module Gwent {
     requires javafx.media;
 
     exports view;
-    exports controller to javafx.fxml;
-    opens controller to javafx.fxml;
     opens view;
     exports model;
     opens model;
     exports view.menus;
     opens view.menus;
-    exports controller.menu.controller to javafx.fxml;
-    opens controller.menu.controller to javafx.fxml;
     exports model.card;
     opens model.card;
+    exports controller.menu.controller;
+    opens controller.menu.controller;
 
 }

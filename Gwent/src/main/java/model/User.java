@@ -15,7 +15,7 @@ public class User {
     private static final ArrayList<User> usersBaseRanking = new ArrayList<User>();
     private final GameInformation gameInformation=new GameInformation();
     private final ArrayList<GameHistory> allGameHistories=new ArrayList<>();
-    private Deck deck;
+    private Deck deck = new Deck();
 
     public Deck getDeck() {
         return deck;
