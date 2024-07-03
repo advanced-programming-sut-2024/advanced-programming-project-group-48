@@ -1,8 +1,12 @@
 package controller.menu.controller;
 
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import model.Card;
 import model.Deck;
@@ -117,6 +121,28 @@ public class GameEnvironmentController {
             allCards.remove(0);
         }
     }
+
+    public void vetoRandomCard(List<Card> allCards, Card[] inHandCards, int cardIndex) {
+    if (allCards.isEmpty()) {
+        System.out.println("The deck is empty. Cannot replace card.");
+        return;
+    }
+
+    Collections.shuffle(allCards); // Shuffle the deck to ensure randomness
+
+    if (cardIndex >= 0 && cardIndex < inHandCards.length) {
+        Card cardToReplace = inHandCards[cardIndex]; // Store the card to be replaced
+        inHandCards[cardIndex] = allCards.get(0); // Replace the card at cardIndex with the top card from the deck
+        allCards.add(cardToReplace); // Add the replaced card back to the deck
+        Collections.shuffle(allCards); // Optional: Shuffle the deck again
+        allCards.remove(0); // Remove the top card from the deck to prevent it from being drawn again
+        updateInHandCards(); // Update the GUI to reflect the changes
+    } else {
+        System.out.println("Card index is out of bounds.");
+    }
+}
+
+
     public void updateTotalScore() {
         int totalScore = 0;
         for (Card card : gameEnvironment.closedRow) {
@@ -185,6 +211,54 @@ public class GameEnvironmentController {
             }
         }
     }
+    public void onCardClicked(MouseEvent event) {
+        ImageView clickedCard = (ImageView) event.getSource();
+        int cardIndex = inHandCards.getChildren().indexOf(clickedCard);
+        if (event.getButton() == MouseButton.PRIMARY) {
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem option1 = new MenuItem("Closed Row");
+            option1.setOnAction(e -> handleClosedRow(cardIndex));
+
+            MenuItem option2 = new MenuItem("Ranged Row");
+            option2.setOnAction(e -> handleRangedRow(cardIndex));
+
+            MenuItem option3 = new MenuItem("Siege Row");
+            option3.setOnAction(e -> handleSiegeRow(cardIndex));
+
+            MenuItem option4 = new MenuItem("Veto");
+            option4.setOnAction(e -> handleVeto(cardIndex));
+
+
+            contextMenu.getItems().addAll(option1, option2, option3,option4);
+
+            contextMenu.show((ImageView) event.getSource(), event.getScreenX(), event.getScreenY());
+        }
+    }
+
+    private void handleVeto(int cardIndex) {
+        if(gameEnvironment.numberOfVeto>=2){
+            //Todo replace with alert
+            System.out.println("You vetoed cards too much!");
+            return;
+        }
+        gameEnvironment.numberOfVeto++;
+        vetoRandomCard(sampleDeck.getAllCards(),gameEnvironment.inHandCards,cardIndex);
+
+    }
+
+
+    private void handleClosedRow(int cardIndex) {
+        // Implement your method logic here
+    }
+
+    private void handleRangedRow(int cardIndex) {
+        // Implement your method logic here
+    }
+    private void handleSiegeRow(int cardIndex) {
+        // Implement your method logic here
+    }
+
 
 
     public static class GameEnvironment {
@@ -204,6 +278,7 @@ public class GameEnvironmentController {
         public int crystalsNumber;
         public int enemyTotalScore;
         public int totalScore;
+        public int numberOfVeto;
         public ArrayList<Card> enemyDiscardPile = new ArrayList<>();
         public ArrayList<Card> discardPile = new ArrayList<>();
         public String enemySiegeHorn;
@@ -222,6 +297,7 @@ public class GameEnvironmentController {
             enemyCrystalsNumber=0;
             totalScore=0;
             enemyTotalScore=0;
+            numberOfVeto=0;
             enemySiegeHorn="";
             siegeHorn="";
             enemyCloseHorn="";
