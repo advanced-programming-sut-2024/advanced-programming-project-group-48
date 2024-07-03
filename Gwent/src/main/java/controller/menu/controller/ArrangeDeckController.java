@@ -263,7 +263,7 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
     }
 
     public void StartGame(MouseEvent mouseEvent) {
-        //todo   ---->  check the special and ... cards
+        //todo   ----->  check the special and ... cards
     }
 
     public void submitOperation(MouseEvent mouseEvent) {
