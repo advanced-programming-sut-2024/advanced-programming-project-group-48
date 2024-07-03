@@ -34,24 +34,12 @@ public class Deck {
         return ("card added to deck successfully");
     }
 
-    public String setFaction(String faction) {
-        if(!Faction.getFaction().containsKey(faction)){
-            return "invalid faction name";
-        }
-        else{
-            this.faction = faction;
-        }
-        return "The realm was successfully selected";
+    public void setFaction(String faction) {
+        this.faction = faction;
     }
 
-    public String setCommander(String commander){
-        if(!Faction.getFaction().get(faction).contains(commander)){
-            return "invalid commander";
-        }
-        else{
-            this.commander = commander;
-        }
-        return "The commander was successfully selected";
+    public void setCommander(String commander){
+        this.commander = commander;
     }
 
     public HashMap<String, Integer> getNumberOfCardsInDeckp() {

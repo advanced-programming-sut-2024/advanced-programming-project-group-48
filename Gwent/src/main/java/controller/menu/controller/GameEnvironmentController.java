@@ -6,8 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import model.Card;
 import model.Deck;
-import model.User;
-import view.menus.GameEnvironmentMenu;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,8 +30,8 @@ public class GameEnvironmentController {
     public Label totalScore;
     public ImageView enemyCommanderCard;
     public ImageView commanderCard;
-    public ImageView enemyRemainingCard;
-    public ImageView remainingCard;
+    public ImageView enemyDeckLogo;
+    public ImageView deckLogo;
     public ImageView enemyDiscardPile;
     public ImageView discardPile;
     public ImageView enemySiegeHorn;
@@ -42,10 +40,58 @@ public class GameEnvironmentController {
     public ImageView closeHorn;
     public ImageView enemyRangedHorn;
     public ImageView rangedHorn;
+    public Deck sampleDeck = new Deck();
+    public Deck enemySampleDeck= new Deck();
+    {
+        sampleDeck.setCommander("KingOfTemperia");
+        sampleDeck.setFaction("NorthernRealms");
+        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+        enemySampleDeck.setCommander("LordOfCommanderOfTheNorth");
+        enemySampleDeck.setFaction("NorthernRealms");
+        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+    }
 
-    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.oppenentUser.getDeck());
+//    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.oppenentUser.getDeck());
+    public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck,enemySampleDeck);
 
     public void initialize() {
+        commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
+        enemyCommanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.enemyCommanderCard + ".jpg"))));
+        deckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.deckLogo + ".jpg"))));
+        enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
+        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
+        updateTotalScore();
+        updateEnemyTotalScore();
+        updateCrystalsNumber();
+        updateEnemyCrystalsNumber();
+        updateNumberRemainingCards();
+        updateEnemyNumberRemainingCards();
+        updateInHandCards();
+
+
+
 
     }
 
@@ -71,6 +117,74 @@ public class GameEnvironmentController {
             allCards.remove(0);
         }
     }
+    public void updateTotalScore() {
+        int totalScore = 0;
+        for (Card card : gameEnvironment.closedRow) {
+            if (card != null) {
+                totalScore += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.rangedRow) {
+            if (card != null) {
+                totalScore += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.siegeRow) {
+            if (card != null) {
+                totalScore += card.power;
+            }
+        }
+        gameEnvironment.totalScore = totalScore;
+        this.totalScore.setText(String.valueOf(totalScore));
+    }
+    public void updateEnemyTotalScore() {
+        int totalScore = 0;
+        for (Card card : gameEnvironment.enemyClosedRow) {
+            if (card != null) {
+                totalScore += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.enemyRangedRow) {
+            if (card != null) {
+                totalScore += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.enemySiegeRow) {
+            if (card != null) {
+                totalScore += card.power;
+            }
+        }
+        gameEnvironment.enemyTotalScore = totalScore;
+        this.enemyTotalScore.setText(String.valueOf(totalScore));
+    }
+
+    public void updateNumberRemainingCards(){
+        int numberRemainingCards = 0;
+        for (Card card : gameEnvironment.inHandCards) {
+            if (card != null) {
+                numberRemainingCards++;
+            }
+        }
+        this.numberRemainingCards.setText(String.valueOf(numberRemainingCards));
+    }
+    //todo implement updateEnemyNumberRemainingCards
+    public void updateEnemyNumberRemainingCards(){
+        this.enemyNumberRemainingCards.setText("?");
+    }
+    public void updateCrystalsNumber(){
+        this.crystalsNumber.setText(String.valueOf(gameEnvironment.crystalsNumber));
+    }
+    public void updateEnemyCrystalsNumber(){
+        this.enemyCrystalsNumber.setText(String.valueOf(gameEnvironment.enemyCrystalsNumber));
+    }
+    public void updateInHandCards(){
+        for (int i = 0; i < gameEnvironment.inHandCards.length; i++) {
+            if (gameEnvironment.inHandCards[i] != null) {
+                // todo replace the faction of below to card faction
+                ((ImageView) inHandCards.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo+"/"+gameEnvironment.inHandCards[i].name + ".jpg"))));
+            }
+        }
+    }
 
 
     public static class GameEnvironment {
@@ -84,8 +198,8 @@ public class GameEnvironmentController {
         public Card[] spellCards = new Card[3];
         public String enemyCommanderCard;
         public String commanderCard;
-        public int enemyNumberRemainingCards;
-        public int numberRemainingCards;
+        public String enemyDeckLogo;
+        public String deckLogo;
         public int enemyCrystalsNumber;
         public int crystalsNumber;
         public int enemyTotalScore;
@@ -102,12 +216,18 @@ public class GameEnvironmentController {
         public GameEnvironment(Deck deckUser, Deck deckEnemy){
             this.commanderCard = deckUser.getCommander();
             this.enemyCommanderCard = deckEnemy.getCommander();
-            this.numberRemainingCards = deckUser.getAllCards().size();
-            this.enemyNumberRemainingCards = deckEnemy.getAllCards().size();
+            this.deckLogo = deckUser.getFaction();
+            this.enemyDeckLogo = deckEnemy.getFaction();
             crystalsNumber=0;
             enemyCrystalsNumber=0;
             totalScore=0;
             enemyTotalScore=0;
+            enemySiegeHorn="";
+            siegeHorn="";
+            enemyCloseHorn="";
+            closeHorn="";
+            enemyRangedHorn="";
+            rangedHorn="";
         }
     }
 }

@@ -41,7 +41,8 @@ public class PreGameController {
                 alert1.showAndWait();
                 PreGameMenu.appStage.close();
                 PreGameMenu.appStage = null;
-                new GameEnvironmentMenu(opponent).start(new Stage());
+//                new GameEnvironmentMenu(opponent).start(new Stage());
+                new GameEnvironmentMenu().start(new Stage());
             }
         } else {
             alert.close();

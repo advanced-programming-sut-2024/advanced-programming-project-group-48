@@ -254,7 +254,7 @@ public class Card implements Cloneable{
         new Card("Dun Banner Medic", "Northern Realms", 5, 1, "Siege", true, Medic, "Medic");
         new Card("Kaedweni Siege Expert", "Northern Realms", 1, 3, "Siege", false, MoralBoost, "MoralBoost");
         new Card("Keira Metz", "Northern Realms", 5, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("Poor Fucking Infantry", "Northern Realms", 1, 4, "Close", false, TightBond, "TightBond");
+        new Card("PoorFuckingInfantry", "Northern Realms", 1, 4, "Close", false, TightBond, "TightBond");
         new Card("Prince Stennis", "Northern Realms", 5, 1, "Close", true, Spy, "Spy");
         new Card("Redanian Foot Soldier", "Northern Realms", 1, 2, "Close", false, NoAbility, "NoAbility");
         new Card("Sabrina Glevissing", "Northern Realms", 4, 1, "Ranged", false, NoAbility, "NoAbility");

@@ -19,8 +19,8 @@ public class Faction {
         CommandersOfSkellige = new ArrayList<String>();
         CommandersOfNorthernRealms.add("The Siegemaster");
         CommandersOfNorthernRealms.add("The Steel-Forged");
-        CommandersOfNorthernRealms.add("The King of Temeria");
-        CommandersOfNorthernRealms.add("The Lord Commander of the North");
+        CommandersOfNorthernRealms.add("TheKingOfTemeria");
+        CommandersOfNorthernRealms.add("LordOfCommanderOfTheNorth.jpg");
         CommandersOfNorthernRealms.add("The Son of Medell");
         CommandersOfNilfgaardianEmpire.add("The White Flame");
         CommandersOfNilfgaardianEmpire.add("His Imperial Majesty");
