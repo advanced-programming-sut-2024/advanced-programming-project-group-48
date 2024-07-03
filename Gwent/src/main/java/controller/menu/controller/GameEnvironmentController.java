@@ -26,8 +26,8 @@ public class GameEnvironmentController {
     public HBox spellCards;
     public Label enemyNumberRemainingCards;
     public Label numberRemainingCards;
-    public ImageView enemyCrystalsNumber;
-    public ImageView crystalsNumber;
+    public Label enemyCrystalsNumber;
+    public Label crystalsNumber;
     public Label enemyTotalScore;
     public Label totalScore;
     public ImageView enemyCommanderCard;
