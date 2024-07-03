@@ -9,8 +9,6 @@ module Gwent {
     opens model;
     exports view.menus;
     opens view.menus;
-    exports model.card;
-    opens model.card;
     exports controller.menu.controller;
     opens controller.menu.controller;
 

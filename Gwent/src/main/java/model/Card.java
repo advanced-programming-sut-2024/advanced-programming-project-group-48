@@ -1,7 +1,5 @@
 package model;
 
-import model.card.Faction;
-
 import java.util.ArrayList;
 
 public class Card implements Cloneable{

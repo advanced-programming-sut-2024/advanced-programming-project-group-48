@@ -10,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Card;
 import model.User;
-import model.card.Faction;
+import model.Faction;
 import view.menus.PreGameMenu;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ArrangeDeck {
+public class ArrangeDeckController {
 @FXML
 private ChoiceBox<String> choice_faction = new ChoiceBox<>();
 

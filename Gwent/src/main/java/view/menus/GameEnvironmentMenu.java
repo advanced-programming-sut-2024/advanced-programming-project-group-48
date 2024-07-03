@@ -2,17 +2,13 @@ package view.menus;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import model.Deck;
 
 import java.util.Objects;
 
-public class GameEnvironment extends Application {
-    Deck deck;
+public class GameEnvironmentMenu extends Application {
     public static Stage appStage;
     @Override
     public void start(Stage stage) throws Exception {

@@ -1,16 +1,16 @@
 package view;
 
-import javafx.scene.image.ImageView;
-import model.card.*;
+import model.Card;
+import model.Faction;
 
 import java.util.ArrayList;
 
 public class GameEnvironment {
-    private Faction faction ;
-    private CommandersOfNorthenRealms commander;
-    private Row closeRangeRow;
-    private Row middleRangeRow;
-    private Row farRangeRow;
+    private Faction faction;
+    private String commander;
+    private ArrayList<model.Card> closeRangeRow;
+    private ArrayList<model.Card> middleRangeRow;
+    private ArrayList<model.Card> farRangeRow;
     private Card voteCard;
     private int numberOfDiamonds;
 
@@ -40,55 +40,4 @@ public class GameEnvironment {
     public ArrayList<Card> discardPile;
 
 
-
-
-    public ArrayList<Card> getInHandCards(){
-        return inHandCard;
-    }
-    public ArrayList<Card> getDiscardPileCards(){
-        return discardPile;
-    }
-    public ArrayList<Card> getRemainingCards() { return remainingCard; }
-    public Card getVoteCard(){
-        return voteCard;
-    }
-    public void setVoteCard(Card voteCard){
-        this.voteCard = voteCard;
-    }
-
-    public Faction getFaction() {
-        return faction;
-    }
-
-    public CommandersOfNorthenRealms getCommander() {
-        return commander;
-    }
-//    public gameEnvironment(){}
-
-    public int getTotalScore(){
-        return totalScore;
-    }
-    public int getNumberOfDiamonds(){
-        return numberOfDiamonds;
-    }
-    public void setTotalScore(int totalScore){
-        this.totalScore = totalScore;
-    }
-
-
-    public Row getCloseRangeRow() {
-        return closeRangeRow;
-    }
-
-    public Row getFarRangeRow() {
-        return farRangeRow;
-    }
-
-    public Row getMiddleRangeRow() {
-        return middleRangeRow;
-    }
-
-    public void setNumberOfDiamonds(int numberOfDiamonds) {
-        this.numberOfDiamonds = numberOfDiamonds;
-    }
 }

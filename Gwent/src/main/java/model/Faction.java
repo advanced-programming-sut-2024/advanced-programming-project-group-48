@@ -1,5 +1,4 @@
-package model.card;
-import model.Card;
+package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
