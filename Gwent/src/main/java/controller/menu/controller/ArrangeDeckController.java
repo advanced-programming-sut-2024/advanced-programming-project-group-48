@@ -39,7 +39,7 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
         choice_faction.getSelectionModel().selectedItemProperty().addListener((observable , oldValue , newValue)-> {
             User.loggedInUser.getDeck().setFaction(newValue);
             if("Northen Realms".equals(newValue)){
-                chooseLeader.getItems().setAll(Faction.getCommandersOfNorthenRealms());
+                chooseLeader.getItems().setAll(Faction.getCommandersOfNorthernRealms());
             }
             else if("Monsters".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfMonsters());

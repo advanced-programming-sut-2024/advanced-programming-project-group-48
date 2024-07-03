@@ -7,22 +7,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.User;
-import view.menus.ArrangeDeck;
-import view.menus.MainMenu;
-import view.menus.PreGameMenu;
-import view.menus.ProfileMenu;
+import view.menus.*;
 
 public class PreGameController {
     public User opponent;
-    public void createNewGame(MouseEvent mouseEvent) {
+
+    public void createNewGame(MouseEvent mouseEvent) throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Create new game🎮");
         alert.setHeaderText("Please enter the opponent's username here.👇");
         TextField textField = new TextField();
         textField.setPromptText("Opponent's username");
-        alert.getDialogPane().setContent(new VBox(10 , textField));
+        alert.getDialogPane().setContent(new VBox(10, textField));
         alert.showAndWait();
-        if(alert.getResult().getButtonData().isDefaultButton()) {
+        if (alert.getResult().getButtonData().isDefaultButton()) {
             String usernameOfOpponent = textField.getText();
             if (!User.usernameExists(usernameOfOpponent)) {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
@@ -38,15 +36,17 @@ public class PreGameController {
                 opponent = User.getUserByUsername(usernameOfOpponent);
                 Alert alert1 = new Alert(Alert.AlertType.NONE);
                 alert1.setTitle("new Game🎴");
-                alert1.setContentText("new game created. The username you entered is your own.");
+                alert1.setContentText("new game created.");
                 alert1.getDialogPane().getButtonTypes().add(ButtonType.OK);
                 alert1.showAndWait();
+                PreGameMenu.appStage.close();
+                PreGameMenu.appStage = null;
+                new GameEnvironmentMenu(opponent).start(new Stage());
             }
-        }
-        else{
+        } else {
             alert.close();
         }
-        }
+    }
 
     public void ArrangeDeckCards(MouseEvent mouseEvent) throws Exception {
         new ArrangeDeck().start(PreGameMenu.appStage);

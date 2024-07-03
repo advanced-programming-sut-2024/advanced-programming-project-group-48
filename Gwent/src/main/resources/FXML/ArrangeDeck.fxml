@@ -50,8 +50,6 @@
                </font>
             </Label>
             <ChoiceBox fx:id="numberOfCard" layoutX="435.0" layoutY="294.0" prefHeight="25.0" prefWidth="47.0" />
-            <Button layoutX="214.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#changeTurn" text="change turn" textFill="#0900ff" />
-            <Button layoutX="348.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#StartGame" text="Start game" textFill="#2b00ff" />
             <Button layoutX="509.0" layoutY="294.0" mnemonicParsing="false" onMouseClicked="#submitOperation" text="submit" textFill="#d71717" />
             <Button layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#goToPregameMenu" text="go to preGame menu" />
          </children>

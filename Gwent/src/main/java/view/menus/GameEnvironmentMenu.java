@@ -5,11 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.User;
 
 import java.util.Objects;
 
 public class GameEnvironmentMenu extends Application {
     public static Stage appStage;
+    public final User oppenentUser;
+
+    public static GameEnvironmentMenu currentGame;
+
     @Override
     public void start(Stage stage) throws Exception {
         appStage=stage;
@@ -18,5 +23,9 @@ public class GameEnvironmentMenu extends Application {
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
+    }
+    public GameEnvironmentMenu(User oppenentUser){
+        this.oppenentUser=oppenentUser;
+        currentGame=this;
     }
 }
