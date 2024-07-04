@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class GameEnvironmentMenu extends Application {
     public static Stage appStage;
-//    public final User oppenentUser;
+//    public final User opponentUser;
 
     public static GameEnvironmentMenu currentGame;
 
@@ -24,8 +24,8 @@ public class GameEnvironmentMenu extends Application {
         stage.setScene(scene);
         stage.show();
     }
-//    public GameEnvironmentMenu(User oppenentUser){
-//        this.oppenentUser=oppenentUser;
+//    public GameEnvironmentMenu(User opponentUser){
+//        this.opponentUser=opponentUser;
 //        currentGame=this;
 //    }
 }

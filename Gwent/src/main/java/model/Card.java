@@ -122,16 +122,16 @@ public class Card implements Cloneable{
 
 
     // Constructor
-    public Card(String name, String faction, int power, int maxNumber, String type, boolean isHero, CardAction action) {
-        this.name = name;
-        this.faction = faction;
-        this.power = power;
-        this.maxNumber = maxNumber;
-        this.type = type;
-        this.isHero = isHero;
-        this.action = action;
-        allCards.add(this);
-    }
+//    public Card(String name, String faction, int power, int maxNumber, String type, boolean isHero, CardAction action) {
+//        this.name = name;
+//        this.faction = faction;
+//        this.power = power;
+//        this.maxNumber = maxNumber;
+//        this.type = type;
+//        this.isHero = isHero;
+//        this.action = action;
+//        allCards.add(this);
+//    }
     public Card(String name, String faction, int power, int maxNumber, String type, boolean isHero, CardAction action , String ability){
         this.name = name;
         this.faction = faction;
