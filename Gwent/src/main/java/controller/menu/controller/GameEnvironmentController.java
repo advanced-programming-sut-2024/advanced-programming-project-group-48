@@ -317,8 +317,8 @@ public class GameEnvironmentController {
     public void onCardClicked(MouseEvent event) {
         ImageView clickedCard = (ImageView) event.getSource();
         int cardIndex = inHandCards.getChildren().indexOf(clickedCard);
-        if(gameEnvironment.inHandCards[cardIndex]==null) return;
-        if(gameEnvironment.hasPlayedTurn){
+        if (gameEnvironment.inHandCards[cardIndex] == null) return;
+        if (gameEnvironment.hasPlayedTurn) {
             System.err.println("You have played your turn please pass the round");
             return;
         }
@@ -352,7 +352,7 @@ public class GameEnvironmentController {
         }
         gameEnvironment.numberOfVeto++;
         vetoRandomCard(sampleDeck.getAllCards(), gameEnvironment.inHandCards, cardIndex);
-        gameEnvironment.hasPlayedTurn=true;
+        gameEnvironment.hasPlayedTurn = true;
     }
 
 
@@ -379,7 +379,7 @@ public class GameEnvironmentController {
         gameEnvironment.inHandCards[cardIndex] = null;
         updateTotalScore();
         updateNumberRemainingCards();
-        gameEnvironment.hasPlayedTurn=true;
+        gameEnvironment.hasPlayedTurn = true;
     }
 
     private int findEmptyIndex(Card[] row) {
@@ -413,7 +413,7 @@ public class GameEnvironmentController {
         gameEnvironment.inHandCards[cardIndex] = null;
         updateTotalScore();
         updateNumberRemainingCards();
-        gameEnvironment.hasPlayedTurn=true;
+        gameEnvironment.hasPlayedTurn = true;
     }
 
     private void handleSiegeRow(int cardIndex) {
@@ -438,24 +438,67 @@ public class GameEnvironmentController {
         gameEnvironment.inHandCards[cardIndex] = null;
         updateTotalScore();
         updateNumberRemainingCards();
-        gameEnvironment.hasPlayedTurn=true;
+        gameEnvironment.hasPlayedTurn = true;
     }
 
     public void passRound() {
-        if(!gameEnvironment.hasPlayedTurn){
-            if(gameEnvironment.endRound){
+        if (!gameEnvironment.hasPlayedTurn) {
+            if (gameEnvironment.endRound) {
                 endRound();
             }
-            gameEnvironment.endRound=true;
+            gameEnvironment.endRound = true;
         }
-        if(gameEnvironment.hasPlayedTurn) gameEnvironment.endRound=false;
+        if (gameEnvironment.hasPlayedTurn) gameEnvironment.endRound = false;
         gameEnvironment.swapGameEnvironmentFields();
         updateEverything();
-        gameEnvironment.hasPlayedTurn=false;
+        gameEnvironment.hasPlayedTurn = false;
+        gameEnvironment.turnNumber++;
     }
 
     private void endRound() {
+//        if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
+//            gameEnvironment.crystalsNumber++;
+//        }else {
+//            gameEnvironment.enemyCrystalsNumber++;
+//        }
+//        if(gameEnvironment.turnNumber%2==1){
+//            if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
+//                System.out.println("Logged in user Won the round");
+//            }else if(gameEnvironment.totalScore<gameEnvironment.enemyTotalScore){
+//                System.out.println("Opponents Won the Round");
+//            }else{
+//                System.out.println("The round is a draw");
+//            }
+//        }else {
+//            if(gameEnvironment.totalScore<gameEnvironment.enemyTotalScore){
+//                System.out.println("Logged in user Won the round");
+//            }else if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
+//                System.out.println("Opponents Won the Round");
+//            }else{
+//                System.out.println("The round is a draw");
+//            }
+//        }
+        String roundResult;
+        if (gameEnvironment.totalScore > gameEnvironment.enemyTotalScore) {
+            gameEnvironment.crystalsNumber++;
+             roundResult = gameEnvironment.turnNumber%2==1 ? "Logged in user Won the round" : "Opponents Won the Round";
+        } else if (gameEnvironment.totalScore < gameEnvironment.enemyTotalScore) {
+            gameEnvironment.enemyCrystalsNumber++;
+             roundResult = gameEnvironment.turnNumber%2==0 ? "Logged in user Won the round" : "Opponents Won the Round";
+        } else {
+            roundResult="The round is a draw";
+            gameEnvironment.crystalsNumber++;
+            gameEnvironment.enemyCrystalsNumber++;
+        }
+        System.out.println(roundResult);
+        checkForEndGame();
+        clearDeck();
+    }
 
+    private void clearDeck() {
+    }
+
+    private void checkForEndGame() {
     }
 
 
@@ -478,6 +521,7 @@ public class GameEnvironmentController {
         public int enemyTotalScore;
         public int totalScore;
         public int numberOfVeto;
+        public int enemyNumberOfVeto;
         public ArrayList<Card> enemyDiscardPile = new ArrayList<>();
         public ArrayList<Card> discardPile = new ArrayList<>();
         public String enemySiegeHorn;
@@ -488,6 +532,7 @@ public class GameEnvironmentController {
         public String rangedHorn;
         public boolean hasPlayedTurn;
         public boolean endRound;
+        public int turnNumber;
 
         public GameEnvironment(Deck deckUser, Deck deckEnemy) {
             this.commanderCard = deckUser.getCommander();
@@ -499,14 +544,16 @@ public class GameEnvironmentController {
             totalScore = 0;
             enemyTotalScore = 0;
             numberOfVeto = 0;
+            enemyNumberOfVeto = 0;
             enemySiegeHorn = "";
             siegeHorn = "";
             enemyCloseHorn = "";
             closeHorn = "";
             enemyRangedHorn = "";
             rangedHorn = "";
-            hasPlayedTurn=false;
+            hasPlayedTurn = false;
             endRound = false;
+            turnNumber = 1;
         }
 
         public void swapGameEnvironmentFields() {
@@ -540,6 +587,10 @@ public class GameEnvironmentController {
             this.crystalsNumber = this.enemyCrystalsNumber;
             this.enemyCrystalsNumber = tempInt;
 
+            tempInt = this.numberOfVeto;
+            this.numberOfVeto = this.enemyNumberOfVeto;
+            this.enemyNumberOfVeto = tempInt;
+
             // Swapping Strings
             String tempString;
             tempString = this.commanderCard;
@@ -562,8 +613,9 @@ public class GameEnvironmentController {
             this.rangedHorn = this.enemyRangedHorn;
             this.enemyRangedHorn = tempString;
 
+
+            // Assuming turnNumber is a shared resource and does not need swapping
             //TODO
-            // Assuming numberOfVeto is a shared resource and does not need swapping
             // Discard piles are also assumed to be specific to each player and not swapped
         }
     }
