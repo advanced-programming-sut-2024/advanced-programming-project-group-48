@@ -305,5 +305,7 @@ public class GameEnvironmentController {
             enemyRangedHorn="";
             rangedHorn="";
         }
+
+
     }
 }

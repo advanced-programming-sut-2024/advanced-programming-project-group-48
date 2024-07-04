@@ -1,8 +1,12 @@
 package model;
 
-import java.util.ArrayList;
+import controller.menu.controller.GameEnvironmentController;
 
-public class Card implements Cloneable{
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class Card extends GameEnvironmentController implements Cloneable{
     public final String name;
     public final String faction;
     public final int power;
@@ -11,8 +15,8 @@ public class Card implements Cloneable{
     public final boolean isHero;
     private final CardAction action; // The method to be passed
     public static ArrayList<Card> allCards = new ArrayList<>();
+    public static ArrayList<Card> discardPile = new ArrayList<>();
     public String ability;
-
 
 
     @Override
@@ -27,12 +31,60 @@ public class Card implements Cloneable{
 
     static CardAction Medic = new CardAction() {
         @Override
+        public void execute(GameEnvironment gameEnvironment) {
+            if (allCards.contains(Medic)){
+                allCards.add(discardPile.get(0));
+            }
+
+        }
+
+        @Override
         public void execute() {
             // Define what you want this card to do here
             System.out.println("Medic!");
         }
     };
     static CardAction CommandersHorn = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+            if (allCards.contains(gameEnvironment.siegeRow)){
+                int powerOfCard1 = allCards.get(0).power * 2;
+                int powerOfCard2 = allCards.get(1).power * 2;
+                int powerOfCard3 = allCards.get(2).power * 2;
+                int powerOfCard4 = allCards.get(3).power * 2;
+                int powerOfCard5 = allCards.get(4).power * 2;
+                int powerOfCard6 = allCards.get(5).power * 2;
+                int powerOfCard7 = allCards.get(6).power * 2;
+                int powerOfCard8 = allCards.get(7).power * 2;
+                int powerOfCard9 = allCards.get(8).power * 2;
+                int powerOfCard10 = allCards.get(9).power * 2;
+            }
+            if (allCards.contains(gameEnvironment.closedRow)){
+                int powerOfCard1 = allCards.get(0).power * 2;
+                int powerOfCard2 = allCards.get(1).power * 2;
+                int powerOfCard3 = allCards.get(2).power * 2;
+                int powerOfCard4 = allCards.get(3).power * 2;
+                int powerOfCard5 = allCards.get(4).power * 2;
+                int powerOfCard6 = allCards.get(5).power * 2;
+                int powerOfCard7 = allCards.get(6).power * 2;
+                int powerOfCard8 = allCards.get(7).power * 2;
+                int powerOfCard9 = allCards.get(8).power * 2;
+                int powerOfCard10 = allCards.get(9).power * 2;
+            }
+            if (allCards.contains(gameEnvironment.rangedRow)){
+                int powerOfCard1 = allCards.get(0).power * 2;
+                int powerOfCard2 = allCards.get(1).power * 2;
+                int powerOfCard3 = allCards.get(2).power * 2;
+                int powerOfCard4 = allCards.get(3).power * 2;
+                int powerOfCard5 = allCards.get(4).power * 2;
+                int powerOfCard6 = allCards.get(5).power * 2;
+                int powerOfCard7 = allCards.get(6).power * 2;
+                int powerOfCard8 = allCards.get(7).power * 2;
+                int powerOfCard9 = allCards.get(8).power * 2;
+                int powerOfCard10 = allCards.get(9).power * 2;
+            }
+        }
+
         @Override
         public void execute() {
             // Define what you want this card to do here
@@ -41,12 +93,64 @@ public class Card implements Cloneable{
     };
     static CardAction Decoy = new CardAction() {
         @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
+        @Override
         public void execute() {
             // Define what you want this card to do here
             System.out.println("Decoy!");
         }
     };
     static CardAction MoralBoost = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+            if (allCards.contains(gameEnvironment.rangedRow)){
+                if (!allCards.contains(MoralBoost)){
+                    int powerOfCard1 = allCards.get(0).power + 1;
+                    int powerOfCard2 = allCards.get(1).power + 1;
+                    int powerOfCard3 = allCards.get(2).power + 1;
+                    int powerOfCard4 = allCards.get(3).power + 1;
+                    int powerOfCard5 = allCards.get(4).power + 1;
+                    int powerOfCard6 = allCards.get(5).power + 1;
+                    int powerOfCard7 = allCards.get(6).power + 1;
+                    int powerOfCard8 = allCards.get(7).power + 1;
+                    int powerOfCard9 = allCards.get(8).power + 1;
+                    int powerOfCard10 = allCards.get(9).power + 1;
+                }
+            }
+            if (allCards.contains(gameEnvironment.closedRow)){
+                if (!allCards.contains(MoralBoost)){
+                    int powerOfCard1 = allCards.get(0).power + 1;
+                    int powerOfCard2 = allCards.get(1).power + 1;
+                    int powerOfCard3 = allCards.get(2).power + 1;
+                    int powerOfCard4 = allCards.get(3).power + 1;
+                    int powerOfCard5 = allCards.get(4).power + 1;
+                    int powerOfCard6 = allCards.get(5).power + 1;
+                    int powerOfCard7 = allCards.get(6).power + 1;
+                    int powerOfCard8 = allCards.get(7).power + 1;
+                    int powerOfCard9 = allCards.get(8).power + 1;
+                    int powerOfCard10 = allCards.get(9).power + 1;
+                }
+            }
+            if (allCards.contains(gameEnvironment.siegeRow)){
+                if (!allCards.contains(MoralBoost)){
+                    int powerOfCard1 = allCards.get(0).power + 1;
+                    int powerOfCard2 = allCards.get(1).power + 1;
+                    int powerOfCard3 = allCards.get(2).power + 1;
+                    int powerOfCard4 = allCards.get(3).power + 1;
+                    int powerOfCard5 = allCards.get(4).power + 1;
+                    int powerOfCard6 = allCards.get(5).power + 1;
+                    int powerOfCard7 = allCards.get(6).power + 1;
+                    int powerOfCard8 = allCards.get(7).power + 1;
+                    int powerOfCard9 = allCards.get(8).power + 1;
+                    int powerOfCard10 = allCards.get(9).power + 1;
+                }
+            }
+
+        }
+
         @Override
         public void execute() {
             // Define what you want this card to do here
@@ -55,12 +159,25 @@ public class Card implements Cloneable{
     };
     static CardAction Muster = new CardAction() {
         @Override
+        public void execute(GameEnvironment gameEnvironment) {
+            if (allCards.equals(Muster)){
+                
+            }
+
+        }
+
+        @Override
         public void execute() {
             // Define what you want this card to do here
             System.out.println("Muster!");
         }
     };
     static CardAction Spy = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
         @Override
         public void execute() {
             // Define what you want this card to do here
@@ -69,12 +186,22 @@ public class Card implements Cloneable{
     };
     static CardAction TightBond = new CardAction() {
         @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
+        @Override
         public void execute() {
             // Define what you want this card to do here
             System.out.println("TightBond");
         }
     };
     static CardAction Scorch = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
         @Override
         public void execute() {
             // Define what you want this card to do here
@@ -83,12 +210,22 @@ public class Card implements Cloneable{
     };
     static CardAction Berserker = new CardAction() {
         @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
+        @Override
         public void execute() {
             // Define what you want this card to do here
             System.out.println("Berserker!");
         }
     };
     static CardAction Mardroeme = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
         @Override
         public void execute() {
             // Define what you want this card to do here
@@ -97,12 +234,22 @@ public class Card implements Cloneable{
     };
     static CardAction Transformers = new CardAction() {
         @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
+        @Override
         public void execute() {
             // Define what you want this card to do here
             System.out.println("Transformers!");
         }
     };
     static CardAction NoAbility = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+
+        }
+
         @Override
         public void execute() {
             // Define what you want this card to do here
@@ -312,15 +459,14 @@ public class Card implements Cloneable{
     public void performAction() {
         action.execute();
     }
-    public static Card getCardByName(String username){
+    public static Card getCardByName(String name){
         for(Card i: allCards){
-            if(i.name.equals(username)){
+            if(i.name.equals(name)){
                 return i;
             }
         }
         return null;
     }
-
 
 }
 
