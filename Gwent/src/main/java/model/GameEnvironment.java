@@ -36,6 +36,15 @@ public class GameEnvironment {
     public boolean hasPlayedTurn;
     public boolean endRound;
     public int turnNumber;
+    public Deck deckUser;
+    public Deck deckEnemy;
+    public int round1Score;
+    public int round2Score;
+    public int round3Score;
+    public int enemyRound1Score;
+    public int enemyRound2Score;
+    public int enemyRound3Score;
+
 
     public GameEnvironment(Deck deckUser, Deck deckEnemy) {
         this.commanderCard = deckUser.getCommander();
@@ -57,6 +66,14 @@ public class GameEnvironment {
         hasPlayedTurn = false;
         endRound = false;
         turnNumber = 1;
+        this.deckUser = deckUser;
+        this.deckEnemy = deckEnemy;
+        round1Score = -1;
+        round2Score = -1;
+        round3Score = -1;
+        enemyRound1Score = -1;
+        enemyRound2Score = -1;
+        enemyRound3Score = -1;
     }
 
     public void swapGameEnvironmentFields() {

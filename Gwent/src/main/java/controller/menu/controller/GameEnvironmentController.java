@@ -9,14 +9,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import model.Card;
-import model.Deck;
-import model.GameEnvironment;
+import javafx.stage.Stage;
+import model.*;
+import view.menus.GameEnvironmentMenu;
+import view.menus.MainMenu;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class GameEnvironmentController {
@@ -80,7 +78,7 @@ public class GameEnvironmentController {
         enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
     }
 
-    //    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.oppenentUser.getDeck());
+    //    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
     public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
 
     public void initialize() {
@@ -138,6 +136,7 @@ public class GameEnvironmentController {
             Collections.shuffle(allCards); // Optional: Shuffle the deck again
             allCards.remove(0); // Remove the top card from the deck to prevent it from being drawn again
             updateInHandCards(); // Update the GUI to reflect the changes
+            gameEnvironment.hasPlayedTurn = true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -373,7 +372,6 @@ public class GameEnvironmentController {
         }
         gameEnvironment.numberOfVeto++;
         vetoRandomCard(sampleDeck.getAllCards(), gameEnvironment.inHandCards, cardIndex);
-        gameEnvironment.hasPlayedTurn = true;
     }
 
 
@@ -507,66 +505,136 @@ public class GameEnvironmentController {
         gameEnvironment.hasPlayedTurn = true;
     }
 
-    public void passRound() {
+    public void passRound() throws Exception {
         if (!gameEnvironment.hasPlayedTurn) {
             if (gameEnvironment.endRound) {
                 endRound();
+                return;
             }
             gameEnvironment.endRound = true;
         }
         if (gameEnvironment.hasPlayedTurn) gameEnvironment.endRound = false;
+        changeTurn();
+    }
+
+    private void changeTurn() {
         gameEnvironment.swapGameEnvironmentFields();
         updateEverything();
         gameEnvironment.hasPlayedTurn = false;
         gameEnvironment.turnNumber++;
     }
 
-    private void endRound() {
-//        if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
-//            gameEnvironment.crystalsNumber++;
-//        }else {
-//            gameEnvironment.enemyCrystalsNumber++;
-//        }
-//        if(gameEnvironment.turnNumber%2==1){
-//            if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
-//                System.out.println("Logged in user Won the round");
-//            }else if(gameEnvironment.totalScore<gameEnvironment.enemyTotalScore){
-//                System.out.println("Opponents Won the Round");
-//            }else{
-//                System.out.println("The round is a draw");
-//            }
-//        }else {
-//            if(gameEnvironment.totalScore<gameEnvironment.enemyTotalScore){
-//                System.out.println("Logged in user Won the round");
-//            }else if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
-//                System.out.println("Opponents Won the Round");
-//            }else{
-//                System.out.println("The round is a draw");
-//            }
-//        }
+    private void endRound() throws Exception {
+        int temp = gameEnvironment.turnNumber % 2;
+        for (int i = 0; i < temp + 1; i++) {
+            changeTurn();
+        }
         String roundResult;
         if (gameEnvironment.totalScore > gameEnvironment.enemyTotalScore) {
             gameEnvironment.crystalsNumber++;
-            roundResult = gameEnvironment.turnNumber % 2 == 1 ? "Logged in user Won the round" : "Opponents Won the Round";
+            roundResult = "Logged in user Won the round";
         } else if (gameEnvironment.totalScore < gameEnvironment.enemyTotalScore) {
             gameEnvironment.enemyCrystalsNumber++;
-            roundResult = gameEnvironment.turnNumber % 2 == 0 ? "Logged in user Won the round" : "Opponents Won the Round";
+            roundResult = "Opponents Won the Round";
         } else {
             roundResult = "The round is a draw";
             gameEnvironment.crystalsNumber++;
             gameEnvironment.enemyCrystalsNumber++;
         }
+
+        if (gameEnvironment.round1Score == -1) {
+            gameEnvironment.round1Score = gameEnvironment.totalScore;
+            gameEnvironment.enemyRound1Score = gameEnvironment.enemyTotalScore;
+        } else if (gameEnvironment.round2Score == -1) {
+            gameEnvironment.round2Score = gameEnvironment.totalScore;
+            gameEnvironment.enemyRound2Score = gameEnvironment.enemyTotalScore;
+        } else {
+            gameEnvironment.round3Score = gameEnvironment.totalScore;
+            gameEnvironment.enemyRound3Score = gameEnvironment.enemyTotalScore;
+        }
+
         System.out.println(roundResult);
+        setMaxScores();
         checkForEndGame();
         clearDeck();
     }
 
+    private void setMaxScores() {
+        User.loggedInUser.setMaxScore(gameEnvironment.totalScore);
+        GameEnvironmentMenu.currentGame.opponentUser.setMaxScore(gameEnvironment.enemyTotalScore);
+    }
+
     private void clearDeck() {
+        for (int i = 0; i < gameEnvironment.closedRow.length; i++) {
+            gameEnvironment.closedRow[i] = null;
+            gameEnvironment.enemyClosedRow[i] = null;
+            gameEnvironment.rangedRow[i] = null;
+            gameEnvironment.enemyRangedRow[i] = null;
+            gameEnvironment.siegeRow[i] = null;
+            gameEnvironment.enemySiegeRow[i] = null;
+            gameEnvironment.inHandCards[i] = null;
+            gameEnvironment.enemyInHandCards[i] = null;
+        }
+        gameEnvironment.totalScore = 0;
+        gameEnvironment.enemyTotalScore = 0;
+        gameEnvironment.numberOfVeto = 0;
+        gameEnvironment.enemyNumberOfVeto = 0;
+        gameEnvironment.enemySiegeHorn = "";
+        gameEnvironment.siegeHorn = "";
+        gameEnvironment.enemyCloseHorn = "";
+        gameEnvironment.closeHorn = "";
+        gameEnvironment.enemyRangedHorn = "";
+        gameEnvironment.rangedHorn = "";
+        gameEnvironment.hasPlayedTurn = false;
+        gameEnvironment.endRound = false;
+        gameEnvironment.turnNumber = 1;
+        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
+        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
+        updateEverything();
     }
 
-    private void checkForEndGame() {
+    private void checkForEndGame() throws Exception {
+        if (gameEnvironment.crystalsNumber == gameEnvironment.enemyCrystalsNumber && gameEnvironment.crystalsNumber >= 2) {
+            System.out.println("The game is a draw");
+            endGame(2);
+        } else if ((gameEnvironment.crystalsNumber == 2 && gameEnvironment.turnNumber % 2 == 1) ||
+                (gameEnvironment.enemyCrystalsNumber == 2 && gameEnvironment.turnNumber % 2 == 0)) {
+            System.out.println("Logged in user Won the game");
+            endGame(0);
+        } else if ((gameEnvironment.enemyCrystalsNumber == 2 && gameEnvironment.turnNumber % 2 == 1) ||
+                (gameEnvironment.crystalsNumber == 2 && gameEnvironment.turnNumber % 2 == 0)) {
+            System.out.println("Opponents Won the game");
+            endGame(1);
+        }
+
     }
 
+    private void endGame(int status) throws Exception {
+        GameHistory gameHistory = new GameHistory(gameEnvironment.round1Score, gameEnvironment.round2Score, gameEnvironment.round3Score,
+                gameEnvironment.enemyRound1Score, gameEnvironment.enemyRound2Score, gameEnvironment.enemyRound3Score, new Date(), GameEnvironmentMenu.currentGame.opponentUser.getUsername());
+        User.loggedInUser.addGameHistory(gameHistory);
+        GameHistory gameHistoryOpponent = new GameHistory(gameEnvironment.enemyRound1Score, gameEnvironment.enemyRound2Score, gameEnvironment.enemyRound3Score,
+                gameEnvironment.round1Score, gameEnvironment.round2Score, gameEnvironment.round3Score, new Date(), User.loggedInUser.getUsername());
+        GameEnvironmentMenu.currentGame.opponentUser.addGameHistory(gameHistoryOpponent);
+        if (status == 0) {
+            User.loggedInUser.increaseNumWins();
+            GameEnvironmentMenu.currentGame.opponentUser.increaseNumLoses();
+        }
+        if (status == 1) {
+            User.loggedInUser.increaseNumLoses();
+            GameEnvironmentMenu.currentGame.opponentUser.increaseNumWins();
+        }
+        if (status == 2) {
+            User.loggedInUser.increaseNumDraws();
+            GameEnvironmentMenu.currentGame.opponentUser.increaseNumDraws();
+        }
+        User.loggedInUser.increaseNumTotalGames();
+        GameEnvironmentMenu.currentGame.opponentUser.increaseNumTotalGames();
+        GameEnvironmentMenu.appStage.close();
+        GameEnvironmentMenu.appStage = null;
+        new MainMenu().start(new Stage());
+
+    }
 
 
 }
