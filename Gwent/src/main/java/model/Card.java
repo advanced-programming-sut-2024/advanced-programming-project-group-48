@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Card implements Cloneable{
     public final String name;
     public final String faction;
-    public final int power;
+    public int power;
     public final int maxNumber;
     public final String type;
     public final boolean isHero;

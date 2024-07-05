@@ -132,6 +132,7 @@ public class GameEnvironmentController {
             Collections.shuffle(allCards); // Optional: Shuffle the deck again
             allCards.remove(0); // Remove the top card from the deck to prevent it from being drawn again
             updateInHandCards(); // Update the GUI to reflect the changes
+            gameEnvironment.hasPlayedTurn = true;
         } else {
             System.out.println("Card index is out of bounds.");
         }
@@ -353,7 +354,6 @@ public class GameEnvironmentController {
         }
         gameEnvironment.numberOfVeto++;
         vetoRandomCard(sampleDeck.getAllCards(), gameEnvironment.inHandCards, cardIndex);
-        gameEnvironment.hasPlayedTurn = true;
     }
 
 
@@ -446,6 +446,7 @@ public class GameEnvironmentController {
         if (!gameEnvironment.hasPlayedTurn) {
             if (gameEnvironment.endRound) {
                 endRound();
+                return;
             }
             gameEnvironment.endRound = true;
         }
@@ -457,28 +458,6 @@ public class GameEnvironmentController {
     }
 
     private void endRound() {
-//        if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
-//            gameEnvironment.crystalsNumber++;
-//        }else {
-//            gameEnvironment.enemyCrystalsNumber++;
-//        }
-//        if(gameEnvironment.turnNumber%2==1){
-//            if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
-//                System.out.println("Logged in user Won the round");
-//            }else if(gameEnvironment.totalScore<gameEnvironment.enemyTotalScore){
-//                System.out.println("Opponents Won the Round");
-//            }else{
-//                System.out.println("The round is a draw");
-//            }
-//        }else {
-//            if(gameEnvironment.totalScore<gameEnvironment.enemyTotalScore){
-//                System.out.println("Logged in user Won the round");
-//            }else if(gameEnvironment.totalScore>gameEnvironment.enemyTotalScore){
-//                System.out.println("Opponents Won the Round");
-//            }else{
-//                System.out.println("The round is a draw");
-//            }
-//        }
         String roundResult;
         if (gameEnvironment.totalScore > gameEnvironment.enemyTotalScore) {
             gameEnvironment.crystalsNumber++;
@@ -497,11 +476,55 @@ public class GameEnvironmentController {
     }
 
     private void clearDeck() {
+        for (int i = 0; i < gameEnvironment.closedRow.length; i++) {
+            gameEnvironment.closedRow[i] = null;
+            gameEnvironment.enemyClosedRow[i] = null;
+            gameEnvironment.rangedRow[i] = null;
+            gameEnvironment.enemyRangedRow[i] = null;
+            gameEnvironment.siegeRow[i] = null;
+            gameEnvironment.enemySiegeRow[i] = null;
+            gameEnvironment.inHandCards[i]=null;
+            gameEnvironment.enemyInHandCards[i]=null;
+        }
+        gameEnvironment.totalScore = 0;
+        gameEnvironment.enemyTotalScore = 0;
+        gameEnvironment.numberOfVeto = 0;
+        gameEnvironment.enemyNumberOfVeto = 0;
+        gameEnvironment.enemySiegeHorn = "";
+        gameEnvironment.siegeHorn = "";
+        gameEnvironment.enemyCloseHorn = "";
+        gameEnvironment.closeHorn = "";
+        gameEnvironment.enemyRangedHorn = "";
+        gameEnvironment.rangedHorn = "";
+        gameEnvironment.hasPlayedTurn = false;
+        gameEnvironment.endRound = false;
+        gameEnvironment.turnNumber = 1;
+        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
+        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
+        updateEverything();
     }
 
     private void checkForEndGame() {
+        if(gameEnvironment.crystalsNumber==gameEnvironment.enemyCrystalsNumber&&gameEnvironment.crystalsNumber>=2){
+            System.out.println("The game is a draw");
+            endGame();
+        }
+        else if((gameEnvironment.crystalsNumber==2&&gameEnvironment.turnNumber%2==1)||
+                (gameEnvironment.enemyCrystalsNumber==2&&gameEnvironment.turnNumber%2==0)){
+            System.out.println("Logged in user Won the game");
+            endGame();
+        }
+        else if((gameEnvironment.enemyCrystalsNumber==2&&gameEnvironment.turnNumber%2==1)||
+                (gameEnvironment.crystalsNumber==2&&gameEnvironment.turnNumber%2==0)){
+            System.out.println("Opponents Won the game");
+            endGame();
+        }
+
     }
 
+    private void endGame() {
+        System.exit(0);
+    }
 
 
 }
