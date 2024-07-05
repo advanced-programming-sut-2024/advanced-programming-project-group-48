@@ -1,5 +1,6 @@
 package controller.menu.controller;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -119,6 +120,11 @@ public class GameEnvironmentController {
 
     public void vetoRandomCard(List<Card> allCards, Card[] inHandCards, int cardIndex) {
         if (allCards.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Deck is empty");
+            alert.setContentText("Cannot replace card.");
+            alert.show();
             System.out.println("The deck is empty. Cannot replace card.");
             return;
         }
@@ -133,6 +139,11 @@ public class GameEnvironmentController {
             allCards.remove(0); // Remove the top card from the deck to prevent it from being drawn again
             updateInHandCards(); // Update the GUI to reflect the changes
         } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card index is out of bounds.");
+            alert.setContentText("Card index is out of bounds.");
+            alert.show();
             System.out.println("Card index is out of bounds.");
         }
     }
@@ -320,6 +331,10 @@ public class GameEnvironmentController {
         int cardIndex = inHandCards.getChildren().indexOf(clickedCard);
         if (gameEnvironment.inHandCards[cardIndex] == null) return;
         if (gameEnvironment.hasPlayedTurn) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Your turn is finished");
+            alert.setContentText("You have played your turn please pass the round");
             System.err.println("You have played your turn please pass the round");
             return;
         }
@@ -348,6 +363,11 @@ public class GameEnvironmentController {
     private void handleVeto(int cardIndex) {
         if (gameEnvironment.numberOfVeto >= 2) {
             //Todo replace with alert
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Check veto");
+            alert.setContentText("You can't veto more than 2 times");
+            alert.show();
             System.err.println("You can't veto more than 2 times");
             return;
         }
@@ -361,15 +381,30 @@ public class GameEnvironmentController {
         ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
         Card card = gameEnvironment.inHandCards[cardIndex];
         if (card == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is null");
+            alert.setContentText("Card is null");
+            alert.show();
             System.err.println("Card is null!");
             return;
         }
         if ((!card.type.equals("Close") && !card.type.equals("Agile"))) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is not of type Close or Agile");
+            alert.setContentText("Card is not of type Close or Agile");
+            alert.show();
             System.err.println("Card is not of type Close or Agile");
             return;
         }
         int emptyIndex = findEmptyIndex(gameEnvironment.closedRow);
         if (emptyIndex == -1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Closed row is full");
+            alert.setContentText("Closed row is full");
+            alert.show();
             System.err.println("Closed row is full");
             return;
         }
@@ -396,15 +431,30 @@ public class GameEnvironmentController {
         ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
         Card card = gameEnvironment.inHandCards[cardIndex];
         if (card == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is null");
+            alert.setContentText("Card is null");
+            alert.show();
             System.err.println("Card is null!");
             return;
         }
         if ((!card.type.equals("Ranged") && !card.type.equals("Agile"))) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is not of type Ranged or Agile");
+            alert.setContentText("Card is not of type Ranged or Agile");
+            alert.show();
             System.err.println("Card is not of type Ranged or Agile");
             return;
         }
         int emptyIndex = findEmptyIndex(gameEnvironment.rangedRow);
         if (emptyIndex == -1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Ranged row is full");
+            alert.setContentText("Ranged row is full");
+            alert.show();
             System.err.println("Ranged row is full");
             return;
         }
@@ -421,15 +471,30 @@ public class GameEnvironmentController {
         ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
         Card card = gameEnvironment.inHandCards[cardIndex];
         if (card == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is null!");
+            alert.setContentText("Card is null!");
+            alert.show();
             System.err.println("Card is null!");
             return;
         }
         if (!card.type.equals("Siege")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is not of type Siege");
+            alert.setContentText("Card is not of type Siege");
+            alert.show();
             System.err.println("Card is not of type Siege");
             return;
         }
         int emptyIndex = findEmptyIndex(gameEnvironment.siegeRow);
         if (emptyIndex == -1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Siege row is full");
+            alert.setContentText("Siege row is full");
+            alert.show();
             System.err.println("Siege row is full");
             return;
         }
