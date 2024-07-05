@@ -1,12 +1,11 @@
 package model;
 
-import controller.menu.controller.GameEnvironmentController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Card extends GameEnvironmentController implements Cloneable{
+public class Card implements Cloneable{
     public final String name;
     public final String faction;
     public final int power;
@@ -36,12 +35,6 @@ public class Card extends GameEnvironmentController implements Cloneable{
                 allCards.add(discardPile.get(0));
             }
 
-        }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Medic!");
         }
     };
     static CardAction CommandersHorn = new CardAction() {
@@ -84,23 +77,11 @@ public class Card extends GameEnvironmentController implements Cloneable{
                 int powerOfCard10 = allCards.get(9).power * 2;
             }
         }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("CommandersHorn!");
-        }
     };
     static CardAction Decoy = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
-        }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Decoy!");
         }
     };
     static CardAction MoralBoost = new CardAction() {
@@ -150,12 +131,6 @@ public class Card extends GameEnvironmentController implements Cloneable{
             }
 
         }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("MoralBoost!");
-        }
     };
     static CardAction Muster = new CardAction() {
         @Override
@@ -165,23 +140,11 @@ public class Card extends GameEnvironmentController implements Cloneable{
             }
 
         }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Muster!");
-        }
     };
     static CardAction Spy = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
-        }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Spy!");
         }
     };
     static CardAction TightBond = new CardAction() {
@@ -189,35 +152,17 @@ public class Card extends GameEnvironmentController implements Cloneable{
         public void execute(GameEnvironment gameEnvironment) {
 
         }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("TightBond");
-        }
     };
     static CardAction Scorch = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
         }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Scorch!");
-        }
     };
     static CardAction Berserker = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
-        }
-
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Berserker!");
         }
     };
     static CardAction Mardroeme = new CardAction() {
@@ -226,11 +171,6 @@ public class Card extends GameEnvironmentController implements Cloneable{
 
         }
 
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Mardroeme!");
-        }
     };
     static CardAction Transformers = new CardAction() {
         @Override
@@ -238,11 +178,6 @@ public class Card extends GameEnvironmentController implements Cloneable{
 
         }
 
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-            System.out.println("Transformers!");
-        }
     };
     static CardAction NoAbility = new CardAction() {
         @Override
@@ -250,10 +185,6 @@ public class Card extends GameEnvironmentController implements Cloneable{
 
         }
 
-        @Override
-        public void execute() {
-            // Define what you want this card to do here
-        }
     };
 
 
@@ -456,8 +387,8 @@ public class Card extends GameEnvironmentController implements Cloneable{
         return card.faction;
     }
     // Method to call the passed method
-    public void performAction() {
-        action.execute();
+    public void performAction(GameEnvironment gameEnvironment) {
+        action.execute(gameEnvironment);
     }
     public static Card getCardByName(String name){
         for(Card i: allCards){
