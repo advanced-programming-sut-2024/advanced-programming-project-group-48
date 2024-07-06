@@ -419,7 +419,105 @@ public class GameEnvironmentController {
     }
 
     private void playSpellAction(Card card) {
+        if (card.name.equals("SkelligeStorm")){
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero &&
+                        gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero){
+                    gameEnvironment.siegeRow[i].power = 1;
+                    gameEnvironment.rangedRow[i].power = 1;
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero &&
+                        gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero){
+                    gameEnvironment.enemySiegeRow[i].power = 1;
+                    gameEnvironment.enemyRangedRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("TorrentialRain")){
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero){
+                    gameEnvironment.siegeRow[i].power = 1;
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero){
+                    gameEnvironment.enemySiegeRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("ImpenetrableFog")){
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero){
+                    gameEnvironment.rangedRow[i].power = 1;
+                }
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero){
+                    gameEnvironment.enemyRangedRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("BitingFrost")){
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero){
+                    gameEnvironment.closedRow[i].power = 1;
+                }
+                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero){
+                    gameEnvironment.enemyClosedRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("Scorch")){
 
+            int maxPowerOfAll = -1;
+            int indexOfMaxPower = -1;
+            Card [] row = null;
+            for (int i = 0; i < 10; i++) {
+
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero){
+                    if (maxPowerOfAll < gameEnvironment.siegeRow[i].power){
+                        maxPowerOfAll = gameEnvironment.siegeRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.siegeRow;
+                    }
+                }
+                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero){
+                    if (maxPowerOfAll < gameEnvironment.closedRow[i].power){
+                        maxPowerOfAll = gameEnvironment.closedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.closedRow;
+                    }
+                }
+                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero){
+                    if (maxPowerOfAll < gameEnvironment.rangedRow[i].power){
+                        maxPowerOfAll = gameEnvironment.rangedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.rangedRow;
+                    }
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero){
+                    if (maxPowerOfAll < gameEnvironment.enemySiegeRow[i].power){
+                        maxPowerOfAll = gameEnvironment.enemySiegeRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.enemySiegeRow;
+                    }
+                }
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero){
+                    if (maxPowerOfAll < gameEnvironment.enemyRangedRow[i].power){
+                        maxPowerOfAll = gameEnvironment.enemyRangedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.enemyRangedRow;
+                    }
+                }
+                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero){
+                    if (maxPowerOfAll < gameEnvironment.enemyClosedRow[i].power){
+                        maxPowerOfAll = gameEnvironment.enemyClosedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.enemyClosedRow;
+                    }
+                }
+            }
+            if(indexOfMaxPower != -1 && maxPowerOfAll != -1 && row != null){
+                row[indexOfMaxPower] = null;
+            }
+
+        }
     }
 
     private void handleVeto(int cardIndex) {
