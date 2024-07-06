@@ -305,6 +305,14 @@ public class GameEnvironmentController {
         enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
     }
 
+    private void updateEnemyDiscardPile() {
+        enemyDiscardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo+ "/" + gameEnvironment.enemyDiscardPile.get(0).name + ".jpg"))));
+    }
+
+    private void updateDiscardPile() {
+        discardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.discardPile.get(0).name + ".jpg"))));
+    }
+
     public void updateEverything() {
         updateInHandCards();
         updateClosedRow();
@@ -323,7 +331,10 @@ public class GameEnvironmentController {
         updateEnemyCommanderCard();
         updateDeckLogo();
         updateEnemyDeckLogo();
+        updateDiscardPile();
+        updateEnemyDiscardPile();
     }
+
 
     public void onCardClicked(MouseEvent event) {
         ImageView clickedCard = (ImageView) event.getSource();
@@ -352,11 +363,18 @@ public class GameEnvironmentController {
             MenuItem option4 = new MenuItem("Veto");
             option4.setOnAction(e -> handleVeto(cardIndex));
 
+            MenuItem option5 = new MenuItem("Spell");
+            option5.setOnAction(e -> handleSpell(cardIndex));
+
 
             contextMenu.getItems().addAll(option1, option2, option3, option4);
 
             contextMenu.show((ImageView) event.getSource(), event.getScreenX(), event.getScreenY());
         }
+    }
+
+    private void handleSpell(int cardIndex) {
+
     }
 
     private void handleVeto(int cardIndex) {
@@ -396,7 +414,7 @@ public class GameEnvironmentController {
             System.err.println("Card is not of type Close or Agile");
             return;
         }
-        if(card.ability.equals("Spy")){
+        if (card.ability.equals("Spy")) {
             int emptyIndex = findEmptyIndex(gameEnvironment.enemyClosedRow);
             if (emptyIndex == -1) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -413,7 +431,7 @@ public class GameEnvironmentController {
             gameEnvironment.inHandCards[cardIndex] = null;
             card.performAction(gameEnvironment);
             gameEnvironment.recentPlaceCardRow = 1;
-            drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
+            drawRandomCards(gameEnvironment.deckUser.getAllCards(), gameEnvironment.inHandCards, 2);
             updateEverything();
             gameEnvironment.hasPlayedTurn = true;
             return;
@@ -472,7 +490,7 @@ public class GameEnvironmentController {
             System.err.println("Card is not of type Ranged or Agile");
             return;
         }
-        if(card.ability.equals("Spy")){
+        if (card.ability.equals("Spy")) {
             int emptyIndex = findEmptyIndex(gameEnvironment.enemyRangedRow);
             if (emptyIndex == -1) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -489,7 +507,7 @@ public class GameEnvironmentController {
             gameEnvironment.inHandCards[cardIndex] = null;
             card.performAction(gameEnvironment);
             gameEnvironment.recentPlaceCardRow = 2;
-            drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
+            drawRandomCards(gameEnvironment.deckUser.getAllCards(), gameEnvironment.inHandCards, 2);
             updateEverything();
             gameEnvironment.hasPlayedTurn = true;
             return;
@@ -535,7 +553,7 @@ public class GameEnvironmentController {
             System.err.println("Card is not of type Siege");
             return;
         }
-        if(card.ability.equals("Spy")){
+        if (card.ability.equals("Spy")) {
             int emptyIndex = findEmptyIndex(gameEnvironment.enemySiegeRow);
             if (emptyIndex == -1) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -552,7 +570,7 @@ public class GameEnvironmentController {
             gameEnvironment.inHandCards[cardIndex] = null;
             card.performAction(gameEnvironment);
             gameEnvironment.recentPlaceCardRow = 3;
-            drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
+            drawRandomCards(gameEnvironment.deckUser.getAllCards(), gameEnvironment.inHandCards, 2);
             updateEverything();
             gameEnvironment.hasPlayedTurn = true;
             return;
@@ -639,14 +657,14 @@ public class GameEnvironmentController {
     private void clearDeck() {
         for (int i = 0; i < gameEnvironment.closedRow.length; i++) {
 
-            clearOrTransformCard(gameEnvironment.closedRow, i);
-            clearOrTransformCard(gameEnvironment.enemyClosedRow, i);
-            clearOrTransformCard(gameEnvironment.rangedRow, i);
-            clearOrTransformCard(gameEnvironment.enemyRangedRow, i);
-            clearOrTransformCard(gameEnvironment.siegeRow, i);
-            clearOrTransformCard(gameEnvironment.enemySiegeRow, i);
-            clearOrTransformCard(gameEnvironment.inHandCards, i);
-            clearOrTransformCard(gameEnvironment.enemyInHandCards, i);
+            clearOrTransformCard(gameEnvironment.closedRow, i, false);
+            clearOrTransformCard(gameEnvironment.enemyClosedRow, i, true);
+            clearOrTransformCard(gameEnvironment.rangedRow, i, false);
+            clearOrTransformCard(gameEnvironment.enemyRangedRow, i, true);
+            clearOrTransformCard(gameEnvironment.siegeRow, i, false);
+            clearOrTransformCard(gameEnvironment.enemySiegeRow, i, true);
+            clearOrTransformCard(gameEnvironment.inHandCards, i, false);
+            clearOrTransformCard(gameEnvironment.enemyInHandCards, i, true);
 
         }
         gameEnvironment.totalScore = 0;
@@ -667,11 +685,16 @@ public class GameEnvironmentController {
         updateEverything();
     }
 
-    private void clearOrTransformCard(Card[] row, int index) {
+    private void clearOrTransformCard(Card[] row, int index, boolean isEnemy) {
         if (row[index] != null) {
             if ("Transformers".equals(row[index].ability) && row[index].power != 8) {
                 row[index].power = 8;
             } else {
+                if (isEnemy) {
+                    gameEnvironment.enemyDiscardPile.add(row[index]);
+                } else {
+                    gameEnvironment.discardPile.add(row[index]);
+                }
                 row[index] = null;
             }
         }
