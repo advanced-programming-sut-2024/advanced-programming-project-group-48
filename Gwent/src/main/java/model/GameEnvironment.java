@@ -44,6 +44,8 @@ public class GameEnvironment {
     public int enemyRound1Score;
     public int enemyRound2Score;
     public int enemyRound3Score;
+    public int recentPlaceCardRow;
+
 
 
     public GameEnvironment(Deck deckUser, Deck deckEnemy) {
@@ -74,6 +76,7 @@ public class GameEnvironment {
         enemyRound1Score = -1;
         enemyRound2Score = -1;
         enemyRound3Score = -1;
+        recentPlaceCardRow = 0;
     }
 
     public void swapGameEnvironmentFields() {
@@ -132,7 +135,6 @@ public class GameEnvironment {
         tempString = this.rangedHorn;
         this.rangedHorn = this.enemyRangedHorn;
         this.enemyRangedHorn = tempString;
-
 
         // Assuming turnNumber is a shared resource and does not need swapping
         //TODO

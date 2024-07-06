@@ -408,9 +408,10 @@ public class GameEnvironmentController {
         }
         gameEnvironment.closedRow[emptyIndex] = card;
         ((ImageView) closedRow.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
-        card.performAction(gameEnvironment);
         cardNode.setImage(null);
         gameEnvironment.inHandCards[cardIndex] = null;
+        card.performAction(gameEnvironment);
+        gameEnvironment.recentPlaceCardRow = 1;
         updateTotalScore();
         updateNumberRemainingCards();
         gameEnvironment.hasPlayedTurn = true;
@@ -460,6 +461,8 @@ public class GameEnvironmentController {
         ((ImageView) rangedRow.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
         cardNode.setImage(null);
         gameEnvironment.inHandCards[cardIndex] = null;
+        card.performAction(gameEnvironment);
+        gameEnvironment.recentPlaceCardRow = 2;
         updateTotalScore();
         updateNumberRemainingCards();
         gameEnvironment.hasPlayedTurn = true;
@@ -500,6 +503,8 @@ public class GameEnvironmentController {
         ((ImageView) siegeRow.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
         cardNode.setImage(null);
         gameEnvironment.inHandCards[cardIndex] = null;
+        card.performAction(gameEnvironment);
+        gameEnvironment.recentPlaceCardRow = 3;
         updateTotalScore();
         updateNumberRemainingCards();
         gameEnvironment.hasPlayedTurn = true;
@@ -566,14 +571,16 @@ public class GameEnvironmentController {
 
     private void clearDeck() {
         for (int i = 0; i < gameEnvironment.closedRow.length; i++) {
-            gameEnvironment.closedRow[i] = null;
-            gameEnvironment.enemyClosedRow[i] = null;
-            gameEnvironment.rangedRow[i] = null;
-            gameEnvironment.enemyRangedRow[i] = null;
-            gameEnvironment.siegeRow[i] = null;
-            gameEnvironment.enemySiegeRow[i] = null;
-            gameEnvironment.inHandCards[i] = null;
-            gameEnvironment.enemyInHandCards[i] = null;
+
+            clearOrTransformCard(gameEnvironment.closedRow, i);
+            clearOrTransformCard(gameEnvironment.enemyClosedRow, i);
+            clearOrTransformCard(gameEnvironment.rangedRow, i);
+            clearOrTransformCard(gameEnvironment.enemyRangedRow, i);
+            clearOrTransformCard(gameEnvironment.siegeRow, i);
+            clearOrTransformCard(gameEnvironment.enemySiegeRow, i);
+            clearOrTransformCard(gameEnvironment.inHandCards, i);
+            clearOrTransformCard(gameEnvironment.enemyInHandCards, i);
+
         }
         gameEnvironment.totalScore = 0;
         gameEnvironment.enemyTotalScore = 0;
@@ -591,6 +598,16 @@ public class GameEnvironmentController {
         drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
         drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
         updateEverything();
+    }
+
+    private void clearOrTransformCard(Card[] row, int index) {
+        if (row[index] != null) {
+            if ("Transformers".equals(row[index].ability) && row[index].power != 8) {
+                row[index].power = 8;
+            } else {
+                row[index] = null;
+            }
+        }
     }
 
     private void checkForEndGame() throws Exception {

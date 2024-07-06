@@ -35,6 +35,7 @@ public class Card implements Cloneable {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i] == null){
                     gameEnvironment.inHandCards[i] = gameEnvironment.discardPile.get(0);
+                    break;
                 }
             }
         }
@@ -42,45 +43,45 @@ public class Card implements Cloneable {
     static CardAction CommandersHorn = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-            for (int i = 0; i < 10; i++) {
-                if ((gameEnvironment.closedRow[i] != null)) {
-                    gameEnvironment.closedRow[i].power *= 2;
+            if(gameEnvironment.recentPlaceCardRow==1){
+                for (int i = 0; i < 10; i++) {
+                    if (!(gameEnvironment.closedRow[i] == null))
+                        gameEnvironment.closedRow[i].power *= 2;
                 }
             }
-            for (int i = 0; i < 10; i++) {
-                if ((gameEnvironment.rangedRow[i] != null)) {
-                    gameEnvironment.rangedRow[i].power *= 2;
+            if(gameEnvironment.recentPlaceCardRow==2){
+                for (int i = 0; i < 10; i++) {
+                    if (!(gameEnvironment.rangedRow[i] == null))
+                        gameEnvironment.rangedRow[i].power *= 2;
                 }
             }
-            for (int i = 0; i < 10; i++) {
-                if ((gameEnvironment.siegeRow[i] != null)) {
-                    gameEnvironment.siegeRow[i].power *= 2;
+            if(gameEnvironment.recentPlaceCardRow==3){
+                for (int i = 0; i < 10; i++) {
+                    if (!(gameEnvironment.siegeRow[i] == null))
+                        gameEnvironment.siegeRow[i].power *= 2;
                 }
             }
-        }
-    };
-    static CardAction Decoy = new CardAction() {
-        @Override
-        public void execute(GameEnvironment gameEnvironment) {
-
         }
     };
     static CardAction MoralBoost = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-            for (int i = 0; i < 10; i++) {
-                if (!(gameEnvironment.closedRow == null)) {
-                    gameEnvironment.closedRow[i].power += 1;
+            if(gameEnvironment.recentPlaceCardRow==1){
+                for (int i = 0; i < 10; i++) {
+                    if (!(gameEnvironment.closedRow[i] == null))
+                        gameEnvironment.closedRow[i].power += 1;
                 }
             }
-            for (int i = 0; i < 10; i++) {
-                if (!(gameEnvironment.siegeRow == null)) {
-                    gameEnvironment.siegeRow[i].power += 1;
+            if(gameEnvironment.recentPlaceCardRow==2){
+                for (int i = 0; i < 10; i++) {
+                    if (!(gameEnvironment.rangedRow[i] == null))
+                        gameEnvironment.rangedRow[i].power += 1;
                 }
             }
-            for (int i = 0; i < 10; i++) {
-                if (!(gameEnvironment.rangedRow == null)) {
-                    gameEnvironment.rangedRow[i].power += 1;
+            if(gameEnvironment.recentPlaceCardRow==3){
+                for (int i = 0; i < 10; i++) {
+                    if (!(gameEnvironment.siegeRow[i] == null))
+                        gameEnvironment.siegeRow[i].power += 1;
                 }
             }
         }
@@ -88,34 +89,61 @@ public class Card implements Cloneable {
     static CardAction Muster = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-            for (int i = 0; i <= gameEnvironment.inHandCards.length; i++){
-               if (!(gameEnvironment.inHandCards[i] == null)){
-                   gameEnvironment.siegeRow[i] = gameEnvironment.inHandCards[i];
-                   gameEnvironment.rangedRow[i] = gameEnvironment.inHandCards[i];
-                   gameEnvironment.closedRow[i] = gameEnvironment.inHandCards[i];
-               }
+            for (int i = 0; i < 10; i++) {
+                if(gameEnvironment.inHandCards[i]!=null){
+                    playCard(gameEnvironment.inHandCards[i],gameEnvironment);
+                    gameEnvironment.inHandCards[i]=null;
+                }
             }
         }
     };
+
+    private static void playCard(Card card, GameEnvironment gameEnvironment) {
+        if(card.type.equals("Close")||card.type.equals("Agile")){
+            for (int i = 0; i < 10; i++) {
+                if(gameEnvironment.closedRow[i]==null){
+                    gameEnvironment.closedRow[i]=card;
+                    card.performAction(gameEnvironment);
+                    break;
+                }
+            }
+        }
+        if(card.type.equals("Ranged")){
+            for (int i = 0; i < 10; i++) {
+                if(gameEnvironment.rangedRow[i]==null){
+                    gameEnvironment.rangedRow[i]=card;
+                    card.performAction(gameEnvironment);
+                    break;
+                }
+            }
+        }
+        if(card.type.equals("Siege")){
+            for (int i = 0; i < 10; i++) {
+                if(gameEnvironment.siegeRow[i]==null){
+                    gameEnvironment.siegeRow[i]=card;
+                    card.performAction(gameEnvironment);
+                    break;
+                }
+            }
+        }
+    }
+
     static CardAction Spy = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-            for (int i = 0; i < 10; i++) {
-                    gameEnvironment.inHandCards[i] = gameEnvironment.enemySiegeRow[i];
-                    gameEnvironment.inHandCards[i] = gameEnvironment.enemyRangedRow[i];
-                    gameEnvironment.inHandCards[i] = gameEnvironment.enemyClosedRow[i];
-                    gameEnvironment.enemyTotalScore += gameEnvironment.enemyInHandCards[i].power;
-                    // add 2 cards of deck cards to in hand cards should handle.
-            }
+
 
         }
     };
     static CardAction TightBond = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-                applyTightBond(gameEnvironment.closedRow);
-                applyTightBond(gameEnvironment.rangedRow);
-                applyTightBond(gameEnvironment.siegeRow);
+                if(gameEnvironment.recentPlaceCardRow==1)
+                    applyTightBond(gameEnvironment.closedRow);
+                if(gameEnvironment.recentPlaceCardRow==2)
+                    applyTightBond(gameEnvironment.rangedRow);
+                if(gameEnvironment.recentPlaceCardRow==3)
+                    applyTightBond(gameEnvironment.siegeRow);
 
     };
         private void applyTightBond(Card[] row) {
@@ -140,57 +168,64 @@ public class Card implements Cloneable {
     static CardAction Scorch = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-
+            int sumEnemyNoneHeroCards=0;
+            for (int i = 0; i < 10; i++) {
+                if(gameEnvironment.enemySiegeRow[i]!=null&&!gameEnvironment.enemySiegeRow[i].isHero){
+                    sumEnemyNoneHeroCards+=gameEnvironment.enemySiegeRow[i].power;
+                }
+            }
+            if(sumEnemyNoneHeroCards>=10){
+                int indexStrongestCard=-1;
+                int maxPower=0;
+                for (int i = 0; i < 10; i++) {
+                    if(gameEnvironment.enemySiegeRow[i]!=null&&!gameEnvironment.enemySiegeRow[i].isHero){
+                        if(gameEnvironment.enemySiegeRow[i].power>maxPower){
+                            maxPower=gameEnvironment.enemySiegeRow[i].power;
+                            indexStrongestCard=i;
+                        }
+                    }
+                }
+                gameEnvironment.enemySiegeRow[indexStrongestCard]=null;
+            }
         }
     };
     static CardAction Berserker = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-
+//          Dose nothing
         }
     };
     static CardAction Mardroeme = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-            for (int i = 0; i < 10; i++) {
-                if(gameEnvironment.siegeRow[i].ability.equals("Berserker")){
-                    gameEnvironment.siegeRow[i].name = "YoungVidkaarl";
-                    gameEnvironment.siegeRow[i].power = 8;
+            if(gameEnvironment.recentPlaceCardRow==1){
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.closedRow[i] != null&&gameEnvironment.closedRow[i].type.equals("Berserker")){
+                        gameEnvironment.closedRow[i]= Objects.requireNonNull(Card.getCardByName("YoungVidkaarl")).clone();
+                    }
                 }
             }
-            for (int i = 0; i < 10; i++) {
-                if(gameEnvironment.closedRow[i].ability.equals("Berserker")){
-                    gameEnvironment.closedRow[i].name = "YoungVidkaarl";
-                    gameEnvironment.closedRow[i].power = 8;
+            if(gameEnvironment.recentPlaceCardRow==2){
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.rangedRow[i] != null&&gameEnvironment.rangedRow[i].type.equals("Berserker")){
+                        gameEnvironment.rangedRow[i]= Objects.requireNonNull(Card.getCardByName("YoungVidkaarl")).clone();
+                    }
                 }
             }
-            for (int i = 0; i < 10; i++) {
-                if(gameEnvironment.rangedRow[i].ability.equals("Berserker")){
-                    gameEnvironment.rangedRow[i].name = "YoungVidkaarl";
-                    gameEnvironment.rangedRow[i].power = 8;
+            if(gameEnvironment.recentPlaceCardRow==3){
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.siegeRow[i] != null&&gameEnvironment.siegeRow[i].type.equals("Berserker")){
+                        gameEnvironment.siegeRow[i]= Objects.requireNonNull(Card.getCardByName("YoungVidkaarl")).clone();
+                    }
                 }
             }
-
-
         }
 
     };
     static CardAction Transformers = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
-            if (gameEnvironment.endRound){
-                for (int i = 0; i < 10; i++) {
-                    if (!(gameEnvironment.siegeRow[i] == null))
-                        if (gameEnvironment.siegeRow[i].name == "Cow"){
-                            gameEnvironment.siegeRow[i].power = 8;
-                    }
-                    if (!(gameEnvironment.siegeRow[i] == null))
-                        if (gameEnvironment.siegeRow[i].name == "Kambi"){
-                            gameEnvironment.siegeRow[i].power = 8;
-                        }
-                }
-            }
-
+            //handle this in the GameEnvironmentController
         }
 
     };
@@ -202,18 +237,6 @@ public class Card implements Cloneable {
 
     };
 
-
-    // Constructor
-//    public Card(String name, String faction, int power, int maxNumber, String type, boolean isHero, CardAction action) {
-//        this.name = name;
-//        this.faction = faction;
-//        this.power = power;
-//        this.maxNumber = maxNumber;
-//        this.type = type;
-//        this.isHero = isHero;
-//        this.action = action;
-//        allCards.add(this);
-//    }
     public Card(String name, String faction, int power, int maxNumber, String type, boolean isHero, CardAction action, String ability) {
         this.name = name;
         this.faction = faction;
