@@ -1,10 +1,7 @@
 package model;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Card implements Cloneable {
     public String name;
@@ -135,6 +132,28 @@ public class Card implements Cloneable {
 
         }
     };
+    public void drawRandomCards(List<Card> allCards, Card[] inHandCards, int numberOfCards) {
+        Collections.shuffle(allCards); // Randomize the order of all cards
+        int cardsToAdd = Math.min(numberOfCards, allCards.size()); // Determine the number of cards to add
+        int inHandCount = 0; // Counter for the number of cards currently in hand
+
+        // Find out how many cards are already in hand
+        for (Card card : inHandCards) {
+            if (card != null) {
+                inHandCount++;
+            }
+        }
+
+        // Add cards to the inHandCards array until it's full or all cards to add are added
+        for (int i = 0; i < cardsToAdd && inHandCount < inHandCards.length; i++, inHandCount++) {
+            inHandCards[inHandCount] = allCards.get(i); // Add card to the next available slot in the array
+        }
+
+        // Remove the added cards from the original deck
+        for (int i = 0; i < cardsToAdd; i++) {
+            allCards.remove(0);
+        }
+    }
     static CardAction TightBond = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {

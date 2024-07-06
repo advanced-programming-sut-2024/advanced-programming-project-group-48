@@ -396,6 +396,29 @@ public class GameEnvironmentController {
             System.err.println("Card is not of type Close or Agile");
             return;
         }
+        if(card.ability.equals("Spy")){
+            int emptyIndex = findEmptyIndex(gameEnvironment.enemyClosedRow);
+            if (emptyIndex == -1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText("Closed row is full");
+                alert.setContentText("Closed row is full");
+                alert.show();
+                System.err.println("Closed row is full");
+                return;
+            }
+            gameEnvironment.enemyClosedRow[emptyIndex] = card;
+            ((ImageView) enemyClosedRow.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
+            cardNode.setImage(null);
+            gameEnvironment.inHandCards[cardIndex] = null;
+            card.performAction(gameEnvironment);
+            gameEnvironment.recentPlaceCardRow = 1;
+            drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
+            updateTotalScore();
+            updateNumberRemainingCards();
+            gameEnvironment.hasPlayedTurn = true;
+            return;
+        }
         int emptyIndex = findEmptyIndex(gameEnvironment.closedRow);
         if (emptyIndex == -1) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -415,6 +438,10 @@ public class GameEnvironmentController {
         updateTotalScore();
         updateNumberRemainingCards();
         gameEnvironment.hasPlayedTurn = true;
+    }
+
+    private void handleSpy(Card card) {
+
     }
 
     private int findEmptyIndex(Card[] row) {
@@ -445,6 +472,29 @@ public class GameEnvironmentController {
             alert.setContentText("Card is not of type Ranged or Agile");
             alert.show();
             System.err.println("Card is not of type Ranged or Agile");
+            return;
+        }
+        if(card.ability.equals("Spy")){
+            int emptyIndex = findEmptyIndex(gameEnvironment.enemyRangedRow);
+            if (emptyIndex == -1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText("Closed row is full");
+                alert.setContentText("Closed row is full");
+                alert.show();
+                System.err.println("Closed row is full");
+                return;
+            }
+            gameEnvironment.enemyRangedRow[emptyIndex] = card;
+            ((ImageView) enemyRangedRow.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
+            cardNode.setImage(null);
+            gameEnvironment.inHandCards[cardIndex] = null;
+            card.performAction(gameEnvironment);
+            gameEnvironment.recentPlaceCardRow = 2;
+            drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
+            updateTotalScore();
+            updateNumberRemainingCards();
+            gameEnvironment.hasPlayedTurn = true;
             return;
         }
         int emptyIndex = findEmptyIndex(gameEnvironment.rangedRow);
@@ -487,6 +537,29 @@ public class GameEnvironmentController {
             alert.setContentText("Card is not of type Siege");
             alert.show();
             System.err.println("Card is not of type Siege");
+            return;
+        }
+        if(card.ability.equals("Spy")){
+            int emptyIndex = findEmptyIndex(gameEnvironment.enemySiegeRow);
+            if (emptyIndex == -1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText("Closed row is full");
+                alert.setContentText("Closed row is full");
+                alert.show();
+                System.err.println("Closed row is full");
+                return;
+            }
+            gameEnvironment.enemySiegeRow[emptyIndex] = card;
+            ((ImageView) enemySiegeRow.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
+            cardNode.setImage(null);
+            gameEnvironment.inHandCards[cardIndex] = null;
+            card.performAction(gameEnvironment);
+            gameEnvironment.recentPlaceCardRow = 3;
+            drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
+            updateTotalScore();
+            updateNumberRemainingCards();
+            gameEnvironment.hasPlayedTurn = true;
             return;
         }
         int emptyIndex = findEmptyIndex(gameEnvironment.siegeRow);
