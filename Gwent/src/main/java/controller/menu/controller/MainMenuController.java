@@ -38,7 +38,7 @@ public class MainMenuController {
     public String scoreText(){
         StringBuilder text = null;
         for(User i: User.getUsersBaseRanking()){
-            text.append("username:\t").append(i.getUsername()).append("\n")
+            text.append("username:\t").append(i.getUsername()).append("\n");
         }
         return text.toString();
     }
