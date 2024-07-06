@@ -306,10 +306,12 @@ public class GameEnvironmentController {
     }
 
     private void updateEnemyDiscardPile() {
+        if(gameEnvironment.enemyDiscardPile.isEmpty()) return;
         enemyDiscardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo+ "/" + gameEnvironment.enemyDiscardPile.get(0).name + ".jpg"))));
     }
 
     private void updateDiscardPile() {
+        if(gameEnvironment.discardPile.isEmpty()) return;
         discardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.discardPile.get(0).name + ".jpg"))));
     }
 
@@ -366,14 +368,57 @@ public class GameEnvironmentController {
             MenuItem option5 = new MenuItem("Spell");
             option5.setOnAction(e -> handleSpell(cardIndex));
 
+            MenuItem option6 = new MenuItem("Horn");
+            option6.setOnAction(e -> handleHorn(cardIndex));
 
-            contextMenu.getItems().addAll(option1, option2, option3, option4);
+
+            contextMenu.getItems().addAll(option1, option2, option3, option4,option5,option6);
 
             contextMenu.show((ImageView) event.getSource(), event.getScreenX(), event.getScreenY());
         }
     }
 
+    private void handleHorn(int cardIndex) {
+
+    }
+
     private void handleSpell(int cardIndex) {
+        ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
+        Card card = gameEnvironment.inHandCards[cardIndex];
+        if (card == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is null");
+            alert.setContentText("Card is null");
+            alert.show();
+            System.err.println("Card is null!");
+            return;
+        }
+        if (!card.type.equals("Spell")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Card is not of type Spell");
+            alert.setContentText("Card is not of type Spell");
+            alert.show();
+            System.err.println("Card is not of type Spell");
+            return;
+        }
+        int emptyIndex=findEmptyIndex(gameEnvironment.spellCards);
+        if(emptyIndex==-1){
+            System.err.println("spell is full");
+            return;
+        }
+        playSpellAction(card);
+        gameEnvironment.spellCards[emptyIndex] = card;
+        ((ImageView) spellCards.getChildren().get(emptyIndex)).setImage(cardNode.getImage());
+        cardNode.setImage(null);
+        gameEnvironment.inHandCards[cardIndex] = null;
+        updateEverything();
+        gameEnvironment.hasPlayedTurn = true;
+
+    }
+
+    private void playSpellAction(Card card) {
 
     }
 
