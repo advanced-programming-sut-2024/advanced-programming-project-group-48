@@ -96,22 +96,18 @@ public class GameEnvironmentController {
     public void drawRandomCards(List<Card> allCards, Card[] inHandCards, int numberOfCards) {
         Collections.shuffle(allCards); // Randomize the order of all cards
         int cardsToAdd = Math.min(numberOfCards, allCards.size()); // Determine the number of cards to add
-        int inHandCount = 0; // Counter for the number of cards currently in hand
+        int cardsAdded = 0; // Counter for the number of cards added to the hand
 
-        // Find out how many cards are already in hand
-        for (Card card : inHandCards) {
-            if (card != null) {
-                inHandCount++;
+        // Add cards to the inHandCards array until it's full or all cards to add are added
+        for (int i = 0; i < inHandCards.length && cardsAdded < cardsToAdd; i++) {
+            if (inHandCards[i] == null) { // Check for an empty slot
+                inHandCards[i] = allCards.get(cardsAdded); // Add card to the empty slot
+                cardsAdded++;
             }
         }
 
-        // Add cards to the inHandCards array until it's full or all cards to add are added
-        for (int i = 0; i < cardsToAdd && inHandCount < inHandCards.length; i++, inHandCount++) {
-            inHandCards[inHandCount] = allCards.get(i); // Add card to the next available slot in the array
-        }
-
         // Remove the added cards from the original deck
-        for (int i = 0; i < cardsToAdd; i++) {
+        for (int i = 0; i < cardsAdded; i++) {
             allCards.remove(0);
         }
     }
