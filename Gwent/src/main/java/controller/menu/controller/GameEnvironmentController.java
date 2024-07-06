@@ -309,12 +309,12 @@ public class GameEnvironmentController {
     }
 
     private void updateEnemyDiscardPile() {
-        if(gameEnvironment.enemyDiscardPile.isEmpty()) return;
-        enemyDiscardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo+ "/" + gameEnvironment.enemyDiscardPile.get(0).name + ".jpg"))));
+        if (gameEnvironment.enemyDiscardPile.isEmpty()) return;
+        enemyDiscardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyDiscardPile.get(0).name + ".jpg"))));
     }
 
     private void updateDiscardPile() {
-        if(gameEnvironment.discardPile.isEmpty()) return;
+        if (gameEnvironment.discardPile.isEmpty()) return;
         discardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.discardPile.get(0).name + ".jpg"))));
     }
 
@@ -372,26 +372,26 @@ public class GameEnvironmentController {
             option5.setOnAction(e -> handleSpell(cardIndex));
 
             MenuItem option6 = new MenuItem("Horn");
-            option6.setOnAction(e -> handleHorn(cardIndex,event));
+            option6.setOnAction(e -> handleHorn(cardIndex, event));
 
 
-            contextMenu.getItems().addAll(option1, option2, option3, option4,option5,option6);
+            contextMenu.getItems().addAll(option1, option2, option3, option4, option5, option6);
 
             contextMenu.show((ImageView) event.getSource(), event.getScreenX(), event.getScreenY());
         }
     }
 
-    private void handleHorn(int cardIndex,MouseEvent event) {
+    private void handleHorn(int cardIndex, MouseEvent event) {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem option1 = new MenuItem("Closed Row");
-        option1.setOnAction(e -> handleHornPlace(1,cardIndex));
+        option1.setOnAction(e -> handleHornPlace(1, cardIndex));
 
         MenuItem option2 = new MenuItem("Ranged Row");
-        option2.setOnAction(e -> handleHornPlace(2,cardIndex));
+        option2.setOnAction(e -> handleHornPlace(2, cardIndex));
 
         MenuItem option3 = new MenuItem("Siege Row");
-        option3.setOnAction(e -> handleHornPlace(3,cardIndex));
+        option3.setOnAction(e -> handleHornPlace(3, cardIndex));
 
 
         contextMenu.getItems().addAll(option1, option2, option3);
@@ -400,62 +400,62 @@ public class GameEnvironmentController {
     }
 
     private void handleHornPlace(int row, int cardIndex) {
-        gameEnvironment.recentPlaceCardRow=row;
-        if(row==1){
-            if(closeHorn!=null){
+        gameEnvironment.recentPlaceCardRow = row;
+        if (row == 1) {
+            if (closeHorn != null) {
                 System.err.println("closeHorn is not empty");
                 return;
             }
             ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
             Card card = gameEnvironment.inHandCards[cardIndex];
             closeHorn.setImage(cardNode.getImage());
-            gameEnvironment.closeHorn=card.name;
+            gameEnvironment.closeHorn = card.name;
             cardNode.setImage(null);
-            gameEnvironment.inHandCards[cardIndex]=null;
-            gameEnvironment.hasPlayedTurn=true;
-            if(card.name.equals("Mardroeme")){
+            gameEnvironment.inHandCards[cardIndex] = null;
+            gameEnvironment.hasPlayedTurn = true;
+            if (card.name.equals("Mardroeme")) {
                 Mardroeme.execute(gameEnvironment);
             }
-            if(card.name.equals("CommandersHorn")){
+            if (card.name.equals("CommandersHorn")) {
                 CommandersHorn.execute(gameEnvironment);
             }
         }
-        if(row==2){
-            if(rangedHorn!=null){
+        if (row == 2) {
+            if (rangedHorn != null) {
                 System.err.println("rangedHorn is not empty");
                 return;
             }
             ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
             Card card = gameEnvironment.inHandCards[cardIndex];
             rangedHorn.setImage(cardNode.getImage());
-            gameEnvironment.rangedHorn=card.name;
+            gameEnvironment.rangedHorn = card.name;
             cardNode.setImage(null);
-            gameEnvironment.inHandCards[cardIndex]=null;
-            gameEnvironment.hasPlayedTurn=true;
-            if(card.name.equals("Mardroeme")){
+            gameEnvironment.inHandCards[cardIndex] = null;
+            gameEnvironment.hasPlayedTurn = true;
+            if (card.name.equals("Mardroeme")) {
                 Mardroeme.execute(gameEnvironment);
             }
-            if(card.name.equals("CommandersHorn")){
+            if (card.name.equals("CommandersHorn")) {
                 CommandersHorn.execute(gameEnvironment);
             }
 
         }
-        if(row==3){
-            if(siegeHorn!=null){
+        if (row == 3) {
+            if (siegeHorn != null) {
                 System.err.println("siegeHorn is not empty");
                 return;
             }
             ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
             Card card = gameEnvironment.inHandCards[cardIndex];
             siegeHorn.setImage(cardNode.getImage());
-            gameEnvironment.siegeHorn=card.name;
+            gameEnvironment.siegeHorn = card.name;
             cardNode.setImage(null);
-            gameEnvironment.inHandCards[cardIndex]=null;
-            gameEnvironment.hasPlayedTurn=true;
-            if(card.name.equals("Mardroeme")){
+            gameEnvironment.inHandCards[cardIndex] = null;
+            gameEnvironment.hasPlayedTurn = true;
+            if (card.name.equals("Mardroeme")) {
                 Mardroeme.execute(gameEnvironment);
             }
-            if(card.name.equals("CommandersHorn")){
+            if (card.name.equals("CommandersHorn")) {
                 CommandersHorn.execute(gameEnvironment);
             }
         }
@@ -484,8 +484,8 @@ public class GameEnvironmentController {
             System.err.println("Card is not of type Spell");
             return;
         }
-        int emptyIndex=findEmptyIndex(gameEnvironment.spellCards);
-        if(emptyIndex==-1){
+        int emptyIndex = findEmptyIndex(gameEnvironment.spellCards);
+        if (emptyIndex == -1) {
             System.err.println("spell is full");
             return;
         }
@@ -500,8 +500,105 @@ public class GameEnvironmentController {
     }
 
     private void playSpellAction(Card card) {
+        if (card.name.equals("SkelligeStorm")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero &&
+                        gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
+                    gameEnvironment.siegeRow[i].power = 1;
+                    gameEnvironment.rangedRow[i].power = 1;
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero &&
+                        gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    gameEnvironment.enemySiegeRow[i].power = 1;
+                    gameEnvironment.enemyRangedRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("TorrentialRain")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
+                    gameEnvironment.siegeRow[i].power = 1;
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                    gameEnvironment.enemySiegeRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("ImpenetrableFog")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
+                    gameEnvironment.rangedRow[i].power = 1;
+                }
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    gameEnvironment.enemyRangedRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("BitingFrost")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
+                    gameEnvironment.closedRow[i].power = 1;
+                }
+                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
+                    gameEnvironment.enemyClosedRow[i].power = 1;
+                }
+            }
+        }
+        if (card.name.equals("Scorch")) {
 
+            int maxPowerOfAll = -1;
+            int indexOfMaxPower = -1;
+            Card[] row = null;
+            for (int i = 0; i < 10; i++) {
 
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
+                    if (maxPowerOfAll < gameEnvironment.siegeRow[i].power) {
+                        maxPowerOfAll = gameEnvironment.siegeRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.siegeRow;
+                    }
+                }
+                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
+                    if (maxPowerOfAll < gameEnvironment.closedRow[i].power) {
+                        maxPowerOfAll = gameEnvironment.closedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.closedRow;
+                    }
+                }
+                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
+                    if (maxPowerOfAll < gameEnvironment.rangedRow[i].power) {
+                        maxPowerOfAll = gameEnvironment.rangedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.rangedRow;
+                    }
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                    if (maxPowerOfAll < gameEnvironment.enemySiegeRow[i].power) {
+                        maxPowerOfAll = gameEnvironment.enemySiegeRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.enemySiegeRow;
+                    }
+                }
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    if (maxPowerOfAll < gameEnvironment.enemyRangedRow[i].power) {
+                        maxPowerOfAll = gameEnvironment.enemyRangedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.enemyRangedRow;
+                    }
+                }
+                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
+                    if (maxPowerOfAll < gameEnvironment.enemyClosedRow[i].power) {
+                        maxPowerOfAll = gameEnvironment.enemyClosedRow[i].power;
+                        indexOfMaxPower = i;
+                        row = gameEnvironment.enemyClosedRow;
+                    }
+                }
+            }
+            if (indexOfMaxPower != -1 && maxPowerOfAll != -1 && row != null) {
+                row[indexOfMaxPower] = null;
+            }
+
+        }
     }
 
     private void handleVeto(int cardIndex) {
