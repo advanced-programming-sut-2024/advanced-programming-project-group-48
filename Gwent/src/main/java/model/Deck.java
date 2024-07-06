@@ -7,6 +7,7 @@ public class Deck {
     private String faction = "Monsters";
     private String commander;
     private ArrayList<Card> cards = new ArrayList<>();
+    private ArrayList<SpecialCards> specialCards = new ArrayList<>();
     private HashMap<String , Integer> numberOfCardsInDeckp = new HashMap<>();
 
     public ArrayList<Card> getAllCards(){
@@ -44,5 +45,9 @@ public class Deck {
 
     public HashMap<String, Integer> getNumberOfCardsInDeckp() {
         return numberOfCardsInDeckp;
+    }
+
+    public ArrayList<SpecialCards> getSpecialCards() {
+        return specialCards;
     }
 }
