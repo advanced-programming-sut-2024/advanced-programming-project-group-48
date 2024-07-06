@@ -59,9 +59,7 @@ public class GameEnvironmentController {
         sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
         sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
         sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
         sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
         sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
         sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
@@ -73,9 +71,7 @@ public class GameEnvironmentController {
         enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
         enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
         enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
         enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
         enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
         enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
@@ -292,6 +288,52 @@ public class GameEnvironmentController {
         }
     }
 
+    public void updateSpellCards() {
+        for (int i = 0; i < gameEnvironment.spellCards.length; i++) {
+            if (gameEnvironment.spellCards[i] != null) {
+                ((ImageView) spellCards.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.spellCards[i].name + ".jpg"))));
+            } else {
+                ((ImageView) enemySiegeRow.getChildren().get(i)).setImage(null);
+            }
+        }
+    }
+
+    public void updateHorns() {
+        if (gameEnvironment.closeHorn != null) {
+            closeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.closeHorn.name + ".jpg"))));
+        } else {
+            closeHorn.setImage(null);
+        }
+        if (gameEnvironment.rangedHorn != null) {
+            rangedHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.rangedHorn.name + ".jpg"))));
+        } else {
+            rangedHorn.setImage(null);
+        }
+        if (gameEnvironment.siegeHorn != null) {
+            siegeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.siegeHorn.name + ".jpg"))));
+        } else {
+            siegeHorn.setImage(null);
+        }
+    }
+    public void updateEnemyHorns() {
+        if (gameEnvironment.enemyCloseHorn != null) {
+            enemyCloseHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyCloseHorn.name + ".jpg"))));
+        } else {
+            enemyCloseHorn.setImage(null);
+        }
+        if (gameEnvironment.enemyRangedHorn != null) {
+            enemyRangedHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyRangedHorn.name + ".jpg"))));
+        } else {
+            enemyRangedHorn.setImage(null);
+        }
+        if (gameEnvironment.enemySiegeHorn != null) {
+            enemySiegeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemySiegeHorn.name + ".jpg"))));
+        } else {
+            enemySiegeHorn.setImage(null);
+        }
+    }
+
+
     public void updateCommanderCard() {
         commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
     }
@@ -338,6 +380,8 @@ public class GameEnvironmentController {
         updateEnemyDeckLogo();
         updateDiscardPile();
         updateEnemyDiscardPile();
+        updateHorns();
+        updateEnemyHorns();
     }
 
 
@@ -409,7 +453,7 @@ public class GameEnvironmentController {
             ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
             Card card = gameEnvironment.inHandCards[cardIndex];
             closeHorn.setImage(cardNode.getImage());
-            gameEnvironment.closeHorn = card.name;
+            gameEnvironment.closeHorn = card;
             cardNode.setImage(null);
             gameEnvironment.inHandCards[cardIndex] = null;
             gameEnvironment.hasPlayedTurn = true;
@@ -428,7 +472,7 @@ public class GameEnvironmentController {
             ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
             Card card = gameEnvironment.inHandCards[cardIndex];
             rangedHorn.setImage(cardNode.getImage());
-            gameEnvironment.rangedHorn = card.name;
+            gameEnvironment.rangedHorn = card;
             cardNode.setImage(null);
             gameEnvironment.inHandCards[cardIndex] = null;
             gameEnvironment.hasPlayedTurn = true;
@@ -448,7 +492,7 @@ public class GameEnvironmentController {
             ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
             Card card = gameEnvironment.inHandCards[cardIndex];
             siegeHorn.setImage(cardNode.getImage());
-            gameEnvironment.siegeHorn = card.name;
+            gameEnvironment.siegeHorn = card;
             cardNode.setImage(null);
             gameEnvironment.inHandCards[cardIndex] = null;
             gameEnvironment.hasPlayedTurn = true;
@@ -891,18 +935,26 @@ public class GameEnvironmentController {
             clearOrTransformCard(gameEnvironment.enemyInHandCards, i, true);
 
         }
+        for (int i = 0; i < 3; i++) {
+            if(gameEnvironment.spellCards[i]!=null){
+                gameEnvironment.discardPile.add(gameEnvironment.spellCards[i]);
+                gameEnvironment.spellCards[i]=null;
+            }
+        }
         gameEnvironment.totalScore = 0;
         gameEnvironment.enemyTotalScore = 0;
         gameEnvironment.numberOfVeto = 0;
         gameEnvironment.enemyNumberOfVeto = 0;
-        gameEnvironment.enemySiegeHorn = "";
-        gameEnvironment.siegeHorn = "";
-        gameEnvironment.enemyCloseHorn = "";
-        gameEnvironment.closeHorn = "";
-        gameEnvironment.enemyRangedHorn = "";
-        gameEnvironment.rangedHorn = "";
+        gameEnvironment.enemySiegeHorn = null;
+        gameEnvironment.siegeHorn = null;
+        gameEnvironment.enemyCloseHorn = null;
+        gameEnvironment.closeHorn = null;
+        gameEnvironment.enemyRangedHorn = null;
+        gameEnvironment.rangedHorn = null;
         gameEnvironment.hasPlayedTurn = false;
         gameEnvironment.endRound = false;
+        gameEnvironment.hasPlayedCommander=false;
+        gameEnvironment.hasPlayedEnemyCommander=false;
         gameEnvironment.turnNumber = 1;
         drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
         drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
@@ -968,4 +1020,7 @@ public class GameEnvironmentController {
     }
 
 
+    public void playCommanderAbility() {
+
+    }
 }

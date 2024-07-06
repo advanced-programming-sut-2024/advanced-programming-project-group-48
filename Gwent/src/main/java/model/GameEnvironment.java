@@ -27,12 +27,12 @@ public class GameEnvironment {
     public int enemyNumberOfVeto;
     public ArrayList<Card> enemyDiscardPile = new ArrayList<>();
     public ArrayList<Card> discardPile = new ArrayList<>();
-    public String enemySiegeHorn;
-    public String siegeHorn;
-    public String enemyCloseHorn;
-    public String closeHorn;
-    public String enemyRangedHorn;
-    public String rangedHorn;
+    public Card enemySiegeHorn;
+    public Card siegeHorn;
+    public Card enemyCloseHorn;
+    public Card closeHorn;
+    public Card enemyRangedHorn;
+    public Card rangedHorn;
     public boolean hasPlayedTurn;
     public boolean endRound;
     public int turnNumber;
@@ -45,8 +45,8 @@ public class GameEnvironment {
     public int enemyRound2Score;
     public int enemyRound3Score;
     public int recentPlaceCardRow;
-
-
+    public boolean hasPlayedCommander;
+    public boolean hasPlayedEnemyCommander;
 
     public GameEnvironment(Deck deckUser, Deck deckEnemy) {
         this.commanderCard = deckUser.getCommander();
@@ -59,12 +59,12 @@ public class GameEnvironment {
         enemyTotalScore = 0;
         numberOfVeto = 0;
         enemyNumberOfVeto = 0;
-        enemySiegeHorn = "";
-        siegeHorn = "";
-        enemyCloseHorn = "";
-        closeHorn = "";
-        enemyRangedHorn = "";
-        rangedHorn = "";
+        enemySiegeHorn = null;
+        siegeHorn = null;
+        enemyCloseHorn = null;
+        closeHorn = null;
+        enemyRangedHorn = null;
+        rangedHorn = null;
         hasPlayedTurn = false;
         endRound = false;
         turnNumber = 1;
@@ -77,6 +77,8 @@ public class GameEnvironment {
         enemyRound2Score = -1;
         enemyRound3Score = -1;
         recentPlaceCardRow = 0;
+        hasPlayedCommander=false;
+        hasPlayedEnemyCommander=false;
     }
 
     public void swapGameEnvironmentFields() {
@@ -98,7 +100,6 @@ public class GameEnvironment {
         this.enemyClosedRow = this.closedRow;
         this.closedRow = tempCards;
 
-//            TODO swap spell cards
 
         // Swapping scores and numbers
         int tempInt;
@@ -124,17 +125,25 @@ public class GameEnvironment {
         this.deckLogo = this.enemyDeckLogo;
         this.enemyDeckLogo = tempString;
 
-        tempString = this.siegeHorn;
+        // Swapping Card
+        Card tempCard;
+        tempCard = this.siegeHorn;
         this.siegeHorn = this.enemySiegeHorn;
-        this.enemySiegeHorn = tempString;
+        this.enemySiegeHorn = tempCard;
 
-        tempString = this.closeHorn;
+        tempCard = this.closeHorn;
         this.closeHorn = this.enemyCloseHorn;
-        this.enemyCloseHorn = tempString;
+        this.enemyCloseHorn = tempCard;
 
-        tempString = this.rangedHorn;
+        tempCard = this.rangedHorn;
         this.rangedHorn = this.enemyRangedHorn;
-        this.enemyRangedHorn = tempString;
+        this.enemyRangedHorn = tempCard;
+
+        // Swapping hasPlayed
+        boolean tempState;
+        tempState=hasPlayedCommander;
+        hasPlayedCommander=hasPlayedEnemyCommander;
+        hasPlayedEnemyCommander=tempState;
 
         // Assuming turnNumber is a shared resource and does not need swapping
         //TODO

@@ -137,6 +137,6 @@
          <Image url="@../images/icons/icon_gem_on.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="commanderCard" fitHeight="113.0" fitWidth="91.0" layoutX="99.0" layoutY="632.0" pickOnBounds="true" />
+   <ImageView fx:id="commanderCard" fitHeight="113.0" fitWidth="91.0" layoutX="99.0" layoutY="632.0" onMouseClicked="#playCommanderAbility" pickOnBounds="true" />
    <Button layoutX="258.0" layoutY="642.0" mnemonicParsing="false" onMouseClicked="#passRound" text="Pass Round" />
 </AnchorPane>
