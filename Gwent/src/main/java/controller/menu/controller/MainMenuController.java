@@ -31,14 +31,15 @@ public class MainMenuController {
         System.out.println("hi\n");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Score table");
-        alert.setContentText(scoreText());
+        if(scoreText() != null)
+            alert.setContentText(scoreText());
         alert.showAndWait();
 
     }
     public String scoreText(){
-        StringBuilder text = null;
+        StringBuilder text = new StringBuilder("Users\n");
         for(User i: User.getUsersBaseRanking()){
-            text.append("username:\t").append(i.getUsername()).append("\n");
+            text.append("username:\t").append(i.getUsername()).append("\n").append("_____________________________\n");
         }
         return text.toString();
     }

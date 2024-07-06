@@ -8,7 +8,16 @@ public class Deck {
     private String commander;
     private ArrayList<Card> cards = new ArrayList<>();
     private ArrayList<SpecialCards> specialCards = new ArrayList<>();
-    private HashMap<String , Integer> numberOfCardsInDeckp = new HashMap<>();
+    private static HashMap<String , Integer> numberOfCardsInDeckp = new HashMap<>();
+    private static HashMap<String , Integer> numberOfSpecialCardsInDeck = new HashMap<>();
+    static{
+        for(SpecialCards i: SpecialCards.allSpecialCards){
+            numberOfSpecialCardsInDeck.put(i.name , 0);
+        }
+        for(Card i: Card.allCards){
+            numberOfCardsInDeckp.put(i.name , 0);
+        }
+    }
 
     public ArrayList<Card> getAllCards(){
         return cards;
@@ -45,6 +54,9 @@ public class Deck {
 
     public HashMap<String, Integer> getNumberOfCardsInDeckp() {
         return numberOfCardsInDeckp;
+    }
+    public HashMap<String , Integer> getNumberOfSpecialCardsInDeck() {
+        return numberOfSpecialCardsInDeck;
     }
 
     public ArrayList<SpecialCards> getSpecialCards() {

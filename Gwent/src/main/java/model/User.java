@@ -103,9 +103,12 @@ public class User {
         }
         return null;
     }
-    public static void rankingUsers(){
-        Collections.sort(usersBaseRanking,(user1, user2) -> user1.getNumWins() - user2.getNumWins());
+    public static void rankingUsers() {
+        if (usersBaseRanking != null && usersBaseRanking.size() > 1) {
+            Collections.sort(usersBaseRanking, (user1, user2) -> user1.getNumWins() - user2.getNumWins());
+        }
     }
+
     public static ArrayList<User> getUsersBaseRanking(){
         rankingUsers();
         return usersBaseRanking;

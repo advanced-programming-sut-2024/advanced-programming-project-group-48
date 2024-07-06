@@ -4,28 +4,54 @@ import controller.menu.controller.GameEnvironmentController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SpecialCards extends Card implements CardAction {
+public class SpecialCards extends Card implements CardAction{
     public final String name;
     public final String type;
     public final int maxNumber;
     public final CardAction action;
     public final String ability;
-    public final ArrayList<SpecialCards> allSpecialCards = new ArrayList<>();
+    public static final ArrayList<SpecialCards> allSpecialCards = new ArrayList<>();
+    public static final Map<String , SpecialCards> getCardName = new HashMap<>();
 
 
 
     public SpecialCards(String name , String type , CardAction cardAction , String ability){
-        super(name);
+        super(name , "All" , 0 , 3 , type , false , cardAction , ability );
         this.name = name;
         this.type = type;
         this.maxNumber = 3;
         this.action = cardAction;
         this.ability = ability;
         allSpecialCards.add(this);
+        getCardName.put(name , this);
+    }
+    public static Card getSpecialCardByName(String name){
+        for(SpecialCards i: allSpecialCards){
+            if(i.name.equals(name)){
+                return i;
+            }
+        }
+        return null;
     }
 
+    static CardAction BitingFrost = new CardAction() {
+        @Override
+        public void execute(GameEnvironment gameEnvironment) {
+            for (Card i : gameEnvironment.closedRow) {
+                i.power = 1;
+            }
+            for (Card i : gameEnvironment.enemyClosedRow) {
+                i.power = 1;
+            }
+        }
 
+        @Override
+        public void execute() {
+        }
+    };
     static CardAction Mardoeme = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
@@ -128,7 +154,7 @@ public class SpecialCards extends Card implements CardAction {
         }
     };
 
-    CardAction CommandersHorn = new CardAction() {
+    static CardAction CommandersHorn = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             if (gameEnvironment.closeHorn.equals(CommandersHorn.toString()) || Arrays.stream(gameEnvironment.closedRow).toList().contains(Card.getCardByName("CommandersHorn"))) {
@@ -170,24 +196,10 @@ public class SpecialCards extends Card implements CardAction {
         }
     };
 
-    CardAction BitingFrost = new CardAction() {
-        @Override
-        public void execute(GameEnvironment gameEnvironment) {
-            for(Card i: gameEnvironment.closedRow){
-                i.power = 1;
-            }
-            for(Card i: gameEnvironment.enemyClosedRow){
-                i.power = 1;
-            }
-        }
 
-        @Override
-        public void execute() {
 
-        }
-    };
 
-    CardAction ImpenetrableFog = new CardAction() {
+    static CardAction ImpenetrableFog = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for(Card i: gameEnvironment.rangedRow){
@@ -204,7 +216,7 @@ public class SpecialCards extends Card implements CardAction {
         }
     };
 
-    CardAction TorrentialRain = new CardAction() {
+    static CardAction TorrentialRain = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for(Card i: gameEnvironment.siegeRow){
@@ -221,7 +233,7 @@ public class SpecialCards extends Card implements CardAction {
         }
     };
 
-    CardAction SkelligeStorm = new CardAction() {
+    static CardAction SkelligeStorm = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for(Card i: gameEnvironment.rangedRow){
@@ -244,7 +256,7 @@ public class SpecialCards extends Card implements CardAction {
         }
     };
 
-    CardAction ClearWeather = new CardAction() {
+    static CardAction ClearWeather = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for(Card i: gameEnvironment.deckUser.getSpecialCards()){
@@ -264,6 +276,21 @@ public class SpecialCards extends Card implements CardAction {
 
         }
     };
+
+
+
+    static {
+        new SpecialCards("Mardoeme" , "Spell" , Mardoeme , "Mardoeme");
+        new SpecialCards("Scorch" , "Spell" , Scorch , "Scorch");
+        new SpecialCards("Commander’s horn" , "Spell" , Card.CommandersHorn , "CommandersHorn");
+        new SpecialCards("Decoy" , "Spell" , Decoy , "Decoy");
+        new SpecialCards("Biting Frost" , "Weather", BitingFrost , "BitingFrost");
+        new SpecialCards("Impenetrable fog" , "Weather" , ImpenetrableFog , "ImpenetrableFog");
+        new SpecialCards("Torrential Rain" , "Weather" , TorrentialRain , "TorrentialRain");
+        new SpecialCards("Skellige Storm" , "Weather" , SkelligeStorm , "SkelligeStorm");
+        new SpecialCards("Clear Weather" , "Weather" , ClearWeather , "ClearWeather");
+
+    }
 
 
     @Override

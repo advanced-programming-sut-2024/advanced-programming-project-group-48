@@ -2,13 +2,11 @@ package controller.menu.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Card;
+import model.SpecialCards;
 import model.User;
 import model.Faction;
 import view.menus.PreGameMenu;
@@ -30,6 +28,13 @@ public ChoiceBox<String> operation = new ChoiceBox<>();
 public ChoiceBox<String> nameOfCard = new ChoiceBox<>();
 @FXML
 public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
+@FXML
+public ChoiceBox<String> operationScard = new ChoiceBox<>();
+@FXML
+public ChoiceBox<String> nameOfSCard = new ChoiceBox<>();
+@FXML
+public ChoiceBox<Integer> numberOfSCard = new ChoiceBox<>();
+
     public void initialize() {
         if (choice_faction.getItems().isEmpty()) {
             choice_faction.getItems().addAll(new ArrayList<>(Faction.getFaction().keySet()));
@@ -38,16 +43,16 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
 
         choice_faction.getSelectionModel().selectedItemProperty().addListener((observable , oldValue , newValue)-> {
             User.loggedInUser.getDeck().setFaction(newValue);
-            if("Northen Realms".equals(newValue)){
+            if("NorthenRealms".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfNorthernRealms());
             }
             else if("Monsters".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfMonsters());
             }
-            else if("Nilfgaardian Empire".equals(newValue)){
+            else if("NilfgaardianEmpire".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfNilfgaardianEmpire());
             }
-            else if("Scoia’taell".equals(newValue)){
+            else if("ScoiaTaell".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfScoiaTaell());
             }
             else if("Skellige".equals(newValue)){
@@ -94,6 +99,18 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
 
         if (numberOfCard.getItems().isEmpty()) {
             numberOfCard.setItems(FXCollections.observableArrayList(1, 2, 3, 4));
+        }
+
+        if(operationScard.getItems().isEmpty()){
+            operationScard.getItems().add("add");
+            operationScard.getItems().add("remove");
+        }
+
+        if(nameOfSCard.getItems().isEmpty()){
+            nameOfSCard.getItems().addAll(new ArrayList<>(SpecialCards.getCardName.keySet()));
+        }
+        if(numberOfSCard.getItems().isEmpty()){
+            numberOfSCard.setItems(FXCollections.observableArrayList(1,2,3));
         }
     }
 
@@ -210,6 +227,10 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
         for(int i = 0; i < User.loggedInUser.getDeck().getAllCards().size(); i++){
             cardsInDeck.append(User.loggedInUser.getDeck().getAllCards().get(i).name).append("\n");
         }
+        cardsInDeck.append("Sepcial cards:\n");
+        for(int i = 0; i < User.loggedInUser.getDeck().getSpecialCards().size(); i++){
+            cardsInDeck.append(User.loggedInUser.getDeck().getSpecialCards().get(i).name).append("\n");
+        }
         return cardsInDeck.toString();
     }
 
@@ -314,12 +335,15 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
                 alert.setContentText("You don't have " + selectedNumber + " of this type of card.");
                 alert.showAndWait();
             } else {
-                for(Card i: User.loggedInUser.getDeck().getAllCards()){
-                    if(i.name.equals(selectedCard)){
-                        User.loggedInUser.getDeck().getAllCards().remove(i);
-                        break;
+                for(int i = 0; i < selectedNumber; i++){
+                    for(Card j: User.loggedInUser.getDeck().getAllCards()){
+                        if(j.name.equals(selectedCard)){
+                            User.loggedInUser.getDeck().getAllCards().remove(i);
+                            break;
+                        }
                     }
                 }
+
 //                User.loggedInUser.getDeck().getAllCards().remove(Card.getCardByName(selectedCard));
                 User.loggedInUser.getDeck().getNumberOfCardsInDeckp().put(selectedCard, User.loggedInUser.getDeck().getNumberOfCardsInDeckp().get(selectedCard) - 1);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -333,6 +357,70 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
     public void goToPregameMenu(MouseEvent mouseEvent) throws Exception {
         view.menus.ArrangeDeck.appStage.close();
         new PreGameMenu().start(new Stage());
+    }
+    public void submitOperationScard(){
+        AtomicReference<String> chOperation = new AtomicReference<>();
+        AtomicInteger number = new AtomicInteger();
+        AtomicReference<String> cardName = new AtomicReference<>();
+        String selectedCard = nameOfSCard.getValue();
+        String selectedOperation = operationScard.getValue();
+        int selectedNumber = numberOfSCard.getValue();
+
+        if(selectedOperation != null && selectedOperation.equals("add")){
+            if(selectedNumber > 3 - User.loggedInUser.getDeck().getNumberOfSpecialCardsInDeck().get(selectedCard)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error!");
+                alert.setContentText("invalid number!");
+                alert.showAndWait();
+            }
+            else if(SpecialCards.getCardByName(selectedCard) != null){
+                System.out.println("hi\n");
+                for(int i = 0; i < selectedNumber; i++){
+                    SpecialCards newCard = (SpecialCards) SpecialCards.getSpecialCardByName(selectedCard).clone();
+                    User.loggedInUser.getDeck().getSpecialCards().add(newCard);
+                    User.loggedInUser.getDeck().getNumberOfSpecialCardsInDeck().put(newCard.name , User.loggedInUser.getDeck().getNumberOfSpecialCardsInDeck().get(selectedCard)+1);
+                }
+            }
+        }
+        else if(selectedOperation != null && selectedOperation.equals("remove")){
+            boolean isThereCard = false;
+            for(Card i: User.loggedInUser.getDeck().getSpecialCards()){
+                if(i.name.equals(selectedCard)){
+                    isThereCard = true;
+                }
+            }
+            if(!isThereCard){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Remove from deck");
+                alert.setContentText("You don't have this card in your deck.");
+                alert.showAndWait();
+            }
+            else if(isThereCard){
+                if(selectedNumber > User.loggedInUser.getDeck().getNumberOfSpecialCardsInDeck().get(selectedCard)){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Remove from deck");
+                    alert.setContentText("You don't have " + selectedNumber + " of this type of card.");
+                    alert.showAndWait();
+                }
+                else{
+                    for(int i = 0; i < selectedNumber; i++){
+                        for(SpecialCards j: User.loggedInUser.getDeck().getSpecialCards()){
+                            if(j.name.equals(selectedCard)){
+                                User.loggedInUser.getDeck().getSpecialCards().remove(j);
+                                break;
+                            }
+                        }
+                    }
+                }
+                User.loggedInUser.getDeck().getNumberOfCardsInDeckp().put(selectedCard, User.loggedInUser.getDeck().getNumberOfCardsInDeckp().get(selectedCard) - 1);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Remove card");
+                alert.setContentText("Card removed from your deck successfully.");
+                alert.showAndWait();
+            }
+
+        }
+        System.out.println(User.loggedInUser.getDeck().getSpecialCards());
     }
 }
 

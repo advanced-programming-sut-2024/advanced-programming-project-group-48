@@ -47,36 +47,36 @@ public class GameEnvironmentController {
     public Deck sampleDeck = new Deck();
     public Deck enemySampleDeck = new Deck();
 
-    {
-        sampleDeck.setCommander("KingOfTemperia");
-        sampleDeck.setFaction("NorthernRealms");
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.setCommander("LordOfCommanderOfTheNorth");
-        enemySampleDeck.setFaction("NorthernRealms");
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-    }
+//    {
+//        sampleDeck.setCommander("KingOfTemperia");
+//        sampleDeck.setFaction("NorthernRealms");
+//        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        enemySampleDeck.setCommander("LordOfCommanderOfTheNorth");
+//        enemySampleDeck.setFaction("NorthernRealms");
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Ves").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//    }
 
     //    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
     public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
