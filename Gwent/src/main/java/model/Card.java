@@ -428,15 +428,15 @@ public class Card implements Cloneable {
         new Card("WarLongship", "Skellige", 6, 3, "Siege", false, TightBond, "TightBond");
         new Card("YoungBerserker", "Skellige", 2, 3, "Ranged", true, Berserker, "Berserker");
         new Card("YoungVidkaarl", "Skellige", 8, 0, "Ranged", false, TightBond, "TightBond");
-        new Card("Mardroeme", "Skellige", 0, 3, "Spell", false, NoAbility, "Horn");
-        new Card("Scorch", "All", 0, 3, "Spell", false, NoAbility, "Spell");
-        new Card("CommandersHorn", "All", 0, 3, "Spell", false, NoAbility, "Horn");
+        new Card("Mardroeme", "Skellige", 0, 3, "Horn", false, NoAbility, "Mardroeme");
+        new Card("Scorch", "All", 0, 3, "Spell", false, NoAbility, "Scorch");
+        new Card("CommandersHorn", "All", 0, 3, "Horn", false, NoAbility, "CommandersHorn");
         new Card("Decoy", "All", 0, 3, "Spell", false, NoAbility, "Decoy");
-        new Card("BitingFrost", "All", 0, 3, "Weather", false, NoAbility, "Spell");
-        new Card("ImpenetrableFog", "All", 0, 3, "Weather", false, NoAbility, "Spell");
-        new Card("TorrentialRain", "All", 0, 3, "Weather", false, NoAbility, "Spell");
-        new Card("SkelligeStorm", "All", 0, 3, "Weather", false, NoAbility, "Spell");
-        new Card("ClearWeather", "All", 0, 3, "Weather", false, NoAbility, "Spell");
+        new Card("BitingFrost", "All", 0, 3, "Spell", false, NoAbility, "BitingFrost");
+        new Card("ImpenetrableFog", "All", 0, 3, "Spell", false, NoAbility, "ImpenetrableFog");
+        new Card("TorrentialRain", "All", 0, 3, "Spell", false, NoAbility, "TorrentialRain");
+        new Card("SkelligeStorm", "All", 0, 3, "Spell", false, NoAbility, "SkelligeStorm");
+        new Card("ClearWeather", "All", 0, 3, "Spell", false, NoAbility, "ClearWeather");
     }
 
     public static String getFaction(Card card) {
