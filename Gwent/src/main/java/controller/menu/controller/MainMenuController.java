@@ -1,5 +1,6 @@
 package controller.menu.controller;
 
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.User;
@@ -25,5 +26,20 @@ public class MainMenuController {
         new RegisterMenu().start(new Stage());
         //This may need some changes because we are making a long callstack
         //We can just change the scene of the current stage
+    }
+    public void scoreMenu (){
+        System.out.println("hi\n");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Score table");
+        alert.setContentText(scoreText());
+        alert.showAndWait();
+
+    }
+    public String scoreText(){
+        StringBuilder text = null;
+        for(User i: User.getUsersBaseRanking()){
+            text.append("username:\t").append(i.getUsername()).append("\n")
+        }
+        return text.toString();
     }
 }

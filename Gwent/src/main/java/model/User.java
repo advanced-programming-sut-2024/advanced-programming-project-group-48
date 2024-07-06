@@ -103,10 +103,10 @@ public class User {
         }
         return null;
     }
-    public void rankingUsers(){
+    public static void rankingUsers(){
         Collections.sort(usersBaseRanking,(user1, user2) -> user1.getNumWins() - user2.getNumWins());
     }
-    public ArrayList<User> getUsersBaseRanking(){
+    public static ArrayList<User> getUsersBaseRanking(){
         rankingUsers();
         return usersBaseRanking;
     }
@@ -154,4 +154,5 @@ class GameInformation {
     public int numberOfWins=0;
     public int numberOfLoses=0;
     public int numberOfDraws=0;
+
 }
