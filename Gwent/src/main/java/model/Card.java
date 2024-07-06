@@ -37,7 +37,7 @@ public class Card implements Cloneable {
             }
         }
     };
-    static CardAction CommandersHorn = new CardAction() {
+    public static CardAction CommandersHorn = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             if(gameEnvironment.recentPlaceCardRow==1){
@@ -214,7 +214,7 @@ public class Card implements Cloneable {
 //          Dose nothing
         }
     };
-    static CardAction Mardroeme = new CardAction() {
+    public static CardAction Mardroeme = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             if(gameEnvironment.recentPlaceCardRow==1){

@@ -16,6 +16,9 @@ import view.menus.MainMenu;
 
 import java.util.*;
 
+import static model.Card.CommandersHorn;
+import static model.Card.Mardroeme;
+
 
 public class GameEnvironmentController {
     public HBox inHandCards;
@@ -369,7 +372,7 @@ public class GameEnvironmentController {
             option5.setOnAction(e -> handleSpell(cardIndex));
 
             MenuItem option6 = new MenuItem("Horn");
-            option6.setOnAction(e -> handleHorn(cardIndex));
+            option6.setOnAction(e -> handleHorn(cardIndex,event));
 
 
             contextMenu.getItems().addAll(option1, option2, option3, option4,option5,option6);
@@ -378,7 +381,85 @@ public class GameEnvironmentController {
         }
     }
 
-    private void handleHorn(int cardIndex) {
+    private void handleHorn(int cardIndex,MouseEvent event) {
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem option1 = new MenuItem("Closed Row");
+        option1.setOnAction(e -> handleHornPlace(1,cardIndex));
+
+        MenuItem option2 = new MenuItem("Ranged Row");
+        option2.setOnAction(e -> handleHornPlace(2,cardIndex));
+
+        MenuItem option3 = new MenuItem("Siege Row");
+        option3.setOnAction(e -> handleHornPlace(3,cardIndex));
+
+
+        contextMenu.getItems().addAll(option1, option2, option3);
+
+        contextMenu.show((ImageView) event.getSource(), event.getScreenX(), event.getScreenY());
+    }
+
+    private void handleHornPlace(int row, int cardIndex) {
+        gameEnvironment.recentPlaceCardRow=row;
+        if(row==1){
+            if(closeHorn!=null){
+                System.err.println("closeHorn is not empty");
+                return;
+            }
+            ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
+            Card card = gameEnvironment.inHandCards[cardIndex];
+            closeHorn.setImage(cardNode.getImage());
+            gameEnvironment.closeHorn=card.name;
+            cardNode.setImage(null);
+            gameEnvironment.inHandCards[cardIndex]=null;
+            gameEnvironment.hasPlayedTurn=true;
+            if(card.name.equals("Mardroeme")){
+                Mardroeme.execute(gameEnvironment);
+            }
+            if(card.name.equals("CommandersHorn")){
+                CommandersHorn.execute(gameEnvironment);
+            }
+        }
+        if(row==2){
+            if(rangedHorn!=null){
+                System.err.println("rangedHorn is not empty");
+                return;
+            }
+            ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
+            Card card = gameEnvironment.inHandCards[cardIndex];
+            rangedHorn.setImage(cardNode.getImage());
+            gameEnvironment.rangedHorn=card.name;
+            cardNode.setImage(null);
+            gameEnvironment.inHandCards[cardIndex]=null;
+            gameEnvironment.hasPlayedTurn=true;
+            if(card.name.equals("Mardroeme")){
+                Mardroeme.execute(gameEnvironment);
+            }
+            if(card.name.equals("CommandersHorn")){
+                CommandersHorn.execute(gameEnvironment);
+            }
+
+        }
+        if(row==3){
+            if(siegeHorn!=null){
+                System.err.println("siegeHorn is not empty");
+                return;
+            }
+            ImageView cardNode = (ImageView) inHandCards.getChildren().get(cardIndex);
+            Card card = gameEnvironment.inHandCards[cardIndex];
+            siegeHorn.setImage(cardNode.getImage());
+            gameEnvironment.siegeHorn=card.name;
+            cardNode.setImage(null);
+            gameEnvironment.inHandCards[cardIndex]=null;
+            gameEnvironment.hasPlayedTurn=true;
+            if(card.name.equals("Mardroeme")){
+                Mardroeme.execute(gameEnvironment);
+            }
+            if(card.name.equals("CommandersHorn")){
+                CommandersHorn.execute(gameEnvironment);
+            }
+        }
+
 
     }
 
@@ -419,6 +500,7 @@ public class GameEnvironmentController {
     }
 
     private void playSpellAction(Card card) {
+
 
     }
 
