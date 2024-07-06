@@ -107,7 +107,7 @@ public class GameEnvironmentController {
 
         // Add cards to the inHandCards array until it's full or all cards to add are added
         for (int i = 0; i < cardsToAdd && inHandCount < inHandCards.length; i++, inHandCount++) {
-            inHandCards[inHandCount] = allCards.get(i); // Add card to the next available slot in the array
+            inHandCards[findEmptyIndex(inHandCards)] = allCards.get(i); // Add card to the next available slot in the array
         }
 
         // Remove the added cards from the original deck
@@ -414,8 +414,7 @@ public class GameEnvironmentController {
             card.performAction(gameEnvironment);
             gameEnvironment.recentPlaceCardRow = 1;
             drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
-            updateTotalScore();
-            updateNumberRemainingCards();
+            updateEverything();
             gameEnvironment.hasPlayedTurn = true;
             return;
         }
@@ -435,8 +434,7 @@ public class GameEnvironmentController {
         gameEnvironment.inHandCards[cardIndex] = null;
         card.performAction(gameEnvironment);
         gameEnvironment.recentPlaceCardRow = 1;
-        updateTotalScore();
-        updateNumberRemainingCards();
+        updateEverything();
         gameEnvironment.hasPlayedTurn = true;
     }
 
@@ -492,8 +490,7 @@ public class GameEnvironmentController {
             card.performAction(gameEnvironment);
             gameEnvironment.recentPlaceCardRow = 2;
             drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
-            updateTotalScore();
-            updateNumberRemainingCards();
+            updateEverything();
             gameEnvironment.hasPlayedTurn = true;
             return;
         }
@@ -513,8 +510,7 @@ public class GameEnvironmentController {
         gameEnvironment.inHandCards[cardIndex] = null;
         card.performAction(gameEnvironment);
         gameEnvironment.recentPlaceCardRow = 2;
-        updateTotalScore();
-        updateNumberRemainingCards();
+        updateEverything();
         gameEnvironment.hasPlayedTurn = true;
     }
 
@@ -557,8 +553,7 @@ public class GameEnvironmentController {
             card.performAction(gameEnvironment);
             gameEnvironment.recentPlaceCardRow = 3;
             drawRandomCards(gameEnvironment.deckUser.getAllCards(),gameEnvironment.inHandCards,2);
-            updateTotalScore();
-            updateNumberRemainingCards();
+            updateEverything();
             gameEnvironment.hasPlayedTurn = true;
             return;
         }
@@ -578,8 +573,7 @@ public class GameEnvironmentController {
         gameEnvironment.inHandCards[cardIndex] = null;
         card.performAction(gameEnvironment);
         gameEnvironment.recentPlaceCardRow = 3;
-        updateTotalScore();
-        updateNumberRemainingCards();
+        updateEverything();
         gameEnvironment.hasPlayedTurn = true;
     }
 
