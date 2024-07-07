@@ -16,8 +16,7 @@ import view.menus.MainMenu;
 
 import java.util.*;
 
-import static model.Card.CommandersHorn;
-import static model.Card.Mardroeme;
+import static model.Card.*;
 
 
 public class GameEnvironmentController {
@@ -315,6 +314,7 @@ public class GameEnvironmentController {
             siegeHorn.setImage(null);
         }
     }
+
     public void updateEnemyHorns() {
         if (gameEnvironment.enemyCloseHorn != null) {
             enemyCloseHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyCloseHorn.name + ".jpg"))));
@@ -544,6 +544,30 @@ public class GameEnvironmentController {
     }
 
     private void playSpellAction(Card card) {
+        if (card.name.equals("ClearWeather")) {
+            // Reset power for all rows
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
+                    gameEnvironment.siegeRow[i].resetPower();
+                }
+                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
+                    gameEnvironment.rangedRow[i].resetPower();
+                }
+                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
+                    gameEnvironment.closedRow[i].resetPower();
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                    gameEnvironment.enemySiegeRow[i].resetPower();
+                }
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    gameEnvironment.enemyRangedRow[i].resetPower();
+                }
+                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
+                    gameEnvironment.enemyClosedRow[i].resetPower();
+                }
+            }
+            //It should be handle to cancel scorch ability spell.
+        }
         if (card.name.equals("SkelligeStorm")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero &&
@@ -936,9 +960,9 @@ public class GameEnvironmentController {
 
         }
         for (int i = 0; i < 3; i++) {
-            if(gameEnvironment.spellCards[i]!=null){
+            if (gameEnvironment.spellCards[i] != null) {
                 gameEnvironment.discardPile.add(gameEnvironment.spellCards[i]);
-                gameEnvironment.spellCards[i]=null;
+                gameEnvironment.spellCards[i] = null;
             }
         }
         gameEnvironment.totalScore = 0;
@@ -953,8 +977,8 @@ public class GameEnvironmentController {
         gameEnvironment.rangedHorn = null;
         gameEnvironment.hasPlayedTurn = false;
         gameEnvironment.endRound = false;
-        gameEnvironment.hasPlayedCommander=false;
-        gameEnvironment.hasPlayedEnemyCommander=false;
+        gameEnvironment.hasPlayedCommander = false;
+        gameEnvironment.hasPlayedEnemyCommander = false;
         gameEnvironment.turnNumber = 1;
         drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
         drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
@@ -1020,7 +1044,7 @@ public class GameEnvironmentController {
     }
 
 
-    public void playCommanderAbility() {
+    public void playCommanderAbility(Deck deck, Card card) {
         if (Faction.getCommandersOfNorthernRealms().equals("TheSiegemaster")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i].name.equals("ImpenetrableFog")) {
@@ -1267,7 +1291,7 @@ public class GameEnvironmentController {
                             Objects.equals(gameEnvironment.inHandCards[i].name, "Clear Weather")
                     ) {
                         for (int j = 0; j < 3; j++) {
-                            if (gameEnvironment.spellCards[j] == null){
+                            if (gameEnvironment.spellCards[j] == null) {
                                 gameEnvironment.inHandCards[i] = gameEnvironment.spellCards[j];
                             }
                         }
@@ -1276,7 +1300,32 @@ public class GameEnvironmentController {
             }
         }
         if (Faction.getCommandersOfMonsters().equals("TheTreacherous")) {
-
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards != null) {
+                    if (gameEnvironment.inHandCards[i].ability == "Spy") {
+                        gameEnvironment.inHandCards[i].power *= 2;
+                    }
+                }
+            }
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null) {
+                    if (gameEnvironment.siegeRow[i].ability == "Spy") {
+                        gameEnvironment.siegeRow[i].power *= 2;
+                    }
+                }
+            }
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.closedRow != null) {
+                    if (gameEnvironment.closedRow[i].ability == "Spy") {
+                        gameEnvironment.closedRow[i].power *= 2;
+                    }
+                }
+            }
+        }
+        if (Faction.getCommandersOfSkellige().equals("CrachAnCraite")) {
+            for (int i = 0; i < gameEnvironment.discardPile.size(); i++) {
+                deck.getAllCards().add(gameEnvironment.discardPile.get(i));
+            }
         }
     }
 }
