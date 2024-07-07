@@ -1021,6 +1021,262 @@ public class GameEnvironmentController {
 
 
     public void playCommanderAbility() {
+        if (Faction.getCommandersOfNorthernRealms().equals("TheSiegemaster")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards[i].name.equals("ImpenetrableFog")) {
+                    playSpellAction(Card.getCardByName("ImpenetrableFog"));
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("You don't have ImpenetrableFog card");
+                    alert.setContentText("ImpenetrableFog doesn't exist in your inHand cards. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("You don't have ImpenetrableFog card");
+                }
+            }
+        }
+        if (Faction.getCommandersOfNorthernRealms().equals("KingOfTemeria")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeHorn.name.equals("CommandersHorn")) {
+                    gameEnvironment.siegeRow[i].power += 0;
+                } else {
+                    gameEnvironment.siegeRow[i].power *= 2;
+                }
+            }
+        }
+        if (Faction.getCommandersOfNorthernRealms().equals("LordCommanderOfTheNorth")) {
+            int sumOfPowerOfEnemySiegeRowCards = 0;
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                    sumOfPowerOfEnemySiegeRowCards += gameEnvironment.enemySiegeRow[i].power;
+                }
+            }
+            if (sumOfPowerOfEnemySiegeRowCards >= 10) {
+                int indexStrongestCard = -1;
+                int maxPower = 0;
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                        if (gameEnvironment.enemySiegeRow[i].power > maxPower) {
+                            maxPower = gameEnvironment.enemySiegeRow[i].power;
+                            indexStrongestCard = i;
+                        }
+                    }
+                }
+                gameEnvironment.enemySiegeRow[indexStrongestCard] = null;
+            }
+        }
+        if (Faction.getCommandersOfNorthernRealms().equals("SonOfMedell")) {
+            int sumOfPowerOfEnemySiegeRowCards = 0;
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    sumOfPowerOfEnemySiegeRowCards += gameEnvironment.enemyRangedRow[i].power;
+                }
+            }
+            if (sumOfPowerOfEnemySiegeRowCards >= 10) {
+                int indexStrongestCard = -1;
+                int maxPower = 0;
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                        if (gameEnvironment.enemyRangedRow[i].power > maxPower) {
+                            maxPower = gameEnvironment.enemyRangedRow[i].power;
+                            indexStrongestCard = i;
+                        }
+                    }
+                }
+                gameEnvironment.enemySiegeRow[indexStrongestCard] = null;
+            }
+        }
+        if (Faction.getCommandersOfNilfgaardianEmpire().equals("TheWhiteFlame")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards[i] != null && gameEnvironment.inHandCards[i].name.equals("Torrential Rain")) {
+                    playSpellAction(Card.getCardByName("TorrentialRain"));
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("You don't have TorrentialRain card");
+                    alert.setContentText("TorrentialRain doesn't exist in your inHand cards. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("You don't have TorrentialRain card");
+                }
+            }
+        }
 
+        if (Faction.getCommandersOfNilfgaardianEmpire().equals("EmperorOfNilfgaard")) {
+            if (gameEnvironment.commanderCard.equals("EmperorOfNilfgaard")) {
+                gameEnvironment.hasPlayedEnemyCommander = true;
+            }
+            if (gameEnvironment.enemyCommanderCard.equals("EmperorOfNilfgaard")) {
+                gameEnvironment.hasPlayedCommander = true;
+            }
+        }
+        if (Faction.getCommandersOfNilfgaardianEmpire().equals("InvaderOfTheNorth")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards[i] == null) {
+                    if (gameEnvironment.discardPile.get(0) != null) {
+                        gameEnvironment.inHandCards[i] = gameEnvironment.discardPile.get(0);
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Warning");
+                        alert.setHeaderText("You don't have discardPile card");
+                        alert.setContentText("discardPile doesn't exist. So you can't use your commander ability");
+                        alert.showAndWait();
+                        System.err.println("You don't have discardPile card");
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Your inHand cards are full");
+                    alert.setContentText("Your inHand cards are full. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("Your inHand cards are full");
+                }
+            }
+        }
+        if (Faction.getCommandersOfMonsters().equals("BringerOfDeath")) {
+            if (gameEnvironment.closeHorn == null) {
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.closedRow[i] != null) {
+                        gameEnvironment.closedRow[i].power *= 2;
+                    }
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText("Commader's Horn is in closed horn");
+                alert.setContentText("Commader's Horn is in closed horn. So you can't use your commander ability");
+                alert.showAndWait();
+                System.err.println("Commader's Horn is in closed horn");
+            }
+        }
+        if (Faction.getCommandersOfMonsters().equals("KingOfTheWildHunt")) {
+            // it's not completed.
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards[i] == null) {
+                    for (int j = 0; j < Card.discardPile.size(); j++) {
+                        if (!gameEnvironment.discardPile.get(j).isHero && gameEnvironment.discardPile.get(j) != null) {
+                            gameEnvironment.inHandCards[i] = gameEnvironment.discardPile.get(j);
+                        }
+                        break;
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Your inHand cards are full");
+                    alert.setContentText("Your inHand cards are full. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("Your inHand cards are full");
+                }
+                break;
+            }
+        }
+        if (Faction.getCommandersOfScoiaTaell().equals("QueenOfDolBlathanna")) {
+            int sumOfPowerOfEnemyClosedRowCards = 0;
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    sumOfPowerOfEnemyClosedRowCards += gameEnvironment.enemyClosedRow[i].power;
+                }
+            }
+            if (sumOfPowerOfEnemyClosedRowCards >= 10) {
+                int indexStrongestCard = -1;
+                int maxPower = 0;
+                for (int i = 0; i < 10; i++) {
+                    if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                        if (gameEnvironment.enemyRangedRow[i].power > maxPower) {
+                            maxPower = gameEnvironment.enemyRangedRow[i].power;
+                            indexStrongestCard = i;
+                        }
+                    }
+                }
+                gameEnvironment.enemyRangedRow[indexStrongestCard] = null;
+            }
+        }
+        if (Faction.getCommandersOfScoiaTaell().equals("TheBeautiful")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.rangedHorn == null) {
+                    gameEnvironment.rangedRow[i].power *= 2;
+                } else if (!Objects.equals(gameEnvironment.rangedHorn.name, "CommandersHorn")) {
+                    gameEnvironment.rangedRow[i].power *= 2;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("CommandersHorn founded.");
+                    alert.setContentText("you have CommandersHorn in your horn. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("CommandersHorn founded");
+                }
+            }
+        }
+        if (Faction.getCommandersOfScoiaTaell().equals("PurebloodElf")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards != null && gameEnvironment.inHandCards[i].name == "BitingFrost") {
+                    playSpellAction(Card.getCardByName("BitingFrost"));
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("BitingFrost not found");
+                    alert.setContentText("You don't have BitingFrost card. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("BitingFrost not found");
+                }
+            }
+        }
+        if (Faction.getCommandersOfNorthernRealms().equals("TheSteelForged")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
+                    gameEnvironment.siegeRow[i].resetPower();
+                }
+                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
+                    gameEnvironment.rangedRow[i].resetPower();
+                }
+                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
+                    gameEnvironment.closedRow[i].resetPower();
+                }
+                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                    gameEnvironment.enemySiegeRow[i].resetPower();
+                }
+                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                    gameEnvironment.enemyRangedRow[i].resetPower();
+                }
+                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
+                    gameEnvironment.enemyClosedRow[i].resetPower();
+                }
+            }
+        }
+        if (Faction.getCommandersOfNilfgaardianEmpire().equals("The Relentless")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards[i] == null) {
+                    if (gameEnvironment.enemyDiscardPile.get(0) != null)
+                        gameEnvironment.inHandCards[i] = gameEnvironment.enemyDiscardPile.get(0);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("You don't have discard pile");
+                    alert.setContentText("You don't have discard pile. So you can't use your commander ability");
+                    alert.showAndWait();
+                    System.err.println("You don't have discard pile");
+                }
+            }
+        }
+        if (Faction.getCommandersOfMonsters().equals("CommanderOfTheRedRiders")) {
+            for (int i = 0; i < 10; i++) {
+                if (gameEnvironment.inHandCards[i] != null) {
+                    if (Objects.equals(gameEnvironment.inHandCards[i].name, "BitingFrost") &&
+                            Objects.equals(gameEnvironment.inHandCards[i].name, "ImpenetrableFog") &&
+                            Objects.equals(gameEnvironment.inHandCards[i].name, "TorrentialRain") &&
+                            Objects.equals(gameEnvironment.inHandCards[i].name, "Skellige Storm") &&
+                            Objects.equals(gameEnvironment.inHandCards[i].name, "Clear Weather")
+                    ) {
+                        for (int j = 0; j < 3; j++) {
+                            if (gameEnvironment.spellCards[j] == null){
+                                gameEnvironment.inHandCards[i] = gameEnvironment.spellCards[j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (Faction.getCommandersOfMonsters().equals("TheTreacherous")) {
+
+        }
     }
 }

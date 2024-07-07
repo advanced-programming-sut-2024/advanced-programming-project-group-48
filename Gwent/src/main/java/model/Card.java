@@ -456,6 +456,10 @@ public class Card implements Cloneable {
         }
         return null;
     }
+
+    public int resetPower() {
+        return power;
+    }
 }
 
 
