@@ -92,7 +92,7 @@ public class GameEnvironmentController {
 
     }
 
-    public void drawRandomCards(List<Card> allCards, Card[] inHandCards, int numberOfCards) {
+    public static void drawRandomCards(List<Card> allCards, Card[] inHandCards, int numberOfCards) {
         Collections.shuffle(allCards); // Randomize the order of all cards
         int cardsToAdd = Math.min(numberOfCards, allCards.size()); // Determine the number of cards to add
         int inHandCount = 0; // Counter for the number of cards currently in hand
@@ -728,7 +728,7 @@ public class GameEnvironmentController {
 
     }
 
-    private int findEmptyIndex(Card[] row) {
+    private static int findEmptyIndex(Card[] row) {
         for (int i = 0; i < row.length; i++) {
             if (row[i] == null) {
                 return i;
