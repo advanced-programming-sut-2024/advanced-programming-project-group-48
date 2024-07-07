@@ -1,0 +1,99 @@
+/* General button styling */
+.button {
+    -fx-background-color: linear-gradient(#d0ff00, #00be3c);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 5,0,0,1);
+    -fx-font-size: 14px;
+    -fx-padding: 8px 15px;
+}
+
+/* Styling for text fields */
+.text-field, .password-field {
+    -fx-font-size: 14px;
+    -fx-border-color: #b2b2b2;
+    -fx-border-radius: 5;
+    -fx-padding: 5px;
+}
+
+/* Label styling */
+.label {
+    -fx-text-fill: #333;
+    -fx-font-size: 16px;
+}
+
+/* Error text styling */
+#ErrorText {
+    -fx-text-fill: #19baff;
+    -fx-font-size: 16px;
+}
+
+/* Random password and other special labels */
+#RandomPassword {
+    -fx-font-weight: bold;
+    -fx-text-fill: #2E8B57;
+}
+
+/* AnchorPane background */
+.anchor-pane {
+    -fx-background-color: #EEE;
+}
+
+/* Specific button styling for different actions */
+#loginAction, #registerAction, #saveChanges, #showUserInfo, #showGameHistory, #changePassword, #generateRandomPassword {
+    -fx-background-color: linear-gradient(#4CAF50, #087f23);
+    -fx-background-radius: 20;
+}
+
+/* CheckBox styling */
+.check-box {
+    -fx-font-size: 12px;
+}
+
+/* Styling for text fields with prompts */
+.text-field[focused], .password-field[focused] {
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2px;
+}
+
+/* Styling for buttons when hovered */
+.button:hover {
+    -fx-background-color: linear-gradient(#ffa042, #ff8400);
+}
+
+/* Profile Menu Styling */
+.profile-menu {
+    -fx-background-color: #f0f4f7;
+}
+
+.profile-menu .button, .forget-password .button {
+    -fx-background-color: linear-gradient(#4CAF50, #087f23);
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+
+.profile-menu .text-field, .forget-password .text-field {
+    -fx-font-size: 14px;
+    -fx-border-color: #b2b2b2;
+}
+
+.profile-menu .label, .forget-password .label {
+    -fx-text-fill: #333;
+}
+
+/* Forget Password Styling */
+.forget-password {
+    -fx-background-color: #e9ecef;
+}
+
+.forget-password .button {
+    -fx-background-color: linear-gradient(#007bff, #0056b3);
+    -fx-text-fill: white;
+}
+
+/* Background Image Example (if you decide to use an image) */
+.background-image {
+    -fx-background-image: url('../images/style.jpg');
+    -fx-background-size: cover;
+}

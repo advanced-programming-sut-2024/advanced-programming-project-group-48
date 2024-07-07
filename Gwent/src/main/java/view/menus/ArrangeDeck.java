@@ -22,6 +22,8 @@ public class ArrangeDeck extends Application {
         assert url2 != null;
         Pane pane = fxmlLoader.load(url2.openStream());
         Scene scene = new Scene(pane);
+        // Add the CSS file to the scene
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/arrangeStyle.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

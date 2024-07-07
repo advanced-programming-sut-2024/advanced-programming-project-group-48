@@ -4,55 +4,38 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.ArrangeDeckController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background-image"  xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.ArrangeDeckController">
    <children>
-<!--            <ImageView fitHeight="404.0" fitWidth="600.0" opacity="0.3">-->
-<!--               <image>-->
-<!--                  <Image url="@../images/BackGrounds/OIG1.mtRXIGDdZq_IdGR.jpg" />-->
-<!--               </image>-->
-<!--            </ImageView>-->
-      <Pane prefHeight="404.0" prefWidth="600.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0d173e" height="414.0" layoutX="-8.0" layoutY="-8.0" stroke="BLACK" strokeType="INSIDE" width="608.0" />
-<!--            <ImageView fitHeight="413.0" fitWidth="600.0" layoutY="-6.0" opacity="0.39">-->
-<!--               <image>-->
-<!--                  <Image url="@../images/BackGrounds/OIG1.mtRXIGDdZq_IdGR.jpg" />-->
-<!--               </image>-->
-<!--            </ImageView>-->
-            <Label layoutX="219.0" layoutY="14.0" text="Arrange Deck" textFill="#2409ef">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Label>
-            <Button layoutX="273.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#showFactions" text="Show factions" textFill="#3007ff" />
-            <ChoiceBox fx:id="choice_faction" layoutX="235.0" layoutY="111.0" prefWidth="150.0" />
-            <Label layoutX="267.0" layoutY="94.0" text="choose a faction" textFill="#2a13f7" />
-            <Button layoutX="272.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#showCards" text="Show cards" textFill="#5a19ff" />
-            <Button layoutX="273.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#showDeck" text="Show deck" textFill="#080cff" />
-            <Button layoutX="214.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#showUserData" text="Show information of current user" textFill="#3c16e4" />
-            <ChoiceBox fx:id="chooseLeader" layoutX="317.0" layoutY="255.0" prefWidth="150.0" />
-            <Button layoutX="157.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#showLeaders" text="Show leaders" textFill="#1500ff" />
-            <Label layoutX="328.0" layoutY="238.0" prefHeight="17.0" prefWidth="129.0" text="choose one of leaders" textFill="#e80515" />
-            <ChoiceBox fx:id="operation" layoutX="113.0" layoutY="293.0" prefHeight="25.0" prefWidth="108.0" />
-            <Label layoutX="232.0" layoutY="293.0" prefHeight="25.0" prefWidth="47.0" text="deck -n " textFill="#4c1ef2">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="nameOfCard" layoutX="289.0" layoutY="293.0" prefHeight="25.0" prefWidth="108.0" />
-            <Label layoutX="407.0" layoutY="297.0" prefHeight="20.0" prefWidth="21.0" text="-c" textFill="#4911ff">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="numberOfCard" layoutX="435.0" layoutY="294.0" prefHeight="25.0" prefWidth="47.0" />
-            <Button layoutX="509.0" layoutY="294.0" mnemonicParsing="false" onMouseClicked="#submitOperation" text="submit" textFill="#d71717" />
-            <Button layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#goToPregameMenu" text="go to preGame menu" />
-         </children>
-      </Pane>
+      <Label layoutX="219.0" layoutY="14.0" text="Arrange Deck" textFill="#2409ef">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Button layoutX="273.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#showFactions" text="Show factions" textFill="#3007ff" />
+      <ChoiceBox fx:id="choice_faction" layoutX="235.0" layoutY="111.0" prefWidth="150.0" />
+      <Label layoutX="267.0" layoutY="94.0" text="choose a faction" textFill="#2a13f7" />
+      <Button layoutX="272.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#showCards" text="Show cards" textFill="#5a19ff" />
+      <Button layoutX="273.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#showDeck" text="Show deck" textFill="#080cff" />
+      <Button layoutX="214.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#showUserData" text="Show information of current user" textFill="#3c16e4" />
+      <ChoiceBox fx:id="chooseLeader" layoutX="317.0" layoutY="255.0" prefWidth="150.0" />
+      <Button layoutX="157.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#showLeaders" text="Show leaders" textFill="#1500ff" />
+      <Label layoutX="328.0" layoutY="238.0" prefHeight="17.0" prefWidth="129.0" text="choose one of leaders" textFill="#e80515" />
+      <ChoiceBox fx:id="operation" layoutX="113.0" layoutY="293.0" prefHeight="25.0" prefWidth="108.0" />
+      <Label layoutX="232.0" layoutY="293.0" prefHeight="25.0" prefWidth="47.0" text="deck -n " textFill="#4c1ef2">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="nameOfCard" layoutX="289.0" layoutY="293.0" prefHeight="25.0" prefWidth="108.0" />
+      <Label layoutX="407.0" layoutY="297.0" prefHeight="20.0" prefWidth="21.0" text="-c" textFill="#4911ff">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="numberOfCard" layoutX="435.0" layoutY="294.0" prefHeight="25.0" prefWidth="47.0" />
+      <Button layoutX="509.0" layoutY="294.0" mnemonicParsing="false" onMouseClicked="#submitOperation" text="submit" textFill="#d71717" />
+      <Button layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#goToPregameMenu" text="go to preGame menu" />
    </children>
 </AnchorPane>

@@ -1,0 +1,43 @@
+.root {
+    -fx-background-color: #1e1e2f;
+}
+
+.button {
+    -fx-background-color: #4e5a65;
+    -fx-text-fill: #e7e7e7;
+    -fx-border-color: #3e4a51;
+    -fx-border-radius: 4;
+    -fx-padding: 5 15;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: #a1a1a1;
+    -fx-font-size: 14px;
+}
+
+.choice-box {
+    -fx-background-color: #2e3b47;
+    -fx-mark-color: #e7e7e7;
+}
+
+.choice-box .cell {
+    -fx-text-fill: #e7e7e7;
+    -fx-background-color: #2e3b47;
+}
+
+.choice-box .list-cell {
+    -fx-text-fill: #e7e7e7;
+    -fx-background-color: #2e3b47;
+}
+
+/* Specific element styling if needed */
+#chooseLeader, #operation, #nameOfCard, #numberOfCard {
+    -fx-background-color: #394951;
+    -fx-font-size: 12px;
+    -fx-text-fill: #d0d0d0;
+}
+.background-image {
+    -fx-background-image: url('../images/style3.png');
+    -fx-background-size: cover;
+}
