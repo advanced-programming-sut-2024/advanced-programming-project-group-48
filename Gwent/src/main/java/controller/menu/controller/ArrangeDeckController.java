@@ -19,17 +19,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ArrangeDeckController {
-@FXML
-private ChoiceBox<String> choice_faction = new ChoiceBox<>();
+    @FXML
+    private ChoiceBox<String> choice_faction = new ChoiceBox<>();
 
-@FXML
-public ChoiceBox<String> chooseLeader = new ChoiceBox<>();
-@FXML
-public ChoiceBox<String> operation = new ChoiceBox<>();
-@FXML
-public ChoiceBox<String> nameOfCard = new ChoiceBox<>();
-@FXML
-public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
+    @FXML
+    public ChoiceBox<String> chooseLeader = new ChoiceBox<>();
+    @FXML
+    public ChoiceBox<String> operation = new ChoiceBox<>();
+    @FXML
+    public ChoiceBox<String> nameOfCard = new ChoiceBox<>();
+    @FXML
+    public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
     public void initialize() {
         if (choice_faction.getItems().isEmpty()) {
             choice_faction.getItems().addAll(new ArrayList<>(Faction.getFaction().keySet()));
@@ -38,16 +38,16 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
 
         choice_faction.getSelectionModel().selectedItemProperty().addListener((observable , oldValue , newValue)-> {
             User.loggedInUser.getDeck().setFaction(newValue);
-            if("Northen Realms".equals(newValue)){
+            if("NorthernRealms".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfNorthernRealms());
             }
             else if("Monsters".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfMonsters());
             }
-            else if("Nilfgaardian Empire".equals(newValue)){
+            else if("NilfgaardianEmpire".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfNilfgaardianEmpire());
             }
-            else if("Scoia’taell".equals(newValue)){
+            else if("ScoiaTaell".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfScoiaTaell());
             }
             else if("Skellige".equals(newValue)){
@@ -88,6 +88,11 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
                     }
                 }
             }
+            for(Card i: Card.allCards){
+                if(i.faction.equals("All")){
+                    elemans.add(i.name);
+                }
+            }
             nameOfCard.getItems().setAll(elemans);
         });
 
@@ -96,8 +101,6 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
             numberOfCard.setItems(FXCollections.observableArrayList(1, 2, 3, 4));
         }
     }
-
-
 
     public void showFactions() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -120,7 +123,7 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
         }
         chooseLeader.getItems().addAll(Faction.getFaction().get(User.loggedInUser.getDeck().getFaction()));
     }
-//    public void addOrRemoveCard(){
+    //    public void addOrRemoveCard(){
 //        String selectedOperation = operation.getValue();
 //        int selectedNumber = numberOfCard.getValue();
 //        String selectedCard = nameOfCard.getValue();
@@ -183,7 +186,7 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
     public String cardsOfThisFactionInfo() {
         choice_faction.getSelectionModel().selectedItemProperty().addListener((observable , oldValue , newValue)-> {
             User.loggedInUser.getDeck().setFaction(newValue);
-            });
+        });
         StringBuilder cardsInfo = new StringBuilder();
         for(Card i: Card.allCards){
             if(Card.getFaction(i).equals(User.loggedInUser.getDeck().getFaction())){
@@ -245,8 +248,8 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
             User.loggedInUser.getDeck().setFaction(newValue);
         });
         StringBuilder leaders = new StringBuilder();
-            for(String i: Faction.getFaction().get(User.loggedInUser.getDeck().getFaction())){
-                leaders.append(i).append("\n");
+        for(String i: Faction.getFaction().get(User.loggedInUser.getDeck().getFaction())){
+            leaders.append(i).append("\n");
         }
         return leaders.toString();
     }
@@ -335,5 +338,3 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
         new PreGameMenu().start(new Stage());
     }
 }
-
-
