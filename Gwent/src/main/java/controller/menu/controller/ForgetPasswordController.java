@@ -1,8 +1,8 @@
 package controller.menu.controller;
 
+import client.Client;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.User;
 import view.menus.ForgetPasswordMenu;
 import view.menus.RegisterMenu;
 
@@ -29,17 +29,16 @@ public class ForgetPasswordController {
             return;
         }
         int numberOfQuestion = Integer.parseInt(NumberOfQuestion.getText());
-        User user=User.getUserByUsername(Username.getText());
-        if(user==null){
-            ErrorText.setText("Username does not exist");
-            return;
-        }
-        if (user.getAnswerOfQuestions().get(numberOfQuestion-1).equals(AnswerOfTheQuestion.getText())) {
-            user.setPassword(NewPassword.getText());
-            ErrorText.setText("Password changed successfully");
+        sendChangePasswordReq(Username.getText(), AnswerOfTheQuestion.getText(), numberOfQuestion, NewPassword.getText());
+        String response = Client.currentClient.receiveResponse();
+        if(response.equals("Password changed successfully")) {
             new RegisterMenu().start(ForgetPasswordMenu.appStage);
         } else {
-            ErrorText.setText("Answer is incorrect");
+            ErrorText.setText(response);
         }
+    }
+
+    private void sendChangePasswordReq(String username, String answerOfTheQuestion, int numberOfQuestion, String newPassword) {
+        Client.currentClient.sendMessage("changePassword:" + username + ":" + answerOfTheQuestion + ":" + numberOfQuestion + ":" + newPassword);
     }
 }

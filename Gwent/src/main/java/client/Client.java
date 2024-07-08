@@ -2,6 +2,7 @@ package client;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import server.Server;
 import view.menus.RegisterMenu;
 
 import java.io.DataInputStream;
@@ -63,7 +64,7 @@ public class Client extends Application {
     public static void main(String[] args) {
         Client client = new Client();
         currentClient = client;
-        if (!client.establishConnection("127.0.0.1", 1020)) {
+        if (!client.establishConnection("127.0.0.1", Server.PORT)) {
             System.err.println("Failed to establish connection!");
             System.exit(1);
         }

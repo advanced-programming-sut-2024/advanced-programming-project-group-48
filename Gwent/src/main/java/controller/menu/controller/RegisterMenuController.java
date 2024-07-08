@@ -33,16 +33,26 @@ public class RegisterMenuController {
             ErrorText.setText("Please fill all the fields");
             return;
         }
-        User u= User.getUserForLogin(LoginUserName.getText(), LoginPassword.getText());
-        if(u == null) {
-            ErrorText.setText("username or password is incorrect");
-            return;
+//        User u= User.getUserForLogin(LoginUserName.getText(), LoginPassword.getText());
+//        if(u == null) {
+//            ErrorText.setText("username or password is incorrect");
+//            return;
+//        }
+//
+//        User.loggedInUser=u;
+//        u.setStayLoggedIn(StayLogged.isSelected());
+        sendLoginReq(LoginUserName.getText(), LoginPassword.getText(), StayLogged.isSelected());
+        String response = Client.currentClient.receiveResponse();
+        if(response.equals("login successful")) {
+            RegisterMenu.appStage.close();
+            new MainMenu().start(new Stage());
+        } else {
+            ErrorText.setText(response);
         }
+    }
 
-        User.loggedInUser=u;
-        u.setStayLoggedIn(StayLogged.isSelected());
-        RegisterMenu.appStage.close();
-        new MainMenu().start(new Stage());
+    private void sendLoginReq(String username, String password, boolean stayLoggedIn) {
+        Client.currentClient.sendMessage("login:" + username + ":" + password + ":" + stayLoggedIn);
     }
 
     public void registerAction() {
