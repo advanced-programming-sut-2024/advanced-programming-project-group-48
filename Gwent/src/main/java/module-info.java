@@ -9,4 +9,7 @@ module Gwent {
     exports controller.menu.controller;
     opens controller.menu.controller;
 
+    // Export the client package to javafx.graphics
+    exports client to javafx.graphics;
+
 }

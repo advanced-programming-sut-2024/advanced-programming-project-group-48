@@ -50,6 +50,25 @@ class ClientHandler implements Runnable {
             String command;
             while (!(command = dataInputStream.readUTF()).equalsIgnoreCase("exit")) {
                 // Read the command from the client
+                Matcher matcher = Pattern.compile("register:(?<username>.+):(?<nickname>.+):(?<password>.+):(?<email>.+):(?<answer1>.+):(?<answer2>.+):(?<answer3>.+)").matcher(command);
+                if(matcher.matches()){
+                    // Register the user
+                    String username = matcher.group("username");
+                    String nickname = matcher.group("nickname");
+                    String password = matcher.group("password");
+                    String email = matcher.group("email");
+                    String answer1 = matcher.group("answer1");
+                    String answer2 = matcher.group("answer2");
+                    String answer3 = matcher.group("answer3");
+                    // Register the user
+                    if(User.usernameExists(username)){
+                        dataOutputStream.writeUTF("Username already exists");
+                        continue;
+                    }
+                    new User(username, nickname, password, email, answer1, answer2, answer3);
+                    dataOutputStream.writeUTF("User registered successfully");
+                    continue;
+                }
 
                 dataOutputStream.writeUTF("invalid input");
             }

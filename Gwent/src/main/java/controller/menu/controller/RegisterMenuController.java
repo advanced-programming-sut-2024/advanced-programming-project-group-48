@@ -1,5 +1,6 @@
 package controller.menu.controller;
 
+import client.Client;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
@@ -50,10 +51,6 @@ public class RegisterMenuController {
             ErrorText.setText("Please fill all the fields");
             return;
         }
-        if(User.usernameExists(RegisterUsername.getText())){
-            ErrorText.setText("User Exist");
-            return;
-        }
         if(!RegisterUsername.getText().matches(USERNAME_REGEX)){
             ErrorText.setText("Username can only contain letters, numbers, and underscores");
             return;
@@ -68,8 +65,12 @@ public class RegisterMenuController {
             return;
         }
 
-        new User(RegisterUsername.getText(),Nickname.getText(), RegisterPassword.getText(),Email.getText(),Answer1.getText(),Answer2.getText(),Answer3.getText());
-        ErrorText.setText("New User successfully created");
+        sendRegisterReq(RegisterUsername.getText(), Nickname.getText(), RegisterPassword.getText(), Email.getText(), Answer1.getText(), Answer2.getText(), Answer3.getText());
+        ErrorText.setText(Client.currentClient.receiveResponse());
+    }
+
+    private void sendRegisterReq(String username, String nickname, String password, String email, String answer1, String answer2, String answer3) {
+        Client.currentClient.sendMessage("register:" + username + ":" + nickname + ":" + password + ":" + email + ":" + answer1 + ":" + answer2 + ":" + answer3);
     }
 
     public void generateRandomPassword() {

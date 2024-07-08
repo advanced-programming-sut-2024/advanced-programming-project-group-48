@@ -1,40 +1,22 @@
 package client;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+import view.menus.RegisterMenu;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class Client {
+public class Client extends Application {
     private Socket socket;
     private DataInputStream receiveBuffer;
     private DataOutputStream sendBuffer;
+    public static Client currentClient;
 
-    public void start() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            if (!this.establishConnection("127.0.0.1", 1020)) {
-                System.err.println("Failed to establish connection!");
-                return;
-            }
-            System.out.println("Enter command (type 'exit' to quit): ");
-            while (true) {
-                String input = scanner.nextLine();
-                if ("exit".equalsIgnoreCase(input)) break;
-                if (this.sendMessage(input)) {
-                    String responseOfServer = this.receiveResponse();
-                    if (responseOfServer != null) {
-                        System.out.println("Server response: " + responseOfServer);
-                    } else {
-                        System.err.println("Failed to receive a response from the server.");
-                    }
-                } else {
-                    System.err.println("Failed to send message to the server.");
-                }
-            }
-        } finally {
-            this.endConnection();
-        }
+    public void start(Stage stage) throws Exception{
+        new RegisterMenu().start(stage);
     }
 
     public boolean establishConnection(String address, int port) {
@@ -80,6 +62,12 @@ public class Client {
 
     public static void main(String[] args) {
         Client client = new Client();
-        client.start();
+        currentClient = client;
+        if (!client.establishConnection("127.0.0.1", 1020)) {
+            System.err.println("Failed to establish connection!");
+            System.exit(1);
+        }
+        launch(args);
     }
+
 }
