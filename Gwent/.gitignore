@@ -1,3 +1,6 @@
 .idea
 /target
+*.xml
 .idea/workspace.xml
+/Gwent/.idea/workspace.xml
+
