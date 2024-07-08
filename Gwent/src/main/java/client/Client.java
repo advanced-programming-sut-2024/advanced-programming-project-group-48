@@ -42,13 +42,11 @@ public class Client extends Application {
         }
     }
 
-    public boolean sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             sendBuffer.writeUTF(message);
-            return true;
         } catch (IOException e) {
             System.err.println("Error sending message: " + e.getMessage());
-            return false;
         }
     }
 

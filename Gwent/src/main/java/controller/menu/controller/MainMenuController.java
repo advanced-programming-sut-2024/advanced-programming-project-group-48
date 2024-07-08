@@ -1,8 +1,8 @@
 package controller.menu.controller;
 
+import client.Client;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.User;
 import view.menus.MainMenu;
 import view.menus.PreGameMenu;
 import view.menus.ProfileMenu;
@@ -15,15 +15,22 @@ public class MainMenuController {
     }
 
     public void changeMenuToPreGame(MouseEvent mouseEvent) throws Exception {
-        MainMenu.appStage.close();
-        new PreGameMenu().start(new Stage());
+        new PreGameMenu().start(MainMenu.appStage);
+        MainMenu.appStage=null;
     }
 
     public void changeMenuToRegisterMenu(MouseEvent mouseEvent) throws Exception {
-        User.loggedInUser=null;
-        MainMenu.appStage.close();
-        new RegisterMenu().start(new Stage());
-        //This may need some changes because we are making a long callstack
-        //We can just change the scene of the current stage
+        sendLogoutReq();
+        String response = Client.currentClient.receiveResponse();
+        if(response.equals("logout successful")) {
+            MainMenu.appStage.close();
+            new RegisterMenu().start(new Stage());
+        } else {
+            System.err.println(response);
+        }
+    }
+
+    private void sendLogoutReq() {
+        Client.currentClient.sendMessage("logout");
     }
 }

@@ -1,5 +1,6 @@
 package server;
 
+import controller.menu.controller.ProfileMenuController;
 import model.User;
 
 import java.io.DataInputStream;
@@ -85,12 +86,11 @@ class ClientHandler implements Runnable {
                     User user = User.getUserForLogin(username, password);
                     if (user == null) {
                         dataOutputStream.writeUTF("Username does not exist");
-                        continue;
                     } else {
                         dataOutputStream.writeUTF("login successful");
                         currentUser = user;
-                        continue;
                     }
+                    continue;
                 }
                 matcher = Pattern.compile("changePassword:(?<username>.+):(?<answerOfTheQuestion>.+):(?<numberOfQuestion>.+):(?<newPassword>.+)").matcher(command);
                 if (matcher.matches()) {
@@ -107,12 +107,91 @@ class ClientHandler implements Runnable {
                     if (user.getAnswerOfQuestions().get(numberOfQuestion - 1).equals(answerOfTheQuestion)) {
                         user.setPassword(newPassword);
                         dataOutputStream.writeUTF("Password changed successfully");
-                        continue;
                     } else {
                         dataOutputStream.writeUTF("Answer is incorrect");
+                    }
+                    continue;
+                }
+                if (command.equals("logout")) {
+                    currentUser = null;
+                    dataOutputStream.writeUTF("logout successful");
+                    continue;
+                }
+                if (command.equals("showUserInfo")) {
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
                         continue;
                     }
+                    dataOutputStream.writeUTF(ProfileMenuController.getUserInfo(currentUser));
+                    continue;
                 }
+                matcher = Pattern.compile("showGameHistory:(?<numberOfGameHistories>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Show the game history
+                    int numberOfGameHistories = Integer.parseInt(matcher.group("numberOfGameHistories"));
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (currentUser.getAllGameHistories().isEmpty()) {
+                        dataOutputStream.writeUTF("No game has played");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF(ProfileMenuController.getGameHistory(currentUser, numberOfGameHistories));
+                    continue;
+                }
+                matcher = Pattern.compile("saveProfileMenuChanges:(?<newUsername>.*):(?<newEmail>.*):(?<newNickname>.*):(?<newPassword>.*):(?<oldPassword>.*)").matcher(command);
+                if (matcher.matches()) {
+                    // Save the changes
+                    String newUsername = matcher.group("newUsername");
+                    String newEmail = matcher.group("newEmail");
+                    String newNickname = matcher.group("newNickname");
+                    String newPassword = matcher.group("newPassword");
+                    String oldPassword = matcher.group("oldPassword");
+                    boolean haveChanges = false;
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (!newPassword.isEmpty()) {
+                        if(currentUser.getPassword().equals(oldPassword)){
+                            if(!newPassword.equals(oldPassword)){
+                                currentUser.setPassword(newPassword);
+                                haveChanges = true;
+                            }
+                        } else {
+                            dataOutputStream.writeUTF("Old password is incorrect");
+                            continue;
+                        }
+
+                    }
+                    if (!newUsername.isEmpty()) {
+                        if(!currentUser.getUsername().equals(newUsername)){
+                            currentUser.setUsername(newUsername);
+                            haveChanges = true;
+                        }
+                    }
+                    if (!newNickname.isEmpty()) {
+                        if(!currentUser.getNickname().equals(newNickname)){
+                            currentUser.setNickname(newNickname);
+                            haveChanges = true;
+                        }
+                    }
+                    if (!newEmail.isEmpty()) {
+                        if(!currentUser.getEmail().equals(newEmail)){
+                            currentUser.setEmail(newEmail);
+                            haveChanges = true;
+                        }
+                    }
+                    if (!haveChanges) {
+                        dataOutputStream.writeUTF("No changes have been made dou to the fact that you have not entered any new information or the information you have entered is the same as the previous one.");
+                        continue;
+                    }
+
+                    dataOutputStream.writeUTF("Changes saved");
+                    continue;
+                }
+
 
                 dataOutputStream.writeUTF("invalid input");
             }
