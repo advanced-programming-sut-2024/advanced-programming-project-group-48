@@ -38,16 +38,16 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
 
         choice_faction.getSelectionModel().selectedItemProperty().addListener((observable , oldValue , newValue)-> {
             User.loggedInUser.getDeck().setFaction(newValue);
-            if("Northen Realms".equals(newValue)){
+            if("NorthernRealms".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfNorthernRealms());
             }
             else if("Monsters".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfMonsters());
             }
-            else if("Nilfgaardian Empire".equals(newValue)){
+            else if("NilfgaardianEmpire".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfNilfgaardianEmpire());
             }
-            else if("Scoia’taell".equals(newValue)){
+            else if("ScoiaTaell".equals(newValue)){
                 chooseLeader.getItems().setAll(Faction.getCommandersOfScoiaTaell());
             }
             else if("Skellige".equals(newValue)){
@@ -86,6 +86,11 @@ public ChoiceBox<Integer> numberOfCard = new ChoiceBox<>();
                             elemans.add(i.name);
                         }
                     }
+                }
+            }
+            for(Card i: Card.allCards){
+                if(i.faction.equals("All")){
+                    elemans.add(i.name);
                 }
             }
             nameOfCard.getItems().setAll(elemans);

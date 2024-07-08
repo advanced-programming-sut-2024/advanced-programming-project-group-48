@@ -272,7 +272,7 @@ public class Card implements Cloneable {
 //            Faction.getCardsOfMonsters().add(this.name);
 //        else if(this.faction.equals("Northern Realms") || this.faction.equals("All"))
 //            Faction.getCardsOfNorthenRealms().add(this.name);
-//        else if(this.faction.equals("Scoia'tael") || this.faction.equals("All"))
+//        else if(this.faction.equals("ScoiaTaell") || this.faction.equals("All"))
 //            Faction.getCardsOfScoiaTaell().add(this.name);
 //        else if(this.faction.equals("Skellige") || this.faction.equals("All"))
 //            Faction.getCardsOfSkellige().add(this.name);
@@ -381,29 +381,29 @@ public class Card implements Cloneable {
         new Card("Trebuchet", "NorthernRealms", 6, 2, "Siege", false, NoAbility, "NoAbility");
         new Card("Ves", "NorthernRealms", 5, 1, "Close", false, NoAbility, "NoAbility");
         new Card("YarpenZirgrin", "NorthernRealms", 2, 1, "Close", false, NoAbility, "NoAbility");
-        new Card("Eithne", "Scoia'tael", 10, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("Iorveth", "Scoia'tael", 10, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("Seasenthessis", "Scoia'tael", 10, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("BarclayEls", "Scoia'tael", 6, 1, "Agile", false, NoAbility, "NoAbility");
-        new Card("CiaranAep", "Scoia'tael", 3, 1, "Agile", false, NoAbility, "NoAbility");
-        new Card("DennisCranmer", "Scoia'tael", 6, 1, "Close", false, NoAbility, "NoAbility");
-        new Card("DolBlathannaArcher", "Scoia'tael", 4, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("DolBlathannaScout", "Scoia'tael", 6, 3, "Agile", false, NoAbility, "NoAbility");
-        new Card("DwarvenSkirmisher", "Scoia'tael", 3, 3, "Close", false, Muster, "Muster");
-        new Card("ElvenSkirmisher", "Scoia'tael", 2, 3, "Ranged", false, Muster, "Muster");
-        new Card("Filavandrel", "Scoia'tael", 6, 1, "Agile", false, NoAbility, "NoAbility");
-        new Card("HavekarHealer", "Scoia'tael", 0, 3, "Ranged", true, Medic, "Medic");
-        new Card("HavekarSmuggler", "Scoia'tael", 5, 3, "Close", false, Muster, "Muster");
-        new Card("IdaEmeanAep", "Scoia'tael", 6, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("IsengrimFaoiltiarna", "Scoia'tael", 10, 1, "Close", false, MoralBoost, "MoralBoost");
-        new Card("MahakamanDefender", "Scoia'tael", 5, 5, "Close", false, NoAbility, "NoAbility");
-        new Card("Milva", "Scoia'tael", 10, 1, "Ranged", false, MoralBoost, "MoralBoost");
-        new Card("Riordain", "Scoia'tael", 1, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("Schirru", "Scoia'tael", 8, 1, "Siege", false, Scorch, "Scorch");
-        new Card("Toruviel", "Scoia'tael", 2, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("VriheddBrigadeRecruit", "Scoia'tael", 4, 1, "Ranged", false, NoAbility, "NoAbility");
-        new Card("VriheddBrigadeVeteran", "Scoia'tael", 5, 2, "Agile", false, NoAbility, "NoAbility");
-        new Card("Yaevinn", "Scoia'tael", 6, 1, "Agile", false, NoAbility, "NoAbility");
+        new Card("Eithne", "ScoiaTaell", 10, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("Iorveth", "ScoiaTaell", 10, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("Seasenthessis", "ScoiaTaell", 10, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("BarclayEls", "ScoiaTaell", 6, 1, "Agile", false, NoAbility, "NoAbility");
+        new Card("CiaranAep", "ScoiaTaell", 3, 1, "Agile", false, NoAbility, "NoAbility");
+        new Card("DennisCranmer", "ScoiaTaell", 6, 1, "Close", false, NoAbility, "NoAbility");
+        new Card("DolBlathannaArcher", "ScoiaTaell", 4, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("DolBlathannaScout", "ScoiaTaell", 6, 3, "Agile", false, NoAbility, "NoAbility");
+        new Card("DwarvenSkirmisher", "ScoiaTaell", 3, 3, "Close", false, Muster, "Muster");
+        new Card("ElvenSkirmisher", "ScoiaTaell", 2, 3, "Ranged", false, Muster, "Muster");
+        new Card("Filavandrel", "ScoiaTaell", 6, 1, "Agile", false, NoAbility, "NoAbility");
+        new Card("HavekarHealer", "ScoiaTaell", 0, 3, "Ranged", true, Medic, "Medic");
+        new Card("HavekarSmuggler", "ScoiaTaell", 5, 3, "Close", false, Muster, "Muster");
+        new Card("IdaEmeanAep", "ScoiaTaell", 6, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("IsengrimFaoiltiarna", "ScoiaTaell", 10, 1, "Close", false, MoralBoost, "MoralBoost");
+        new Card("MahakamanDefender", "ScoiaTaell", 5, 5, "Close", false, NoAbility, "NoAbility");
+        new Card("Milva", "ScoiaTaell", 10, 1, "Ranged", false, MoralBoost, "MoralBoost");
+        new Card("Riordain", "ScoiaTaell", 1, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("Schirru", "ScoiaTaell", 8, 1, "Siege", false, Scorch, "Scorch");
+        new Card("Toruviel", "ScoiaTaell", 2, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("VriheddBrigadeRecruit", "ScoiaTaell", 4, 1, "Ranged", false, NoAbility, "NoAbility");
+        new Card("VriheddBrigadeVeteran", "ScoiaTaell", 5, 2, "Agile", false, NoAbility, "NoAbility");
+        new Card("Yaevinn", "ScoiaTaell", 6, 1, "Agile", false, NoAbility, "NoAbility");
         new Card("Cerys", "Skellige", 10, 1, "Close", false, Muster, "Muster");
         new Card("Ermion", "Skellige", 8, 1, "Ranged", false, Mardroeme, "Mardroeme");
         new Card("Hjalmar", "Skellige", 10, 1, "Ranged", false, NoAbility, "NoAbility");

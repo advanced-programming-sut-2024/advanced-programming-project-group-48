@@ -11,8 +11,8 @@ public class User {
     private boolean stayLoggedIn;
     private final ArrayList<String> answerOfQuestions = new ArrayList<>(3);
     public static User loggedInUser;
-    private static final ArrayList<User> allUsers= new ArrayList<>();
-    private static final ArrayList<User> usersBaseRanking = new ArrayList<User>();
+    public static final ArrayList<User> allUsers= new ArrayList<>();
+    public static final ArrayList<User> usersBaseRanking = new ArrayList<User>();
     private final GameInformation gameInformation=new GameInformation();
     private final ArrayList<GameHistory> allGameHistories=new ArrayList<>();
     private Deck deck = new Deck();
@@ -87,6 +87,7 @@ public class User {
         this.email = email;
     }
 
+
     public static boolean usernameExists(String username) {
         for (User user : allUsers) {
             if(user.username.equals(username)) {
@@ -103,10 +104,10 @@ public class User {
         }
         return null;
     }
-    public void rankingUsers(){
+    public static void rankingUsers(){
         Collections.sort(usersBaseRanking,(user1, user2) -> user1.getNumWins() - user2.getNumWins());
     }
-    public ArrayList<User> getUsersBaseRanking(){
+    public static ArrayList<User> getUsersBaseRanking(){
         rankingUsers();
         return usersBaseRanking;
     }

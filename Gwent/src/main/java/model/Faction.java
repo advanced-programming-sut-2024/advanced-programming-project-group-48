@@ -39,7 +39,7 @@ public class Faction {
         CommandersOfScoiaTaell.add("HopeOfTheAenSeidhe");
         CommandersOfSkellige.add("CrachAnCraite");
         CommandersOfSkellige.add("KingBran");
-        faction.put("NorthenRealms" , CommandersOfNorthernRealms);
+        faction.put("NorthernRealms" , CommandersOfNorthernRealms);
         faction.put("NilfgaardianEmpire" , CommandersOfNilfgaardianEmpire);
         faction.put("Monsters" , CommandersOfMonsters);
         faction.put("ScoiaTaell" , CommandersOfScoiaTaell);
