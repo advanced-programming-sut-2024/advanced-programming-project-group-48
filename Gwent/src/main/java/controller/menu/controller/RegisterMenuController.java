@@ -3,7 +3,6 @@ package controller.menu.controller;
 import client.Client;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.User;
 import view.menus.ForgetPasswordMenu;
 import view.menus.MainMenu;
 import view.menus.RegisterMenu;

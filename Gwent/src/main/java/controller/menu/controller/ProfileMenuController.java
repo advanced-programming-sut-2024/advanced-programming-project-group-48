@@ -28,39 +28,22 @@ public class ProfileMenuController {
         String newNickname = NewNickname.getText();
         String oldPassword = OldPassword.getText();
         if (!newUsername.isEmpty() &&
-                (!newUsername.matches(RegisterMenuController.USERNAME_REGEX) /*|| newUsername.equals(oldUsername)*/)) {
+                (!newUsername.matches(RegisterMenuController.USERNAME_REGEX))) {
             ErrorText.setText("Invalid UserName");
             return;
         }
 
         if (!newEmail.isEmpty() &&
-                (!newEmail.matches(RegisterMenuController.EMAIL_REGEX) /*|| newEmail.equals(oldEmail)*/)) {
+                (!newEmail.matches(RegisterMenuController.EMAIL_REGEX))) {
             ErrorText.setText("Invalid Email");
             return;
         }
 
         if (!newPassword.isEmpty() &&
-                (!newPassword.matches(RegisterMenuController.PASSWORD_REGEX) /*|| newPassword.equals(oldPassword) || !oldPassword.equals(OldPassword.getText())*/)) {
+                (!newPassword.matches(RegisterMenuController.PASSWORD_REGEX))) {
             ErrorText.setText("Invalid Password");
             return;
         }
-//        if (!newNickname.isEmpty() && newNickname.equals(oldNickname)) {
-//            ErrorText.setText("Invalid NickName");
-//            return;
-//        }
-//        if (!newUsername.isEmpty()) {
-//            User.loggedInUser.setUsername(newUsername);
-//        }
-//        if (!newNickname.isEmpty()) {
-//            User.loggedInUser.setNickname(newNickname);
-//        }
-//        if (!newEmail.isEmpty()) {
-//            User.loggedInUser.setEmail(newEmail);
-//        }
-//        if (!newPassword.isEmpty()) {
-//            User.loggedInUser.setPassword(newPassword);
-//        }
-//        ErrorText.setText("Changes saved");
         sendSaveChangesReq(newUsername, newEmail, newPassword, newNickname, oldPassword);
         String response = Client.currentClient.receiveResponse();
         ErrorText.setText(response);
