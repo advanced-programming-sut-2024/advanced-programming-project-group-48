@@ -1044,7 +1044,7 @@ public class GameEnvironmentController {
     }
 
 
-    public void playCommanderAbility(Deck deck, Card card) {
+    public void playCommanderAbility(Deck deck, Card card , MouseEvent mouseEvent) {
         if (Faction.getCommandersOfNorthernRealms().equals("TheSiegemaster")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i].name.equals("ImpenetrableFog")) {
@@ -1327,5 +1327,10 @@ public class GameEnvironmentController {
                 deck.getAllCards().add(gameEnvironment.discardPile.get(i));
             }
         }
+    }
+
+
+    public void playCommanderAbility(MouseEvent mouseEvent) {
+
     }
 }

@@ -3,4 +3,6 @@
 *.xml
 .idea/workspace.xml
 /Gwent/.idea/workspace.xml
+../.idea/misc.xml
+
 
