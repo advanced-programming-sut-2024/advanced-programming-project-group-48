@@ -3,10 +3,7 @@ package controller.menu.controller;
 import client.Client;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import view.menus.MainMenu;
-import view.menus.PreGameMenu;
-import view.menus.ProfileMenu;
-import view.menus.RegisterMenu;
+import view.menus.*;
 
 public class MainMenuController {
     public void changeMenuToProfileMenu() throws Exception {
@@ -32,5 +29,10 @@ public class MainMenuController {
 
     private void sendLogoutReq() {
         Client.currentClient.sendMessage("logout");
+    }
+
+    public void changeMenuToFriendsMenu(MouseEvent mouseEvent) throws Exception {
+        new FriendsMenu().start(MainMenu.appStage);
+        MainMenu.appStage=null;
     }
 }

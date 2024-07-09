@@ -1,6 +1,5 @@
 package server;
 
-import controller.menu.controller.ProfileMenuController;
 import model.User;
 
 import java.io.DataInputStream;
@@ -15,21 +14,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Server {
+    static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Server.class);
     public static final int PORT = 1020; // Server port
     private static final int POOL_SIZE = 10; // Thread pool size
     private static final ExecutorService executorService = Executors.newFixedThreadPool(POOL_SIZE);
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Store Server is listening on port " + PORT);
+            System.out.println("Server is listening on port " + PORT);
 
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 executorService.submit(new ClientHandler(clientSocket));
             }
         } catch (IOException e) {
-            System.err.println("Could not listen on port " + PORT);
-            e.printStackTrace();
+            logger.error("Could not listen on port " + PORT, e);
         } finally {
             executorService.shutdown();
         }
@@ -122,7 +121,7 @@ class ClientHandler implements Runnable {
                         dataOutputStream.writeUTF("You are not logged in");
                         continue;
                     }
-                    dataOutputStream.writeUTF(ProfileMenuController.getUserInfo(currentUser));
+                    dataOutputStream.writeUTF(User.getUserInfo(currentUser));
                     continue;
                 }
                 matcher = Pattern.compile("showGameHistory:(?<numberOfGameHistories>.+)").matcher(command);
@@ -137,7 +136,7 @@ class ClientHandler implements Runnable {
                         dataOutputStream.writeUTF("No game has played");
                         continue;
                     }
-                    dataOutputStream.writeUTF(ProfileMenuController.getGameHistory(currentUser, numberOfGameHistories));
+                    dataOutputStream.writeUTF(User.getGameHistory(currentUser, numberOfGameHistories));
                     continue;
                 }
                 matcher = Pattern.compile("saveProfileMenuChanges:(?<newUsername>.*):(?<newEmail>.*):(?<newNickname>.*):(?<newPassword>.*):(?<oldPassword>.*)").matcher(command);
@@ -191,19 +190,123 @@ class ClientHandler implements Runnable {
                     dataOutputStream.writeUTF("Changes saved");
                     continue;
                 }
+                matcher = Pattern.compile("addFriendSearch:(?<username>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Search for a friend
+                    String username = matcher.group("username");
+                    if (User.usernameExists(username)&&!username.equals(currentUser.getUsername())) {
+                        User user = User.getUserByUsername(username);
+                        assert user != null;
+                        dataOutputStream.writeUTF(User.getUserInfo(user));
+                        continue;
+                    }
+                    dataOutputStream.writeUTF("User with this username was not found");
+                    continue;
+                }
+                matcher = Pattern.compile("addFriend:(?<username>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Add a friend
+                    String username = matcher.group("username");
+                    if (User.usernameExists(username)) {
+                        User user = User.getUserByUsername(username);
+                        assert user != null;
+                        if(currentUser.isFriend(username)){
+                            dataOutputStream.writeUTF("This user is already your friend");
+                            continue;
+                        }
+                        if(user.isInFriendsRequests(currentUser.getUsername())){
+                            dataOutputStream.writeUTF("You have already sent a friend request to this user");
+                            continue;
+                        }
+                        user.addFriendRequest(currentUser.getUsername());
+                        dataOutputStream.writeUTF("Friend request sent successfully");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF("User with this username was not found");
+                    continue;
+                }
+                if (command.equals("showAllFriends")) {
+                    // Show all friends
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (currentUser.getAllFriends().isEmpty()) {
+                        dataOutputStream.writeUTF("You have no friends");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF(currentUser.showAllFriends());
+                    continue;
+                }
+                if (command.equals("showAllFriendRequests")) {
+                    // Show all friend requests
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (currentUser.showAllFriendRequests().isEmpty()) {
+                        dataOutputStream.writeUTF("You have no friend requests");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF(currentUser.showAllFriendRequests());
+                    continue;
+                }
+                matcher = Pattern.compile("acceptFriendRequest:(?<username>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Accept a friend request
+                    String username = matcher.group("username");
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if(!User.usernameExists(username)){
+                        dataOutputStream.writeUTF("User with this username was not found");
+                        continue;
+                    }
+                    if (currentUser.isInFriendsRequests(username)) {
+                        currentUser.getFriendRequests().remove(username);
+                        currentUser.addFriend(username);
+                        User user = User.getUserByUsername(username);
+                        assert user != null;
+                        user.addFriend(currentUser.getUsername());
+                        dataOutputStream.writeUTF("Friend request accepted successfully");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF("You have no friend request from this user");
+                    continue;
+                }
+                matcher = Pattern.compile("rejectFriendRequest:(?<username>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Reject a friend request
+                    String username = matcher.group("username");
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if(!User.usernameExists(username)){
+                        dataOutputStream.writeUTF("User with this username was not found");
+                        continue;
+                    }
+                    if (currentUser.isInFriendsRequests(username)) {
+                        currentUser.getFriendRequests().remove(username);
+                        dataOutputStream.writeUTF("Friend request rejected successfully");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF("You have no friend request from this user");
+                    continue;
+                }
 
 
                 dataOutputStream.writeUTF("invalid input");
             }
         } catch (IOException e) {
-            System.err.println("Error handling client connection");
-            e.printStackTrace();
+            Server.logger.error("Error handling client connection", e);
         } finally {
             if (clientSocket != null && !clientSocket.isClosed()) {
                 try {
                     clientSocket.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Server.logger.error("Error closing client socket", e);
                 }
             }
         }

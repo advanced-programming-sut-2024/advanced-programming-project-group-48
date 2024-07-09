@@ -4,7 +4,7 @@
     -fx-background-radius: 30;
     -fx-background-insets: 0;
     -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 5,0,0,1);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0, 0, 1);
     -fx-font-size: 14px;
     -fx-padding: 8px 15px;
 }
@@ -90,6 +90,19 @@
 .forget-password .button {
     -fx-background-color: linear-gradient(#007bff, #0056b3);
     -fx-text-fill: white;
+}
+
+.text-field {
+    -fx-border-color: #909090;
+    -fx-border-width: 2;
+    -fx-background-color: rgba(243, 243, 243, 0.78);
+    -fx-text-fill: #000000;
+    -fx-padding: 4 8 4 8;
+}
+
+.text-field:focused {
+    -fx-border-color: #2072A3;
+    -fx-background-color: #E3F2FD;
 }
 
 /* Background Image Example (if you decide to use an image) */

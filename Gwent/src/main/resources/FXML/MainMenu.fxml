@@ -5,23 +5,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="443.0" prefWidth="424.0" styleClass="background-image" stylesheets="@../CSS/registerStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.MainMenuController">
-   <children>
-      <Label layoutX="174.0" layoutY="26.0" text="Welcome" textFill="#24ab39">
-         <font>
-            <Font name="System Bold Italic" size="19.0" />
-         </font>
-      </Label>
-      <Label layoutX="161.0" layoutY="79.0" prefHeight="17.0" prefWidth="103.0" text="This is Main menu " />
-      <Label layoutX="86.0" layoutY="115.0" text="You can go to other menus by clicking on them" />
-      <Button layoutX="235.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#changeMenuToProfileMenu" text="Profile menu" />
-      <Button layoutX="96.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#changeMenuToPreGame" text="PRE Game menu" />
-      <Label layoutX="44.0" layoutY="269.0" text="If you want to logout you can by simply clicking on button below" textFill="#5681dd">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Button layoutX="188.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#changeMenuToRegisterMenu" text="Logout" />
-   </children>
+<AnchorPane prefHeight="443.0" prefWidth="424.0" styleClass="background-image" stylesheets="@../CSS/registerStyle.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.menu.controller.MainMenuController">
+   <Label layoutX="174.0" layoutY="26.0" text="Welcome" textFill="#24ab39">
+      <font>
+         <Font name="System Bold Italic" size="19.0"/>
+      </font>
+   </Label>
+   <Label layoutX="161.0" layoutY="79.0" prefHeight="17.0" prefWidth="103.0" text="This is Main menu "/>
+   <Label layoutX="86.0" layoutY="115.0" text="You can go to other menus by clicking on them"/>
+   <Button layoutX="235.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#changeMenuToProfileMenu"
+           text="Profile menu"/>
+   <Button layoutX="96.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#changeMenuToPreGame"
+           text="PRE Game menu"/>
+   <Label layoutX="44.0" layoutY="269.0" text="If you want to logout you can by simply clicking on button below"
+          textFill="#5681dd">
+      <font>
+         <Font name="System Bold" size="13.0"/>
+      </font>
+   </Label>
+   <Button layoutX="188.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#changeMenuToRegisterMenu"
+           text="Logout"/>
+   <Button layoutX="169.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#changeMenuToFriendsMenu"
+           text="Friends menu"/>
 </AnchorPane>
