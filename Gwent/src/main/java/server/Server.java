@@ -335,6 +335,23 @@ class ClientHandler implements Runnable {
                     dataOutputStream.writeUTF(currentUser.getDeck().showDeck());
                     continue;
                 }
+                matcher = Pattern.compile("removeCardFromDeck:(?<cardName>.+):(?<cardCount>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Remove a card from the deck
+                    String cardName = matcher.group("cardName");
+                    int cardCount = Integer.parseInt(matcher.group("cardCount"));
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (currentUser.getDeck().removeCard(cardName, cardCount))
+                        dataOutputStream.writeUTF("Card removed from deck successfully");
+
+                    else
+                        dataOutputStream.writeUTF("Card could not be removed from deck");
+
+                    continue;
+                }
 
 
 

@@ -36,7 +36,7 @@ public class Deck {
         // Update the count for the card
         numberOfCardsInDeck.put(cardName, currentCount + count);
         for (int i = 0; i < count; i++) {
-            cards.add(card);
+            cards.add(card.clone());
         }
         return true; // Return true to indicate the card was successfully added
     }
@@ -64,5 +64,24 @@ public class Deck {
             deck.append(i.name).append("\n");
         }
         return deck.toString();
+    }
+
+    private Card getCardByName(String cardName) {
+        for (Card i : cards) {
+            if (i.name.equals(cardName)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public boolean removeCard(String cardName, int cardCount) {
+        if(!numberOfCardsInDeck.containsKey(cardName)) return false;
+        int currentCount = numberOfCardsInDeck.get(cardName);
+        if(currentCount < cardCount) return false;
+        for (int i = 0; i < cardCount; i++) {
+            cards.remove(getCardByName(cardName));
+        }
+        return true;
     }
 }

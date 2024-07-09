@@ -71,8 +71,13 @@ public class ArrangeDeckController {
     }
 
     private void removeCardFromDeck(String cardName, Integer cardCount) {
-        // Implementation for removing a card from the deck
-        // This should include validation for the card count and any specific rules related to removing cards
+        sendRemoveCardReq(cardName, cardCount);
+        String response = Client.currentClient.receiveResponse();
+        ErrorText.setText(response);
+    }
+
+    private void sendRemoveCardReq(String cardName, Integer cardCount) {
+        Client.currentClient.sendMessage("removeCardFromDeck:" + cardName + ":" + cardCount);
     }
 
     public void showDeck(MouseEvent mouseEvent) {

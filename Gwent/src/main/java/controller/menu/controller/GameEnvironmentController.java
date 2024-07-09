@@ -76,8 +76,8 @@ public class GameEnvironmentController {
         enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
     }
 
-    //    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
-    public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
+        public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
+//    public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
 
     public void initialize() {
         commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
