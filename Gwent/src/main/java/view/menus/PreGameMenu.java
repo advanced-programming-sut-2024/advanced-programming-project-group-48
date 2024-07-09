@@ -18,19 +18,17 @@ public class PreGameMenu extends Application {
         appStage = stage;
         appStage.setResizable(false);
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/PreGame.fxml")));
-//        pane.setBackground(new Background(createBackgroundImage( pane.getWidth(), pane.getHeight())));
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }
 
-    private BackgroundImage createBackgroundImage(double width , double height) {
-        Image image = new Image(PreGameMenu.class.getResource("/images/BackGrounds/OIG1.mtRXIGDdZq_IdGR.jpg").toExternalForm() ,500 , 400, false, false);
-        BackgroundImage backgroundImage = new BackgroundImage(image,
+    private BackgroundImage createBackgroundImage() {
+        Image image = new Image(Objects.requireNonNull(PreGameMenu.class.getResource("/images/BackGrounds/backGround.jpg")).toExternalForm() ,500 , 400, false, false);
+        return new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
-        return backgroundImage;
     }
 }

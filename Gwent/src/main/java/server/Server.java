@@ -153,8 +153,8 @@ class ClientHandler implements Runnable {
                         continue;
                     }
                     if (!newPassword.isEmpty()) {
-                        if(currentUser.getPassword().equals(oldPassword)){
-                            if(!newPassword.equals(oldPassword)){
+                        if (currentUser.getPassword().equals(oldPassword)) {
+                            if (!newPassword.equals(oldPassword)) {
                                 currentUser.setPassword(newPassword);
                                 haveChanges = true;
                             }
@@ -165,19 +165,19 @@ class ClientHandler implements Runnable {
 
                     }
                     if (!newUsername.isEmpty()) {
-                        if(!currentUser.getUsername().equals(newUsername)){
+                        if (!currentUser.getUsername().equals(newUsername)) {
                             currentUser.setUsername(newUsername);
                             haveChanges = true;
                         }
                     }
                     if (!newNickname.isEmpty()) {
-                        if(!currentUser.getNickname().equals(newNickname)){
+                        if (!currentUser.getNickname().equals(newNickname)) {
                             currentUser.setNickname(newNickname);
                             haveChanges = true;
                         }
                     }
                     if (!newEmail.isEmpty()) {
-                        if(!currentUser.getEmail().equals(newEmail)){
+                        if (!currentUser.getEmail().equals(newEmail)) {
                             currentUser.setEmail(newEmail);
                             haveChanges = true;
                         }
@@ -194,7 +194,7 @@ class ClientHandler implements Runnable {
                 if (matcher.matches()) {
                     // Search for a friend
                     String username = matcher.group("username");
-                    if (User.usernameExists(username)&&!username.equals(currentUser.getUsername())) {
+                    if (User.usernameExists(username) && !username.equals(currentUser.getUsername())) {
                         User user = User.getUserByUsername(username);
                         assert user != null;
                         dataOutputStream.writeUTF(User.getUserInfo(user));
@@ -210,11 +210,11 @@ class ClientHandler implements Runnable {
                     if (User.usernameExists(username)) {
                         User user = User.getUserByUsername(username);
                         assert user != null;
-                        if(currentUser.isFriend(username)){
+                        if (currentUser.isFriend(username)) {
                             dataOutputStream.writeUTF("This user is already your friend");
                             continue;
                         }
-                        if(user.isInFriendsRequests(currentUser.getUsername())){
+                        if (user.isInFriendsRequests(currentUser.getUsername())) {
                             dataOutputStream.writeUTF("You have already sent a friend request to this user");
                             continue;
                         }
@@ -259,7 +259,7 @@ class ClientHandler implements Runnable {
                         dataOutputStream.writeUTF("You are not logged in");
                         continue;
                     }
-                    if(!User.usernameExists(username)){
+                    if (!User.usernameExists(username)) {
                         dataOutputStream.writeUTF("User with this username was not found");
                         continue;
                     }
@@ -283,7 +283,7 @@ class ClientHandler implements Runnable {
                         dataOutputStream.writeUTF("You are not logged in");
                         continue;
                     }
-                    if(!User.usernameExists(username)){
+                    if (!User.usernameExists(username)) {
                         dataOutputStream.writeUTF("User with this username was not found");
                         continue;
                     }
@@ -295,6 +295,47 @@ class ClientHandler implements Runnable {
                     dataOutputStream.writeUTF("You have no friend request from this user");
                     continue;
                 }
+                matcher = Pattern.compile("saveLeaderFaction:(?<faction>.+):(?<leader>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Save the leader and faction
+                    String faction = matcher.group("faction");
+                    String leader = matcher.group("leader");
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    currentUser.getDeck().setFaction(faction);
+                    currentUser.getDeck().setCommander(leader);
+                    dataOutputStream.writeUTF("Leader and faction saved successfully");
+                    continue;
+                }
+                matcher = Pattern.compile("addCardToDeck:(?<cardName>.+):(?<cardCount>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Add a card to the deck
+                    String cardName = matcher.group("cardName");
+                    int cardCount = Integer.parseInt(matcher.group("cardCount"));
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (currentUser.getDeck().addCard(cardName, cardCount))
+                        dataOutputStream.writeUTF("Card added to deck successfully");
+
+                    else
+                        dataOutputStream.writeUTF("Card could not be added to deck");
+
+                    continue;
+                }
+                if (command.equals("showDeck")) {
+                    // Show the deck
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF(currentUser.getDeck().showDeck());
+                    continue;
+                }
+
 
 
                 dataOutputStream.writeUTF("invalid input");

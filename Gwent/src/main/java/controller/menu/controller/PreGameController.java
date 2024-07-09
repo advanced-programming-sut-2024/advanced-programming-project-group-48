@@ -55,7 +55,7 @@ public class PreGameController {
     }
 
     public void goToMainMenu(MouseEvent mouseEvent) throws Exception {
-        PreGameMenu.appStage.close();
-        new MainMenu().start(new Stage());
+        new MainMenu().start(PreGameMenu.appStage);
+        PreGameMenu.appStage = null;
     }
 }
