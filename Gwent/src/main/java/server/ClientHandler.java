@@ -393,7 +393,7 @@ public class ClientHandler implements Runnable {
                     dataOutputStream.writeUTF("Game created successfully");
                     opponentClientHandler.dataOutputStream.writeUTF("Game created successfully");
                     startGameSession(opponentClientHandler);
-                    continue;
+                    return;
                 }
                 if (command.equals("enterWaitingRoom")) {
                     // Enter the waiting room

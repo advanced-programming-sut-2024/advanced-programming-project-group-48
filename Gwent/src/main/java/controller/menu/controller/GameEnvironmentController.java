@@ -1,5 +1,6 @@
 package controller.menu.controller;
 
+import client.Client;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -84,11 +85,9 @@ public class GameEnvironmentController {
         enemyCommanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.enemyCommanderCard + ".jpg"))));
         deckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.deckLogo + ".jpg"))));
         enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
-        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
-        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
+//        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
+//        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
         updateEverything();
-
-
     }
 
     public static void drawRandomCards(List<Card> allCards, Card[] inHandCards, int numberOfCards) {
@@ -133,7 +132,7 @@ public class GameEnvironmentController {
             allCards.add(cardToReplace); // Add the replaced card back to the deck
             Collections.shuffle(allCards); // Optional: Shuffle the deck again
             allCards.remove(0); // Remove the top card from the deck to prevent it from being drawn again
-            updateInHandCards(); // Update the GUI to reflect the changes
+//            updateInHandCards(); // Update the GUI to reflect the changes
             gameEnvironment.hasPlayedTurn = true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -145,89 +144,17 @@ public class GameEnvironmentController {
         }
     }
 
-
-    public void updateTotalScore() {
-        int totalScore = 0;
-        for (Card card : gameEnvironment.closedRow) {
-            if (card != null) {
-                totalScore += card.power;
-            }
-        }
-        for (Card card : gameEnvironment.rangedRow) {
-            if (card != null) {
-                totalScore += card.power;
-            }
-        }
-        for (Card card : gameEnvironment.siegeRow) {
-            if (card != null) {
-                totalScore += card.power;
-            }
-        }
-        gameEnvironment.totalScore = totalScore;
-        this.totalScore.setText(String.valueOf(totalScore));
-    }
-
-    public void updateEnemyTotalScore() {
-        int totalScore = 0;
-        for (Card card : gameEnvironment.enemyClosedRow) {
-            if (card != null) {
-                totalScore += card.power;
-            }
-        }
-        for (Card card : gameEnvironment.enemyRangedRow) {
-            if (card != null) {
-                totalScore += card.power;
-            }
-        }
-        for (Card card : gameEnvironment.enemySiegeRow) {
-            if (card != null) {
-                totalScore += card.power;
-            }
-        }
-        gameEnvironment.enemyTotalScore = totalScore;
-        this.enemyTotalScore.setText(String.valueOf(totalScore));
-    }
-
-    public void updateNumberRemainingCards() {
-        int numberRemainingCards = 0;
-        for (Card card : gameEnvironment.inHandCards) {
-            if (card != null) {
-                numberRemainingCards++;
-            }
-        }
-        this.numberRemainingCards.setText(String.valueOf(numberRemainingCards));
-    }
-
-    public void updateEnemyNumberRemainingCards() {
-        int numberRemainingCards = 0;
-        for (Card card : gameEnvironment.enemyInHandCards) {
-            if (card != null) {
-                numberRemainingCards++;
-            }
-        }
-        this.enemyNumberRemainingCards.setText(String.valueOf(numberRemainingCards));
-    }
-
-    public void updateCrystalsNumber() {
-        this.crystalsNumber.setText(String.valueOf(gameEnvironment.crystalsNumber));
-    }
-
-    public void updateEnemyCrystalsNumber() {
-        this.enemyCrystalsNumber.setText(String.valueOf(gameEnvironment.enemyCrystalsNumber));
-    }
-
-    public void updateInHandCards() {
+    public void updateEverything() {
+        // Update in-hand cards for the player
         for (int i = 0; i < gameEnvironment.inHandCards.length; i++) {
             if (gameEnvironment.inHandCards[i] != null) {
-                // todo replace the faction of below to card faction
                 ((ImageView) inHandCards.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.inHandCards[i].name + ".jpg"))));
             } else {
                 ((ImageView) inHandCards.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateClosedRow() {
+        // Update closed row for the player
         for (int i = 0; i < gameEnvironment.closedRow.length; i++) {
             if (gameEnvironment.closedRow[i] != null) {
                 ((ImageView) closedRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.closedRow[i].name + ".jpg"))));
@@ -235,9 +162,8 @@ public class GameEnvironmentController {
                 ((ImageView) closedRow.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateRangedRow() {
+        // Update ranged row for the player
         for (int i = 0; i < gameEnvironment.rangedRow.length; i++) {
             if (gameEnvironment.rangedRow[i] != null) {
                 ((ImageView) rangedRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.rangedRow[i].name + ".jpg"))));
@@ -245,9 +171,8 @@ public class GameEnvironmentController {
                 ((ImageView) rangedRow.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateSiegeRow() {
+        // Update siege row for the player
         for (int i = 0; i < gameEnvironment.siegeRow.length; i++) {
             if (gameEnvironment.siegeRow[i] != null) {
                 ((ImageView) siegeRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.siegeRow[i].name + ".jpg"))));
@@ -255,9 +180,8 @@ public class GameEnvironmentController {
                 ((ImageView) siegeRow.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateEnemyClosedRow() {
+        // Update enemy closed row
         for (int i = 0; i < gameEnvironment.enemyClosedRow.length; i++) {
             if (gameEnvironment.enemyClosedRow[i] != null) {
                 ((ImageView) enemyClosedRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyClosedRow[i].name + ".jpg"))));
@@ -265,9 +189,8 @@ public class GameEnvironmentController {
                 ((ImageView) enemyClosedRow.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateEnemyRangedRow() {
+        // Update enemy ranged row
         for (int i = 0; i < gameEnvironment.enemyRangedRow.length; i++) {
             if (gameEnvironment.enemyRangedRow[i] != null) {
                 ((ImageView) enemyRangedRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyRangedRow[i].name + ".jpg"))));
@@ -275,9 +198,8 @@ public class GameEnvironmentController {
                 ((ImageView) enemyRangedRow.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateEnemySiegeRow() {
+        // Update enemy siege row
         for (int i = 0; i < gameEnvironment.enemySiegeRow.length; i++) {
             if (gameEnvironment.enemySiegeRow[i] != null) {
                 ((ImageView) enemySiegeRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemySiegeRow[i].name + ".jpg"))));
@@ -285,37 +207,111 @@ public class GameEnvironmentController {
                 ((ImageView) enemySiegeRow.getChildren().get(i)).setImage(null);
             }
         }
-    }
 
-    public void updateSpellCards() {
-        for (int i = 0; i < gameEnvironment.spellCards.length; i++) {
-            if (gameEnvironment.spellCards[i] != null) {
-                ((ImageView) spellCards.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.spellCards[i].name + ".jpg"))));
-            } else {
-                ((ImageView) enemySiegeRow.getChildren().get(i)).setImage(null);
+        // Update total score for the player
+        int totalScoreValue = 0;
+        for (Card card : gameEnvironment.closedRow) {
+            if (card != null) {
+                totalScoreValue += card.power;
             }
         }
-    }
+        for (Card card : gameEnvironment.rangedRow) {
+            if (card != null) {
+                totalScoreValue += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.siegeRow) {
+            if (card != null) {
+                totalScoreValue += card.power;
+            }
+        }
+        gameEnvironment.totalScore = totalScoreValue;
+        this.totalScore.setText(String.valueOf(totalScoreValue));
 
-    public void updateHorns() {
+        // Update enemy total score
+        int enemyTotalScoreValue = 0;
+        for (Card card : gameEnvironment.enemyClosedRow) {
+            if (card != null) {
+                enemyTotalScoreValue += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.enemyRangedRow) {
+            if (card != null) {
+                enemyTotalScoreValue += card.power;
+            }
+        }
+        for (Card card : gameEnvironment.enemySiegeRow) {
+            if (card != null) {
+                enemyTotalScoreValue += card.power;
+            }
+        }
+        gameEnvironment.enemyTotalScore = enemyTotalScoreValue;
+        this.enemyTotalScore.setText(String.valueOf(enemyTotalScoreValue));
+
+        // Update number of remaining cards for the player
+        int numberRemainingCardsValue = 0;
+        for (Card card : gameEnvironment.inHandCards) {
+            if (card != null) {
+                numberRemainingCardsValue++;
+            }
+        }
+        this.numberRemainingCards.setText(String.valueOf(numberRemainingCardsValue));
+
+        // Update number of remaining cards for the enemy
+        int enemyNumberRemainingCardsValue = 0;
+        for (Card card : gameEnvironment.enemyInHandCards) {
+            if (card != null) {
+                enemyNumberRemainingCardsValue++;
+            }
+        }
+        this.enemyNumberRemainingCards.setText(String.valueOf(enemyNumberRemainingCardsValue));
+
+        // Update crystals number for the player
+        this.crystalsNumber.setText(String.valueOf(gameEnvironment.crystalsNumber));
+
+        // Update enemy crystals number
+        this.enemyCrystalsNumber.setText(String.valueOf(gameEnvironment.enemyCrystalsNumber));
+
+        // Update commander card for the player
+        commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
+
+        // Update enemy commander card
+        enemyCommanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.enemyCommanderCard + ".jpg"))));
+
+        // Update deck logo for the player
+        deckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.deckLogo + ".jpg"))));
+
+        // Update enemy deck logo
+        enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
+
+        // Update discard pile for the player
+        if (!gameEnvironment.discardPile.isEmpty()) {
+            discardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.discardPile.get(0).name + ".jpg"))));
+        }
+
+        // Update enemy discard pile
+        if (!gameEnvironment.enemyDiscardPile.isEmpty()) {
+            enemyDiscardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyDiscardPile.get(0).name + ".jpg"))));
+        }
+
+        // Update horns for the player
         if (gameEnvironment.closeHorn != null) {
-            closeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.closeHorn.name + ".jpg"))));
+            closeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.closeHorn.name + ".jpg"))));
         } else {
             closeHorn.setImage(null);
         }
         if (gameEnvironment.rangedHorn != null) {
-            rangedHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.rangedHorn.name + ".jpg"))));
+            rangedHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.rangedHorn.name + ".jpg"))));
         } else {
             rangedHorn.setImage(null);
         }
         if (gameEnvironment.siegeHorn != null) {
-            siegeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.siegeHorn.name + ".jpg"))));
+            siegeHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.siegeHorn.name + ".jpg"))));
         } else {
             siegeHorn.setImage(null);
         }
-    }
 
-    public void updateEnemyHorns() {
+        // Update horns for the enemy
         if (gameEnvironment.enemyCloseHorn != null) {
             enemyCloseHorn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyCloseHorn.name + ".jpg"))));
         } else {
@@ -331,57 +327,6 @@ public class GameEnvironmentController {
         } else {
             enemySiegeHorn.setImage(null);
         }
-    }
-
-
-    public void updateCommanderCard() {
-        commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
-    }
-
-    public void updateEnemyCommanderCard() {
-        enemyCommanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.enemyCommanderCard + ".jpg"))));
-    }
-
-    public void updateDeckLogo() {
-        deckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.deckLogo + ".jpg"))));
-    }
-
-    public void updateEnemyDeckLogo() {
-        enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
-    }
-
-    private void updateEnemyDiscardPile() {
-        if (gameEnvironment.enemyDiscardPile.isEmpty()) return;
-        enemyDiscardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemyDiscardPile.get(0).name + ".jpg"))));
-    }
-
-    private void updateDiscardPile() {
-        if (gameEnvironment.discardPile.isEmpty()) return;
-        discardPile.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.deckLogo + "/" + gameEnvironment.discardPile.get(0).name + ".jpg"))));
-    }
-
-    public void updateEverything() {
-        updateInHandCards();
-        updateClosedRow();
-        updateRangedRow();
-        updateSiegeRow();
-        updateEnemyClosedRow();
-        updateEnemyRangedRow();
-        updateEnemySiegeRow();
-        updateTotalScore();
-        updateEnemyTotalScore();
-        updateNumberRemainingCards();
-        updateEnemyNumberRemainingCards();
-        updateCrystalsNumber();
-        updateEnemyCrystalsNumber();
-        updateCommanderCard();
-        updateEnemyCommanderCard();
-        updateDeckLogo();
-        updateEnemyDeckLogo();
-        updateDiscardPile();
-        updateEnemyDiscardPile();
-        updateHorns();
-        updateEnemyHorns();
     }
 
 
@@ -896,7 +841,7 @@ public class GameEnvironmentController {
             gameEnvironment.endRound = true;
         }
         if (gameEnvironment.hasPlayedTurn) gameEnvironment.endRound = false;
-        changeTurn();
+        Client.currentClient.sendMessage(gameEnvironment.toJson());
     }
 
     private void changeTurn() {
@@ -1044,7 +989,7 @@ public class GameEnvironmentController {
     }
 
 
-    public void playCommanderAbility(Deck deck, Card card) {
+    public void playCommanderAbility() {
         if (Faction.getCommandersOfNorthernRealms().equals("TheSiegemaster")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i].name.equals("ImpenetrableFog")) {
@@ -1324,12 +1269,22 @@ public class GameEnvironmentController {
         }
         if (Faction.getCommandersOfSkellige().equals("CrachAnCraite")) {
             for (int i = 0; i < gameEnvironment.discardPile.size(); i++) {
-                deck.getAllCards().add(gameEnvironment.discardPile.get(i));
+                gameEnvironment.deckUser.getAllCards().add(gameEnvironment.discardPile.get(i));
             }
         }
     }
 
     public void playCommanderAbility(MouseEvent mouseEvent) {
-
+        if (gameEnvironment.hasPlayedCommander||gameEnvironment.hasPlayedTurn) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("You have already played your commander ability");
+            alert.setContentText("You have already played your commander ability");
+            alert.showAndWait();
+            System.err.println("You have already played your commander ability");
+            return;
+        }
+        gameEnvironment.hasPlayedCommander = true;
+        playCommanderAbility();
     }
 }
