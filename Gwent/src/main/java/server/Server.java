@@ -88,6 +88,7 @@ class ClientHandler implements Runnable {
                     } else {
                         dataOutputStream.writeUTF("login successful");
                         currentUser = user;
+                        User.addOnlineUser(currentUser);
                     }
                     continue;
                 }
@@ -112,8 +113,14 @@ class ClientHandler implements Runnable {
                     continue;
                 }
                 if (command.equals("logout")) {
-                    currentUser = null;
-                    dataOutputStream.writeUTF("logout successful");
+                    if (currentUser != null) {
+                        User.removeOnlineUser(currentUser);
+                        dataOutputStream.writeUTF("logout successful");
+                        // Reset currentUser or handle it as needed
+                        currentUser = null;
+                    } else {
+                        dataOutputStream.writeUTF("You are not logged in");
+                    }
                     continue;
                 }
                 if (command.equals("showUserInfo")) {
@@ -352,6 +359,11 @@ class ClientHandler implements Runnable {
 
                     continue;
                 }
+                if (command.equals("showScoreBoard")) {
+                    // Show the score board
+                    dataOutputStream.writeUTF(User.GetScoreBoardString());
+                    continue;
+                }
 
 
 
@@ -360,6 +372,9 @@ class ClientHandler implements Runnable {
         } catch (IOException e) {
             Server.logger.error("Error handling client connection", e);
         } finally {
+            if (currentUser != null) {
+                User.removeOnlineUser(currentUser);
+            }
             if (clientSocket != null && !clientSocket.isClosed()) {
                 try {
                     clientSocket.close();

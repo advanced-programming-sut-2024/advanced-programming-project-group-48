@@ -16,9 +16,31 @@ public class User {
     private final ArrayList<GameHistory> allGameHistories = new ArrayList<>();
     private final ArrayList<String> allFriends = new ArrayList<>();
     private final ArrayList<String> friendRequests = new ArrayList<>();
+    private static final ArrayList<User> onlineUsers = new ArrayList<>();
+
+    public static boolean isUserOnline(User user) {
+        return onlineUsers.contains(user);
+    }
+
+    public static void addOnlineUser(User user) {
+        if (!isUserOnline(user)) onlineUsers.add(user);
+    }
+
+    public static void removeOnlineUser(User user) {
+        if (isUserOnline(user)) onlineUsers.remove(user);
+    }
 
 
     private Deck deck = new Deck();
+
+    public static String GetScoreBoardString() {
+        StringBuilder scoreBoard = new StringBuilder();
+        ArrayList<User> users = getUsersBaseRanking();
+        for (int i = 0; i < users.size(); i++) {
+            scoreBoard.append(i + 1).append(". ").append(users.get(i).getUsername()).append(" : ").append(users.get(i).getMaxScore()).append(" . ").append("online status: ").append(isUserOnline(users.get(i))).append(" .\n");
+        }
+        return scoreBoard.toString();
+    }
 
     public void setDeck(Deck deck) {
         this.deck = deck;
@@ -52,7 +74,7 @@ public class User {
         return "username: " + user.getUsername() + "\n" +
                 "nickname: " + user.getNickname() + "\n" +
                 "maxScore: " + user.getMaxScore() + "\n" +
-                "ranking: " + (user.getUsersBaseRanking().indexOf(user) + 1) + "\n" +
+                "ranking: " + (getUsersBaseRanking().indexOf(user) + 1) + "\n" +
                 "number of games played: " + user.getNumberOfTotalGames() + "\n" +
                 "number of draws: " + user.getNumDraws() + "\n" +
                 "number of wins: " + user.getNumWins() + "\n" +
@@ -151,11 +173,11 @@ public class User {
         return null;
     }
 
-    public void rankingUsers() {
-        usersBaseRanking.sort(Comparator.comparingInt(User::getNumWins));
+    public static void rankingUsers() {
+        usersBaseRanking.sort(Comparator.comparingInt(User::getMaxScore));
     }
 
-    public ArrayList<User> getUsersBaseRanking() {
+    public static ArrayList<User> getUsersBaseRanking() {
         rankingUsers();
         return usersBaseRanking;
     }
@@ -211,24 +233,28 @@ public class User {
     public boolean isFriend(String username) {
         return allFriends.contains(username);
     }
+
     public boolean isInFriendsRequests(String username) {
         return friendRequests.contains(username);
     }
-    public void addFriendRequest(String username){
+
+    public void addFriendRequest(String username) {
         friendRequests.add(username);
     }
 
     public void addFriend(String username) {
-        if(!allFriends.contains(username)) allFriends.add(username);
+        if (!allFriends.contains(username)) allFriends.add(username);
     }
-    public String showAllFriends(){
+
+    public String showAllFriends() {
         StringBuilder friends = new StringBuilder();
         for (String friend : allFriends) {
             friends.append(friend).append("\n");
         }
         return friends.toString();
     }
-    public String showAllFriendRequests(){
+
+    public String showAllFriendRequests() {
         StringBuilder friends = new StringBuilder();
         for (String friend : friendRequests) {
             friends.append(friend).append("\n");

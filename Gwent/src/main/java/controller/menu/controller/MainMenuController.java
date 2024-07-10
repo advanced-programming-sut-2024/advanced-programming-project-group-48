@@ -1,6 +1,7 @@
 package controller.menu.controller;
 
 import client.Client;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import view.menus.*;
@@ -34,5 +35,19 @@ public class MainMenuController {
     public void changeMenuToFriendsMenu(MouseEvent mouseEvent) throws Exception {
         new FriendsMenu().start(MainMenu.appStage);
         MainMenu.appStage=null;
+    }
+
+    public void showScoreBoard(MouseEvent mouseEvent) {
+        sendShowScoreBoardReq();
+        String response = Client.currentClient.receiveResponse();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Score Board");
+        alert.setHeaderText("Score Board");
+        alert.setContentText(response);
+        alert.showAndWait();
+    }
+
+    private void sendShowScoreBoardReq() {
+        Client.currentClient.sendMessage("showScoreBoard");
     }
 }
