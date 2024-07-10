@@ -26,11 +26,11 @@ public class Faction {
         CommandersOfNilfgaardianEmpire.add("HisImperialMajesty");
         CommandersOfNilfgaardianEmpire.add("EmperorOfNilfgaard");
         CommandersOfNilfgaardianEmpire.add("TheRelentless");
-        CommandersOfNilfgaardianEmpire.add("InvaderOfTheNorth");
+        CommandersOfNilfgaardianEmpire.add("InvaderOfNorth");
         CommandersOfMonsters.add("BringerOfDeath");
         CommandersOfMonsters.add("KingOfTheWildHunt");
         CommandersOfMonsters.add("DestroyerOfWorlds");
-        CommandersOfMonsters.add("CommanderOfTheRedRiders");
+        CommandersOfMonsters.add("CommanderOfRedRiders");
         CommandersOfMonsters.add("TheTreacherous");
         CommandersOfScoiaTaell.add("QueenOfDolBlathanna");
         CommandersOfScoiaTaell.add("TheBeautiful");

@@ -1,9 +1,7 @@
 package controller.menu.controller;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -48,6 +46,14 @@ public class GameEnvironmentController {
     public ImageView rangedHorn;
     public Deck sampleDeck = new Deck();
     public Deck enemySampleDeck = new Deck();
+    public Button cheatCode1;
+    public Button cheatCode2;
+    public Button cheatCode3;
+    public Button cheatCode4;
+    public Button cheatCode5;
+    public Button cheatCode6;
+    public Button cheatCode7;
+
 
     {
         sampleDeck.setCommander("KingOfTemperia");
@@ -76,7 +82,7 @@ public class GameEnvironmentController {
         enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
     }
 
-    //    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
+    //public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
     public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
 
     public void initialize() {
@@ -1044,7 +1050,7 @@ public class GameEnvironmentController {
     }
 
 
-    public void playCommanderAbility(Deck deck, Card card , MouseEvent mouseEvent) {
+    public void playCommanderAbility(Deck deck, Card card, MouseEvent mouseEvent) {
         if (Faction.getCommandersOfNorthernRealms().equals("TheSiegemaster")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i].name.equals("ImpenetrableFog")) {
@@ -1059,7 +1065,7 @@ public class GameEnvironmentController {
                 }
             }
         }
-        if (Faction.getCommandersOfNorthernRealms().equals("KingOfTemeria")) {
+        if (Faction.getCommandersOfNorthernRealms().equals("KingOfTemperia")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.siegeHorn.name.equals("CommandersHorn")) {
                     gameEnvironment.siegeRow[i].power += 0;
@@ -1089,7 +1095,7 @@ public class GameEnvironmentController {
                 gameEnvironment.enemySiegeRow[indexStrongestCard] = null;
             }
         }
-        if (Faction.getCommandersOfNorthernRealms().equals("SonOfMedell")) {
+        if (Faction.getCommandersOfNorthernRealms().equals("SunOfMedell")) {
             int sumOfPowerOfEnemySiegeRowCards = 0;
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
@@ -1132,8 +1138,9 @@ public class GameEnvironmentController {
             if (gameEnvironment.enemyCommanderCard.equals("EmperorOfNilfgaard")) {
                 gameEnvironment.hasPlayedCommander = true;
             }
+            gameEnvironment.hasPlayedEnemyCommander = true;
         }
-        if (Faction.getCommandersOfNilfgaardianEmpire().equals("InvaderOfTheNorth")) {
+        if (Faction.getCommandersOfNilfgaardianEmpire().equals("InvaderOfNorth")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i] == null) {
                     if (gameEnvironment.discardPile.get(0) != null) {
@@ -1230,7 +1237,7 @@ public class GameEnvironmentController {
                 }
             }
         }
-        if (Faction.getCommandersOfScoiaTaell().equals("PurebloodElf")) {
+        if (Faction.getCommandersOfScoiaTaell().equals("PureBloodElf")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards != null && gameEnvironment.inHandCards[i].name == "BitingFrost") {
                     playSpellAction(Card.getCardByName("BitingFrost"));
@@ -1244,7 +1251,7 @@ public class GameEnvironmentController {
                 }
             }
         }
-        if (Faction.getCommandersOfNorthernRealms().equals("TheSteelForged")) {
+        if (Faction.getCommandersOfNorthernRealms().equals("TheSteel-Forged")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
                     gameEnvironment.siegeRow[i].resetPower();
@@ -1266,7 +1273,7 @@ public class GameEnvironmentController {
                 }
             }
         }
-        if (Faction.getCommandersOfNilfgaardianEmpire().equals("The Relentless")) {
+        if (Faction.getCommandersOfNilfgaardianEmpire().equals("TheRelentless")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i] == null) {
                     if (gameEnvironment.enemyDiscardPile.get(0) != null)
@@ -1281,7 +1288,7 @@ public class GameEnvironmentController {
                 }
             }
         }
-        if (Faction.getCommandersOfMonsters().equals("CommanderOfTheRedRiders")) {
+        if (Faction.getCommandersOfMonsters().equals("CommanderOfRedRiders")) {
             for (int i = 0; i < 10; i++) {
                 if (gameEnvironment.inHandCards[i] != null) {
                     if (Objects.equals(gameEnvironment.inHandCards[i].name, "BitingFrost") &&
@@ -1329,8 +1336,57 @@ public class GameEnvironmentController {
         }
     }
 
-
     public void playCommanderAbility(MouseEvent mouseEvent) {
+    }
 
+    public void cheatCode1(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+        boolean hasExecuted = false;
+        for (int i = 0; i < 10 && !hasExecuted; i++) {
+            if (gameEnvironment.inHandCards[i] == null) {
+                gameEnvironment.inHandCards[i] = gameEnvironment.deckUser.getAllCards().get(1);
+                hasExecuted = true; // Mark the loop as executed
+            } else {
+                System.out.println("Your in-hand cards are full.");
+            }
+        }
+    }
+
+    public void cheatCode2(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+        gameEnvironment.enemyCrystalsNumber = 0;
+    }
+
+    public void cheatCode3(MouseEvent mouseEvent, GameEnvironment gameEnvironment) throws Exception {
+        gameEnvironment.crystalsNumber += 1;
+        if (gameEnvironment.crystalsNumber == 3) {
+            checkForEndGame();
+        }
+    }
+
+    public void cheatCode4(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+        if (!gameEnvironment.hasPlayedCommander)
+            gameEnvironment.hasPlayedCommander = true;
+        if (!gameEnvironment.hasPlayedEnemyCommander)
+            gameEnvironment.hasPlayedEnemyCommander = true;
+    }
+
+    public void cheatCode5(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+        if (gameEnvironment.hasPlayedCommander)
+            gameEnvironment.hasPlayedCommander = false;
+        if (gameEnvironment.hasPlayedEnemyCommander)
+            gameEnvironment.hasPlayedEnemyCommander = false;
+    }
+
+    public void cheatCode6(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+        for (int i = 0; i < 10; i++) {
+            if (gameEnvironment.siegeRow[i] != null)
+                gameEnvironment.siegeRow[i].power *= 2;
+        }
+    }
+
+    public void cheatCode7(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+        for (int i = 0; i < 10; i++) {
+            if (gameEnvironment.closedRow[i] != null)
+                gameEnvironment.closedRow[i].power *= 2;
+        }
     }
 }

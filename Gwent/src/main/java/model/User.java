@@ -17,6 +17,17 @@ public class User {
     private final ArrayList<GameHistory> allGameHistories=new ArrayList<>();
     private Deck deck = new Deck();
 
+    public static void addMockUser(String existingUser, String s) {
+    }
+
+    public static User getUser(String newUser) {
+        return null;
+    }
+
+    public static void addUser(User user) {
+
+    }
+
     public Deck getDeck() {
         return deck;
     }
