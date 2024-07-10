@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private User currentUser;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+
 
     public ClientHandler(Socket socket) {
         this.clientSocket = socket;
@@ -29,6 +32,8 @@ public class ClientHandler implements Runnable {
     public void run() {
         try (DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream());
              DataOutputStream dataOutputStream = new DataOutputStream(clientSocket.getOutputStream())) {
+            this.dataInputStream = dataInputStream;
+            this.dataOutputStream = dataOutputStream;
             String command;
             while (true) {
                 try {
@@ -347,6 +352,58 @@ public class ClientHandler implements Runnable {
                     dataOutputStream.writeUTF(User.GetScoreBoardString());
                     continue;
                 }
+                matcher = Pattern.compile("createNewGame:(?<opponentUsername>.+)").matcher(command);
+                if (matcher.matches()) {
+                    // Create a new game
+                    String opponentUsername = matcher.group("opponentUsername");
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    if (!User.usernameExists(opponentUsername)) {
+                        dataOutputStream.writeUTF("User with this username was not found");
+                        continue;
+                    }
+                    if (currentUser.getUsername().equals(opponentUsername)) {
+                        dataOutputStream.writeUTF("The username you entered is your own");
+                        continue;
+                    }
+                    User opponent = User.getUserByUsername(opponentUsername);
+                    assert opponent != null;
+                    if (opponent.isInGame()) {
+                        dataOutputStream.writeUTF("The user is already in a game");
+                        continue;
+                    }
+                    if (currentUser.isInGame()) {
+                        dataOutputStream.writeUTF("You are already in a game");
+                        continue;
+                    }
+                    if(!opponent.isInWaitingRoom()){
+                        dataOutputStream.writeUTF("The opponent is not Ready for a Game");
+                        continue;
+                    }
+
+                    ClientHandler opponentClientHandler = Server.getOnlineUsers().get(opponentUsername);
+                    if (opponentClientHandler == null) {
+                        dataOutputStream.writeUTF("The opponent is not online");
+                        continue;
+                    }
+                    currentUser.setInGame(true);
+                    opponent.setInGame(true);
+                    dataOutputStream.writeUTF("Game created successfully");
+                    opponentClientHandler.dataOutputStream.writeUTF("Game created successfully");
+                    startGameSession(opponentClientHandler);
+                    continue;
+                }
+                if (command.equals("enterWaitingRoom")) {
+                    // Enter the waiting room
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    currentUser.setInWaitingRoom(true);
+                    continue;
+                }
 
 
 
@@ -369,3 +426,4 @@ public class ClientHandler implements Runnable {
         }
     }
 }
+

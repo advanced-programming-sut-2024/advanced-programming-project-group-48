@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1474.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.GameEnvironmentControllerTest">
+<AnchorPane prefHeight="600.0" prefWidth="1474.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu.controller.GameEnvironmentController">
    <ImageView fitHeight="1110.0" fitWidth="1473.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../images/board.png" />
    </ImageView>
@@ -118,24 +118,16 @@
    <Label fx:id="enemyCrystalsNumber" layoutX="215.0" layoutY="297.0" text="Label" />
    <Label fx:id="crystalsNumber" layoutX="216.0" layoutY="483.0" text="Label" />
    <ImageView fitHeight="37.0" fitWidth="29.0" layoutX="71.0" layoutY="287.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../images/icons/icon_card_count.png" />
-      </image>
+      <Image url="@../images/icons/icon_card_count.png"/>
    </ImageView>
    <ImageView fitHeight="37.0" fitWidth="29.0" layoutX="71.0" layoutY="476.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../images/icons/icon_card_count.png" />
-      </image>
+      <Image url="@../images/icons/icon_card_count.png"/>
    </ImageView>
    <ImageView fitHeight="37.0" fitWidth="29.0" layoutX="182.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../images/icons/icon_gem_on.png" />
-      </image>
+      <Image url="@../images/icons/icon_gem_on.png"/>
    </ImageView>
    <ImageView fitHeight="37.0" fitWidth="29.0" layoutX="183.0" layoutY="476.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../images/icons/icon_gem_on.png" />
-      </image>
+      <Image url="@../images/icons/icon_gem_on.png"/>
    </ImageView>
    <ImageView fx:id="commanderCard" fitHeight="113.0" fitWidth="91.0" layoutX="99.0" layoutY="632.0" onMouseClicked="#playCommanderAbility" pickOnBounds="true" />
    <Button layoutX="258.0" layoutY="642.0" mnemonicParsing="false" onMouseClicked="#passRound" text="Pass Round" />

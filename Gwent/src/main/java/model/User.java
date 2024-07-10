@@ -17,6 +17,16 @@ public class User {
     private final ArrayList<String> allFriends = new ArrayList<>();
     private final ArrayList<String> friendRequests = new ArrayList<>();
     private static final ArrayList<User> onlineUsers = new ArrayList<>();
+    private boolean isInGame;
+    private boolean isInWaitingRoom;
+
+    public boolean isInWaitingRoom() {
+        return isInWaitingRoom;
+    }
+
+    public void setInWaitingRoom(boolean inWaitingRoom) {
+        isInWaitingRoom = inWaitingRoom;
+    }
 
     public static boolean isUserOnline(User user) {
         return onlineUsers.contains(user);
@@ -260,6 +270,14 @@ public class User {
             friends.append(friend).append("\n");
         }
         return friends.toString();
+    }
+
+    public boolean isInGame() {
+        return isInGame;
+    }
+
+    public void setInGame(boolean b) {
+        isInGame = b;
     }
 }
 

@@ -25,8 +25,7 @@ public class GameEnvironmentMenu extends Application {
         stage.show();
     }
 
-    public GameEnvironmentMenu(User opponentUser){
-        this.opponentUser=opponentUser;
+    public GameEnvironmentMenu(){
         currentGame=this;
     }
 
