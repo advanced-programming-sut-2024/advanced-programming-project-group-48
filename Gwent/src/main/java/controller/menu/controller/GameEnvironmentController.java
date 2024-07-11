@@ -1,5 +1,6 @@
 package controller.menu.controller;
 
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -44,8 +45,6 @@ public class GameEnvironmentController {
     public ImageView closeHorn;
     public ImageView enemyRangedHorn;
     public ImageView rangedHorn;
-    public Deck sampleDeck = new Deck();
-    public Deck enemySampleDeck = new Deck();
     public Button cheatCode1;
     public Button cheatCode2;
     public Button cheatCode3;
@@ -53,45 +52,45 @@ public class GameEnvironmentController {
     public Button cheatCode5;
     public Button cheatCode6;
     public Button cheatCode7;
+//
+//
+//    {
+//        sampleDeck.setCommander("KingOfTemperia");
+//        sampleDeck.setFaction("NorthernRealms");
+//        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        enemySampleDeck.setCommander("LordOfCommanderOfTheNorth");
+//        enemySampleDeck.setFaction("NorthernRealms");
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
+//    }
 
-
-    {
-        sampleDeck.setCommander("KingOfTemperia");
-        sampleDeck.setFaction("NorthernRealms");
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.setCommander("LordOfCommanderOfTheNorth");
-        enemySampleDeck.setFaction("NorthernRealms");
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-    }
-
-    //public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
-    public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
+    public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
+//    public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
 
     public void initialize() {
         commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
         enemyCommanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.enemyCommanderCard + ".jpg"))));
         deckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.deckLogo + ".jpg"))));
         enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
-        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
-        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
+        drawRandomCards(gameEnvironment.deckUser.getAllCards(), gameEnvironment.inHandCards, 10);
+        drawRandomCards(gameEnvironment.deckEnemy.getAllCards(), gameEnvironment.enemyInHandCards, 10);
         updateEverything();
 
 
@@ -687,7 +686,7 @@ public class GameEnvironmentController {
             return;
         }
         gameEnvironment.numberOfVeto++;
-        vetoRandomCard(sampleDeck.getAllCards(), gameEnvironment.inHandCards, cardIndex);
+        vetoRandomCard(gameEnvironment.deckUser.getAllCards(), gameEnvironment.inHandCards, cardIndex);
     }
 
 
@@ -986,8 +985,8 @@ public class GameEnvironmentController {
         gameEnvironment.hasPlayedCommander = false;
         gameEnvironment.hasPlayedEnemyCommander = false;
         gameEnvironment.turnNumber = 1;
-        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
-        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
+        drawRandomCards(gameEnvironment.deckUser.getAllCards(), gameEnvironment.inHandCards, 10);
+        drawRandomCards(gameEnvironment.deckEnemy.getAllCards(), gameEnvironment.enemyInHandCards, 10);
         updateEverything();
     }
 
@@ -1339,7 +1338,7 @@ public class GameEnvironmentController {
     public void playCommanderAbility(MouseEvent mouseEvent) {
     }
 
-    public void cheatCode1(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+    public void cheatCode1(MouseEvent mouseEvent) {
         boolean hasExecuted = false;
         for (int i = 0; i < 10 && !hasExecuted; i++) {
             if (gameEnvironment.inHandCards[i] == null) {
@@ -1351,39 +1350,39 @@ public class GameEnvironmentController {
         }
     }
 
-    public void cheatCode2(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+    public void cheatCode2(MouseEvent mouseEvent) {
         gameEnvironment.enemyCrystalsNumber = 0;
     }
 
-    public void cheatCode3(MouseEvent mouseEvent, GameEnvironment gameEnvironment) throws Exception {
+    public void cheatCode3(MouseEvent mouseEvent) throws Exception {
         gameEnvironment.crystalsNumber += 1;
         if (gameEnvironment.crystalsNumber == 3) {
             checkForEndGame();
         }
     }
 
-    public void cheatCode4(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+    public void cheatCode4(MouseEvent mouseEvent) {
         if (!gameEnvironment.hasPlayedCommander)
             gameEnvironment.hasPlayedCommander = true;
         if (!gameEnvironment.hasPlayedEnemyCommander)
             gameEnvironment.hasPlayedEnemyCommander = true;
     }
 
-    public void cheatCode5(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+    public void cheatCode5(MouseEvent mouseEvent) {
         if (gameEnvironment.hasPlayedCommander)
             gameEnvironment.hasPlayedCommander = false;
         if (gameEnvironment.hasPlayedEnemyCommander)
             gameEnvironment.hasPlayedEnemyCommander = false;
     }
 
-    public void cheatCode6(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+    public void cheatCode6(MouseEvent mouseEvent) {
         for (int i = 0; i < 10; i++) {
             if (gameEnvironment.siegeRow[i] != null)
                 gameEnvironment.siegeRow[i].power *= 2;
         }
     }
 
-    public void cheatCode7(MouseEvent mouseEvent, GameEnvironment gameEnvironment) {
+    public void cheatCode7(MouseEvent mouseEvent) {
         for (int i = 0; i < 10; i++) {
             if (gameEnvironment.closedRow[i] != null)
                 gameEnvironment.closedRow[i].power *= 2;
