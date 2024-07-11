@@ -16,7 +16,8 @@ public class ForgetPasswordController {
 
     public void generateRandomPassword() {
         String password=PasswordGenerator.generateRandomPassword(12);
-        NewPassword.setText(password);
+        if(NewPassword != null)
+            NewPassword.setText(password);
     }
 
     public void changePassword() throws Exception {

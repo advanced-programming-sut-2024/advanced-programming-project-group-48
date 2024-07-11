@@ -449,7 +449,7 @@ public class Card implements Cloneable {
     }
 
     public static Card getCardByName(String name) {
-        for (Card i : allCards) {
+        for (Card i : Card.allCards) {
             if (i.name.equals(name)) {
                 return i;
             }

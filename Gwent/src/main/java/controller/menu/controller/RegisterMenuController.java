@@ -74,8 +74,10 @@ public class RegisterMenuController {
 
     public void generateRandomPassword() {
         String password=PasswordGenerator.generateRandomPassword(12);
-        RandomPassword.setText(password);
-        RegisterPassword.setText(password);
+        if(RandomPassword != null)
+            RandomPassword.setText(password);
+        if(RegisterPassword != null)
+            RegisterPassword.setText(password);
     }
 
     public void changeToForgetPassword() throws Exception {

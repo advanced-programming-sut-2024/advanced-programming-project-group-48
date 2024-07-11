@@ -11,8 +11,11 @@ import view.menus.RegisterMenu;
 
 public class MainMenuController {
     public void changeMenuToProfileMenu() throws Exception {
-        new ProfileMenu().start(MainMenu.appStage);
-        MainMenu.appStage = null;
+        if(MainMenu.appStage != null){
+            new ProfileMenu().start(MainMenu.appStage);
+            MainMenu.appStage = null;
+        }
+
     }
 
     public void changeMenuToPreGame(MouseEvent mouseEvent) throws Exception {
@@ -21,9 +24,12 @@ public class MainMenuController {
     }
 
     public void changeMenuToRegisterMenu(MouseEvent mouseEvent) throws Exception {
-        User.loggedInUser = null;
-        MainMenu.appStage.close();
-        new RegisterMenu().start(new Stage());
+        if(User.loggedInUser != null && MainMenu.appStage != null){
+            User.loggedInUser = null;
+            MainMenu.appStage.close();
+            new RegisterMenu().start(new Stage());
+        }
+
         //This may need some changes because we are making a long callstack
         //We can just change the scene of the current stage
     }
