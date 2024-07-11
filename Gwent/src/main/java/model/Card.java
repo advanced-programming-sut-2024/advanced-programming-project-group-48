@@ -1,7 +1,10 @@
 package model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
+
 
 public class Card implements Cloneable {
     public String name;
@@ -10,7 +13,12 @@ public class Card implements Cloneable {
     public final int maxNumber;
     public final String type;
     public final boolean isHero;
-    private final CardAction action; // The method to be passed
+
+    @JsonIgnore
+    private CardAction action; // The method to be passed
+    public void setAction(CardAction action) {
+        this.action = action;
+    }
     public static ArrayList<Card> allCards = new ArrayList<>();
     public static ArrayList<Card> discardPile = new ArrayList<>();
     public String ability;
@@ -26,7 +34,7 @@ public class Card implements Cloneable {
     }
 
 
-    private static CardAction Medic = new CardAction() {
+    public static CardAction Medic = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for (int i = 0; i < 10; i++) {
@@ -122,7 +130,7 @@ public class Card implements Cloneable {
         }
     }
 
-    private static CardAction Spy = new CardAction() {
+     static CardAction Spy = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
@@ -151,7 +159,7 @@ public class Card implements Cloneable {
             allCards.remove(0);
         }
     }
-    private static CardAction TightBond = new CardAction() {
+     static CardAction TightBond = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
                 if(gameEnvironment.recentPlaceCardRow==1)

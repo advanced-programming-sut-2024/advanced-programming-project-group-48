@@ -50,12 +50,17 @@ public class GameEnvironmentController {
     public Deck sampleDeck = new Deck();
     public Deck enemySampleDeck = new Deck();
 
-    public GameEnvironment gameEnvironment;
+    public GameEnvironment gameEnvironment = GameEnvironmentMenu.gameEnvironment;
 
     public void initialize() {
-        String json = Client.currentClient.receiveResponse();
-        gameEnvironment = GameEnvironment.fromJson(json);
         updateEverything();
+        String response = Client.currentClient.receiveResponse();
+        if (response.equals("start")) return;
+        if (response.equals("your turn")) {
+            String json = Client.currentClient.receiveResponse();
+            gameEnvironment = GameEnvironment.fromJson(json);
+            updateEverything();
+        }
     }
 
     public static void drawRandomCards(List<Card> allCards, Card[] inHandCards, int numberOfCards) {
@@ -173,6 +178,16 @@ public class GameEnvironmentController {
                 ((ImageView) enemySiegeRow.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.enemySiegeRow[i].name + ".jpg"))));
             } else {
                 ((ImageView) enemySiegeRow.getChildren().get(i)).setImage(null);
+            }
+        }
+
+        // Update spell cards
+
+        for (int i = 0; i < gameEnvironment.spellCards.length; i++) {
+            if (gameEnvironment.spellCards[i] != null) {
+                ((ImageView) spellCards.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/" + gameEnvironment.enemyDeckLogo + "/" + gameEnvironment.spellCards[i].name + ".jpg"))));
+            } else {
+                ((ImageView) spellCards.getChildren().get(i)).setImage(null);
             }
         }
 
@@ -805,7 +820,9 @@ public class GameEnvironmentController {
             gameEnvironment = GameEnvironment.fromJson(response);
             updateEverything();
         } else {
-            endRound();
+            GameEnvironmentMenu.appStage.close();
+            GameEnvironmentMenu.appStage = null;
+            new MainMenu().start(new Stage());
         }
     }
 
@@ -817,10 +834,7 @@ public class GameEnvironmentController {
     }
 
     private void endRound() throws Exception {
-        int temp = gameEnvironment.turnNumber % 2;
-        for (int i = 0; i < temp + 1; i++) {
-            changeTurn();
-        }
+
         String roundResult;
         if (gameEnvironment.totalScore > gameEnvironment.enemyTotalScore) {
             gameEnvironment.crystalsNumber++;
@@ -846,14 +860,8 @@ public class GameEnvironmentController {
         }
 
         System.out.println(roundResult);
-        setMaxScores();
         checkForEndGame();
         clearDeck();
-    }
-
-    private void setMaxScores() {
-        User.loggedInUser.setMaxScore(gameEnvironment.totalScore);
-        GameEnvironmentMenu.currentGame.opponentUser.setMaxScore(gameEnvironment.enemyTotalScore);
     }
 
     private void clearDeck() {
@@ -927,26 +935,8 @@ public class GameEnvironmentController {
     }
 
     private void endGame(int status) throws Exception {
-        GameHistory gameHistory = new GameHistory(gameEnvironment.round1Score, gameEnvironment.round2Score, gameEnvironment.round3Score,
-                gameEnvironment.enemyRound1Score, gameEnvironment.enemyRound2Score, gameEnvironment.enemyRound3Score, new Date(), GameEnvironmentMenu.currentGame.opponentUser.getUsername());
-        User.loggedInUser.addGameHistory(gameHistory);
-        GameHistory gameHistoryOpponent = new GameHistory(gameEnvironment.enemyRound1Score, gameEnvironment.enemyRound2Score, gameEnvironment.enemyRound3Score,
-                gameEnvironment.round1Score, gameEnvironment.round2Score, gameEnvironment.round3Score, new Date(), User.loggedInUser.getUsername());
-        GameEnvironmentMenu.currentGame.opponentUser.addGameHistory(gameHistoryOpponent);
-        if (status == 0) {
-            User.loggedInUser.increaseNumWins();
-            GameEnvironmentMenu.currentGame.opponentUser.increaseNumLoses();
-        }
-        if (status == 1) {
-            User.loggedInUser.increaseNumLoses();
-            GameEnvironmentMenu.currentGame.opponentUser.increaseNumWins();
-        }
-        if (status == 2) {
-            User.loggedInUser.increaseNumDraws();
-            GameEnvironmentMenu.currentGame.opponentUser.increaseNumDraws();
-        }
-        User.loggedInUser.increaseNumTotalGames();
-        GameEnvironmentMenu.currentGame.opponentUser.increaseNumTotalGames();
+        Client.currentClient.sendMessage("end");
+        Client.currentClient.sendMessage(gameEnvironment.toJson());
         GameEnvironmentMenu.appStage.close();
         GameEnvironmentMenu.appStage = null;
         new MainMenu().start(new Stage());

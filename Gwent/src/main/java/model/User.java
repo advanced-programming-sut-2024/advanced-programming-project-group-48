@@ -69,7 +69,7 @@ public class User {
         int historiesToFetch = Math.min(numberOfGameHistories, historySize);
         for (int i = historySize - 1; i >= historySize - historiesToFetch; i--) {
             gameHistory.append("opponent username: ").append(user.getAllGameHistories().get(i).getOpponentUsername()).append("\n")
-                    .append("date of game: ").append(user.getAllGameHistories().get(i).getDateOfGame().toString()).append("\n")
+                    .append("date of game: ").append(user.getAllGameHistories().get(i).getDateOfGame()).append("\n")
                     .append("your score per round : ").append(Arrays.toString(user.getAllGameHistories().get(i).getUserScorePerRound())).append("\n")
                     .append("opponent score per round : ").append(Arrays.toString(user.getAllGameHistories().get(i).getOpponentScoresPerRound())).append("\n")
                     .append("total score of you in this game : ").append(user.getAllGameHistories().get(i).getTotalScoreOfUser()).append("\n")

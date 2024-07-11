@@ -16,6 +16,7 @@ public class GameEnvironmentMenu extends Application {
 
     public static GameEnvironmentMenu currentGame;
 
+    public static GameEnvironment gameEnvironment;
     @Override
     public void start(Stage stage) throws Exception {
         appStage=stage;
@@ -26,8 +27,9 @@ public class GameEnvironmentMenu extends Application {
         stage.show();
     }
 
-    public GameEnvironmentMenu(){
+    public GameEnvironmentMenu(GameEnvironment gameEnvironment){
         currentGame=this;
+        GameEnvironmentMenu.gameEnvironment =gameEnvironment;
     }
 
 

@@ -4,6 +4,7 @@ module Gwent {
     requires javafx.media;
     requires org.slf4j;
     requires com.google.gson;
+    requires com.fasterxml.jackson.databind;
     exports model;
     opens model;
     exports view.menus;

@@ -34,9 +34,12 @@ public class PreGameController {
                 alert1.getDialogPane().getButtonTypes().add(ButtonType.OK);
                 alert1.showAndWait();
                 Client.currentClient.sendMessage("getGameEnvironment");
+                String gameEnvironmentJson = Client.currentClient.receiveResponse();
+                GameEnvironment gameEnvironment = GameEnvironment.fromJson(gameEnvironmentJson);
                 PreGameMenu.appStage.close();
                 PreGameMenu.appStage = null;
-                new GameEnvironmentMenu().start(new Stage());
+
+                new GameEnvironmentMenu(gameEnvironment).start(new Stage());
             } else {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
                 alert1.setTitle("invalid input!");
@@ -76,9 +79,11 @@ public class PreGameController {
         if (response.equals("Game created successfully")) {
             ErrorText.setText("Opponent joined the game.");
             Client.currentClient.sendMessage("getGameEnvironment");
+            String gameEnvironmentJson = Client.currentClient.receiveResponse();
+            GameEnvironment gameEnvironment = GameEnvironment.fromJson(gameEnvironmentJson);
             PreGameMenu.appStage.close();
             PreGameMenu.appStage = null;
-            new GameEnvironmentMenu().start(new Stage());
+            new GameEnvironmentMenu(gameEnvironment).start(new Stage());
         } else {
             ErrorText.setText("Opponent didn't join the game.");
         }

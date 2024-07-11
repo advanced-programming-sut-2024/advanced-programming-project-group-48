@@ -11,6 +11,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static server.Server.logger;
+
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private User currentUser;
@@ -147,7 +149,9 @@ public class ClientHandler implements Runnable {
                         dataOutputStream.writeUTF("No game has played");
                         continue;
                     }
-                    dataOutputStream.writeUTF(User.getGameHistory(currentUser, numberOfGameHistories));
+                    String gameHistory = User.getGameHistory(currentUser, numberOfGameHistories);
+                    logger.debug("Sending game history: {}", gameHistory);
+                    dataOutputStream.writeUTF(gameHistory);
                     continue;
                 }
                 matcher = Pattern.compile("saveProfileMenuChanges:(?<newUsername>.*):(?<newEmail>.*):(?<newNickname>.*):(?<newPassword>.*):(?<oldPassword>.*)").matcher(command);
@@ -437,7 +441,7 @@ public class ClientHandler implements Runnable {
                 dataOutputStream.writeUTF("invalid input");
             }
         } catch (IOException e) {
-            Server.logger.error("Error handling client connection", e);
+            logger.error("Error handling client connection", e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
@@ -449,17 +453,17 @@ public class ClientHandler implements Runnable {
                 try {
                     clientSocket.close();
                 } catch (IOException e) {
-                    Server.logger.error("Error closing client socket", e);
+                    logger.error("Error closing client socket", e);
                 }
             }
         }
     }
 
-    public void sendMessage(String player1Json) {
+    public void sendMessage(String message) {
         try {
-            dataOutputStream.writeUTF(player1Json);
+            dataOutputStream.writeUTF(message);
         } catch (IOException e) {
-            Server.logger.error("Error sending message to client", e);
+            logger.error("Error sending message to client", e);
         }
     }
 
@@ -467,7 +471,7 @@ public class ClientHandler implements Runnable {
         try {
             return dataInputStream.readUTF();
         } catch (IOException e) {
-            Server.logger.error("Error receiving message from client", e);
+            logger.error("Error receiving message from client", e);
             return null;
         }
     }

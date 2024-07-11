@@ -3,7 +3,6 @@ package model;
 import com.google.gson.*;
 import controller.menu.controller.GameEnvironmentController;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class GameEnvironment {
@@ -48,48 +47,78 @@ public class GameEnvironment {
     public int recentPlaceCardRow;
     public boolean hasPlayedCommander;
     public boolean hasPlayedEnemyCommander;
+    private ArrayList<Card> allCards = new ArrayList<>();
+
+    public ArrayList<Card> getAllCards() {
+        return allCards;
+    }
+
+    public void setAllCards(ArrayList<Card> allCards) {
+        this.allCards = allCards;
+    }
 
     public String toJson() {
-        Gson gson = buildGson(); // Use the custom Gson instance
+        Gson gson = new GsonBuilder()
+                .setExclusionStrategies(new CardActionExclusionStrategy())
+                .create();
         return gson.toJson(this);
     }
     public static GameEnvironment fromJson(String json) {
-        Gson gson = buildGson(); // Use the custom Gson instance for deserialization
-        return gson.fromJson(json, GameEnvironment.class);
+        Gson gson = new Gson();
+        GameEnvironment gameEnvironment = gson.fromJson(json, GameEnvironment.class);
+
+        // Assuming GameEnvironment has a method to get all cards
+        for (Card card : gameEnvironment.getAllCards()) {
+            card.setAction(getCardActionByAbility(card.ability));
+        }
+        return gameEnvironment;
     }
+    private static CardAction getCardActionByAbility(String ability) {
+        return switch (ability) {
+            case "Medic" -> Card.Medic;
+            case "CommandersHorn" -> Card.CommandersHorn;
+            case "MoralBoost" -> Card.MoralBoost;
+            case "Muster" -> Card.Muster;
+            case "TightBond" -> Card.TightBond;
+            case "Scorch" -> Card.Scorch;
+            case "Mardroeme" -> Card.Mardroeme;
+            // Add other cases as needed
+            default -> Card.NoAbility;
+        };
+    }
+
 
     public GameEnvironment(){
         // Default constructor
     }
-    static class CardActionSerializer implements JsonSerializer<CardAction> {
-        @Override
-        public JsonElement serialize(CardAction src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject result = new JsonObject();
-            result.addProperty("type", src.getClass().getName());
-            result.add("properties", context.serialize(src, src.getClass()));
-            return result;
+
+    public int getGameStatus() {
+        int result = 0;
+        if (round1Score == -1 || round2Score == -1 || round3Score == -1 || enemyRound1Score == -1 || enemyRound2Score == -1 || enemyRound3Score == -1) {
+            return 0;
         }
-    }
-    static class CardActionDeserializer implements JsonDeserializer<CardAction> {
-        @Override
-        public CardAction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonObject jsonObject = json.getAsJsonObject();
-            String type = jsonObject.get("type").getAsString();
-            try {
-                return context.deserialize(jsonObject.get("properties"), Class.forName(type));
-            } catch (ClassNotFoundException e) {
-                throw new JsonParseException("Unknown element type: " + type, e);
-            }
+        if (round1Score > enemyRound1Score) {
+            result++;
+        } else if (round1Score < enemyRound1Score) {
+            result--;
         }
-    }
-    public static Gson buildGson() {
-        return new GsonBuilder()
-                .registerTypeAdapter(CardAction.class, new CardActionSerializer())
-                .registerTypeAdapter(CardAction.class, new CardActionDeserializer())
-                .create();
+        if (round2Score > enemyRound2Score) {
+            result++;
+        } else if (round2Score < enemyRound2Score) {
+            result--;
+        }
+        if (round3Score > enemyRound3Score) {
+            result++;
+        } else if (round3Score < enemyRound3Score) {
+            result--;
+        }
+        return result;
     }
 
+
     public GameEnvironment(Deck deckUser, Deck deckEnemy) {
+        allCards.addAll(deckUser.getAllCards());
+        allCards.addAll(deckEnemy.getAllCards());
         this.commanderCard = deckUser.getCommander();
         this.enemyCommanderCard = deckEnemy.getCommander();
         this.deckLogo = deckUser.getFaction();

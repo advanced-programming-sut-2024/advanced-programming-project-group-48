@@ -74,8 +74,8 @@ public class ProfileMenuController {
         int numberOfGameHistories = Integer.parseInt(numberOfGameHistory);
         sendShowGameHistoryReq(numberOfGameHistory);
         String response = Client.currentClient.receiveResponse();
-        if(response.equals("No game has played")){
-            ErrorText.setText("No game has played");
+        if(response == null || response.equals("No game has played")){
+            ErrorText.setText(response == null ? "Error receiving response" : "No game has played");
             return;
         }
 
