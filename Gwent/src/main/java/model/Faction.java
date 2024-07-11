@@ -7,26 +7,26 @@ public class Faction {
     private static final HashMap<String, ArrayList<String>> faction = new HashMap<>();
     private static final HashMap<String, ArrayList<String>> factionCard = new HashMap<>();
     private static final ArrayList<String> CommandersOfNorthernRealms = new ArrayList<>();
-    private static final ArrayList<String> CommandersOfNilfgaardianEmpire = new ArrayList<>();
+    private static final ArrayList<String> CommandersOfNilfgaard = new ArrayList<>();
     private static final ArrayList<String> CommandersOfMonsters = new ArrayList<>();
     private static final ArrayList<String> CommandersOfScoiaTaell = new ArrayList<>();
     private static final ArrayList<String> CommandersOfSkellige = new ArrayList<>();
 
     static {
         CommandersOfNorthernRealms.add("TheSiegemaster");
-        CommandersOfNorthernRealms.add("TheSteel-Forged");
+        CommandersOfNorthernRealms.add("TheSteal-Forged");
         CommandersOfNorthernRealms.add("KingOfTemperia");
-        CommandersOfNorthernRealms.add("LordCommanderOfTheNorth");
+        CommandersOfNorthernRealms.add("LordOfCommanderOfTheNorth");
         CommandersOfNorthernRealms.add("SunOfMedell");
-        CommandersOfNilfgaardianEmpire.add("TheWhiteFlame");
-        CommandersOfNilfgaardianEmpire.add("HisImperialMajesty");
-        CommandersOfNilfgaardianEmpire.add("EmperorOfNilfgaard");
-        CommandersOfNilfgaardianEmpire.add("TheRelentless");
-        CommandersOfNilfgaardianEmpire.add("InvaderOfTheNorth");
+        CommandersOfNilfgaard.add("TheWhiteFlame");
+        CommandersOfNilfgaard.add("HisImperialMajesty");
+        CommandersOfNilfgaard.add("EmperorOfNilfgaard");
+        CommandersOfNilfgaard.add("TheRelentless");
+        CommandersOfNilfgaard.add("InvaderOfNorth");
         CommandersOfMonsters.add("BringerOfDeath");
         CommandersOfMonsters.add("KingOfTheWildHunt");
         CommandersOfMonsters.add("DestroyerOfWorlds");
-        CommandersOfMonsters.add("CommanderOfTheRedRiders");
+        CommandersOfMonsters.add("CommanderOfRedRiders");
         CommandersOfMonsters.add("TheTreacherous");
         CommandersOfScoiaTaell.add("QueenOfDolBlathanna");
         CommandersOfScoiaTaell.add("TheBeautiful");
@@ -35,12 +35,11 @@ public class Faction {
         CommandersOfScoiaTaell.add("HopeOfTheAenSeidhe");
         CommandersOfSkellige.add("CrachAnCraite");
         CommandersOfSkellige.add("KingBran");
-        faction.put("NorthernRealms", CommandersOfNorthernRealms);
-        faction.put("NilfgaardianEmpire", CommandersOfNilfgaardianEmpire);
-        faction.put("Monsters", CommandersOfMonsters);
-        faction.put("Scoia'tael", CommandersOfScoiaTaell);
-        faction.put("Skellige", CommandersOfSkellige);
-
+        faction.put("NorthernRealms" , CommandersOfNorthernRealms);
+        faction.put("Nilfgaard" , CommandersOfNilfgaard);
+        faction.put("Monsters" , CommandersOfMonsters);
+        faction.put("ScoiaTaell" , CommandersOfScoiaTaell);
+        faction.put("Skellige" , CommandersOfSkellige);
     }
 
     public static HashMap<String, ArrayList<String>> getFaction() {
@@ -52,7 +51,7 @@ public class Faction {
     }
 
     public static ArrayList<String> getCommandersOfNilfgaardianEmpire() {
-        return CommandersOfNilfgaardianEmpire;
+        return CommandersOfNilfgaard;
     }
 
     public static ArrayList<String> getCommandersOfMonsters() {
