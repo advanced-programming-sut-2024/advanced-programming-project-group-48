@@ -26,7 +26,7 @@ public class Card implements Cloneable {
     }
 
 
-    static CardAction Medic = new CardAction() {
+    private static CardAction Medic = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for (int i = 0; i < 10; i++) {
@@ -60,30 +60,27 @@ public class Card implements Cloneable {
             }
         }
     };
-    static CardAction MoralBoost = new CardAction() {
-        @Override
-        public void execute(GameEnvironment gameEnvironment) {
-            if(gameEnvironment.recentPlaceCardRow==1){
-                for (int i = 0; i < 10; i++) {
-                    if (!(gameEnvironment.closedRow[i] == null))
-                        gameEnvironment.closedRow[i].power += 1;
-                }
+    static CardAction MoralBoost = gameEnvironment -> {
+        if(gameEnvironment.recentPlaceCardRow==1){
+            for (int i = 0; i < 10; i++) {
+                if (!(gameEnvironment.closedRow[i] == null))
+                    gameEnvironment.closedRow[i].power += 1;
             }
-            if(gameEnvironment.recentPlaceCardRow==2){
-                for (int i = 0; i < 10; i++) {
-                    if (!(gameEnvironment.rangedRow[i] == null))
-                        gameEnvironment.rangedRow[i].power += 1;
-                }
+        }
+        if(gameEnvironment.recentPlaceCardRow==2){
+            for (int i = 0; i < 10; i++) {
+                if (!(gameEnvironment.rangedRow[i] == null))
+                    gameEnvironment.rangedRow[i].power += 1;
             }
-            if(gameEnvironment.recentPlaceCardRow==3){
-                for (int i = 0; i < 10; i++) {
-                    if (!(gameEnvironment.siegeRow[i] == null))
-                        gameEnvironment.siegeRow[i].power += 1;
-                }
+        }
+        if(gameEnvironment.recentPlaceCardRow==3){
+            for (int i = 0; i < 10; i++) {
+                if (!(gameEnvironment.siegeRow[i] == null))
+                    gameEnvironment.siegeRow[i].power += 1;
             }
         }
     };
-    static CardAction Muster = new CardAction() {
+    public static CardAction Muster = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             for (int i = 0; i < 10; i++) {
@@ -125,7 +122,7 @@ public class Card implements Cloneable {
         }
     }
 
-    static CardAction Spy = new CardAction() {
+    private static CardAction Spy = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
@@ -154,7 +151,7 @@ public class Card implements Cloneable {
             allCards.remove(0);
         }
     }
-    static CardAction TightBond = new CardAction() {
+    private static CardAction TightBond = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
                 if(gameEnvironment.recentPlaceCardRow==1)
@@ -184,7 +181,7 @@ public class Card implements Cloneable {
         }
     };
 
-    static CardAction Scorch = new CardAction() {
+    public static CardAction Scorch = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             int sumEnemyNoneHeroCards=0;
@@ -208,7 +205,7 @@ public class Card implements Cloneable {
             }
         }
     };
-    static CardAction Berserker = new CardAction() {
+    public static CardAction Berserker = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 //          Dose nothing
@@ -241,14 +238,14 @@ public class Card implements Cloneable {
         }
 
     };
-    static CardAction Transformers = new CardAction() {
+    public static CardAction Transformers = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
             //handle this in the GameEnvironmentController
         }
 
     };
-    static CardAction NoAbility = new CardAction() {
+    public static CardAction NoAbility = new CardAction() {
         @Override
         public void execute(GameEnvironment gameEnvironment) {
 
@@ -266,16 +263,6 @@ public class Card implements Cloneable {
         this.action = action;
         allCards.add(this);
         this.ability = ability;
-//        if(this.faction.equals("Nilfgaardian Empire") || this.faction.equals("All") )
-//            Faction.getCardsOfNilfgaardianEmpire().add(this.name);
-//        else if(this.faction.equals("Monsters") || this.faction.equals("All"))
-//            Faction.getCardsOfMonsters().add(this.name);
-//        else if(this.faction.equals("Northern Realms") || this.faction.equals("All"))
-//            Faction.getCardsOfNorthenRealms().add(this.name);
-//        else if(this.faction.equals("Scoia'tael") || this.faction.equals("All"))
-//            Faction.getCardsOfScoiaTaell().add(this.name);
-//        else if(this.faction.equals("Skellige") || this.faction.equals("All"))
-//            Faction.getCardsOfSkellige().add(this.name);
     }
 
     static {
@@ -445,6 +432,7 @@ public class Card implements Cloneable {
 
     // Method to call the passed method
     public void performAction(GameEnvironment gameEnvironment) {
+        if(this.action==null) return;
         action.execute(gameEnvironment);
     }
 

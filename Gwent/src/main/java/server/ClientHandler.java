@@ -7,6 +7,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,27 +16,41 @@ public class ClientHandler implements Runnable {
     private User currentUser;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private final CountDownLatch gameEndLatch; // Added latch to wait for game end
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
     public ClientHandler(Socket socket) {
         this.clientSocket = socket;
+        this.gameEndLatch = new CountDownLatch(1); // Initialize the latch with count 1
     }
 
 
     public void startGameSession(ClientHandler opponent) {
-        GameSession gameSession = new GameSession(this, opponent);
+        GameSession gameSession = new GameSession(this, opponent, gameEndLatch);
         Thread gameThread = new Thread(gameSession);
         gameThread.start();
+        try {
+            gameEndLatch.await(); // Wait for the game to end
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Game session interrupted");
+        }
     }
 
     @Override
     public void run() {
+
         try (DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream());
              DataOutputStream dataOutputStream = new DataOutputStream(clientSocket.getOutputStream())) {
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
             String command;
             while (true) {
+                System.out.println("Running");
+
                 try {
                     command = dataInputStream.readUTF();
                 } catch (EOFException e) {
@@ -44,6 +59,7 @@ public class ClientHandler implements Runnable {
                 }
                 // Read the command from the client
                 Matcher matcher = Pattern.compile("register:(?<username>.+):(?<nickname>.+):(?<password>.+):(?<email>.+):(?<answer1>.+):(?<answer2>.+):(?<answer3>.+)").matcher(command);
+
                 if (matcher.matches()) {
                     // Register the user
                     String username = matcher.group("username");
@@ -378,7 +394,7 @@ public class ClientHandler implements Runnable {
                         dataOutputStream.writeUTF("You are already in a game");
                         continue;
                     }
-                    if(!opponent.isInWaitingRoom()){
+                    if (!opponent.isInWaitingRoom()) {
                         dataOutputStream.writeUTF("The opponent is not Ready for a Game");
                         continue;
                     }
@@ -392,8 +408,8 @@ public class ClientHandler implements Runnable {
                     opponent.setInGame(true);
                     dataOutputStream.writeUTF("Game created successfully");
                     opponentClientHandler.dataOutputStream.writeUTF("Game created successfully");
-                    startGameSession(opponentClientHandler);
-                    return;
+                    new GameSession(this, opponentClientHandler, gameEndLatch);
+                    continue;
                 }
                 if (command.equals("enterWaitingRoom")) {
                     // Enter the waiting room
@@ -404,13 +420,26 @@ public class ClientHandler implements Runnable {
                     currentUser.setInWaitingRoom(true);
                     continue;
                 }
-
+                if (command.equals("getGameEnvironment")) {
+                    if (currentUser == null) {
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    GameSession gameSession = GameSession.allGameSessions.get(GameSession.allGameSessions.size() - 1);
+                    if (!gameSession.isRunning) {
+                        gameSession.run();
+                    }
+                    gameSession.gameEndLatch.await();
+                    continue;
+                }
 
 
                 dataOutputStream.writeUTF("invalid input");
             }
         } catch (IOException e) {
             Server.logger.error("Error handling client connection", e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             if (currentUser != null) {
                 Server.getOnlineUsers().remove(currentUser.getUsername());
@@ -423,6 +452,23 @@ public class ClientHandler implements Runnable {
                     Server.logger.error("Error closing client socket", e);
                 }
             }
+        }
+    }
+
+    public void sendMessage(String player1Json) {
+        try {
+            dataOutputStream.writeUTF(player1Json);
+        } catch (IOException e) {
+            Server.logger.error("Error sending message to client", e);
+        }
+    }
+
+    public String receiveMessage() {
+        try {
+            return dataInputStream.readUTF();
+        } catch (IOException e) {
+            Server.logger.error("Error receiving message from client", e);
+            return null;
         }
     }
 }

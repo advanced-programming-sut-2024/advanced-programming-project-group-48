@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import model.Faction;
 import view.menus.ArrangeDeck;
-import view.menus.MainMenu;
+import view.menus.PreGameMenu;
 
 public class ArrangeDeckController {
     public Label ErrorText;
@@ -94,8 +94,8 @@ public class ArrangeDeckController {
         Client.currentClient.sendMessage("showDeck");
     }
 
-    public void changeToMainMenu(MouseEvent mouseEvent) throws Exception {
-        new MainMenu().start(ArrangeDeck.appStage);
+    public void changeToPreGameMenu(MouseEvent mouseEvent) throws Exception {
+        new PreGameMenu().start(ArrangeDeck.appStage);
         ArrangeDeck.appStage = null;
     }
 

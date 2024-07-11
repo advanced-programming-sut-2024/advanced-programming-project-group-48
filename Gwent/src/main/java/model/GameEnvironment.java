@@ -1,9 +1,9 @@
 package model;
 
-import com.google.gson.Gson;
-import model.Card;
-import model.Deck;
+import com.google.gson.*;
+import controller.menu.controller.GameEnvironmentController;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class GameEnvironment {
@@ -50,12 +50,43 @@ public class GameEnvironment {
     public boolean hasPlayedEnemyCommander;
 
     public String toJson() {
-        Gson gson = new Gson();
+        Gson gson = buildGson(); // Use the custom Gson instance
         return gson.toJson(this);
+    }
+    public static GameEnvironment fromJson(String json) {
+        Gson gson = buildGson(); // Use the custom Gson instance for deserialization
+        return gson.fromJson(json, GameEnvironment.class);
     }
 
     public GameEnvironment(){
         // Default constructor
+    }
+    static class CardActionSerializer implements JsonSerializer<CardAction> {
+        @Override
+        public JsonElement serialize(CardAction src, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject result = new JsonObject();
+            result.addProperty("type", src.getClass().getName());
+            result.add("properties", context.serialize(src, src.getClass()));
+            return result;
+        }
+    }
+    static class CardActionDeserializer implements JsonDeserializer<CardAction> {
+        @Override
+        public CardAction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            String type = jsonObject.get("type").getAsString();
+            try {
+                return context.deserialize(jsonObject.get("properties"), Class.forName(type));
+            } catch (ClassNotFoundException e) {
+                throw new JsonParseException("Unknown element type: " + type, e);
+            }
+        }
+    }
+    public static Gson buildGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(CardAction.class, new CardActionSerializer())
+                .registerTypeAdapter(CardAction.class, new CardActionDeserializer())
+                .create();
     }
 
     public GameEnvironment(Deck deckUser, Deck deckEnemy) {
@@ -89,6 +120,8 @@ public class GameEnvironment {
         recentPlaceCardRow = 0;
         hasPlayedCommander=false;
         hasPlayedEnemyCommander=false;
+        GameEnvironmentController.drawRandomCards(deckUser.getAllCards(), inHandCards, 10);
+        GameEnvironmentController.drawRandomCards(deckEnemy.getAllCards(), enemyInHandCards, 10);
     }
 
     public void swapGameEnvironmentFields() {

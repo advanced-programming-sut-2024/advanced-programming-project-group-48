@@ -31,7 +31,7 @@
    </Label>
    <ChoiceBox fx:id="numberOfCard" layoutX="435.0" layoutY="294.0" prefHeight="25.0" prefWidth="47.0" />
    <Button layoutX="509.0" layoutY="294.0" mnemonicParsing="false" onMouseClicked="#submitOperation" text="modify" textFill="#d71717" />
-   <Button layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#changeToMainMenu" text="go to preGame menu" />
+   <Button layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#changeToPreGameMenu" text="go to preGame menu" />
    <Label fx:id="ErrorText" alignment="CENTER" layoutX="170.0" layoutY="358.0" text="............................................................................................." />
    <Button layoutX="279.0" layoutY="194.0" mnemonicParsing="false" onMouseClicked="#saveLeaderFaction" text="save" textFill="#415e82" />
 </AnchorPane>

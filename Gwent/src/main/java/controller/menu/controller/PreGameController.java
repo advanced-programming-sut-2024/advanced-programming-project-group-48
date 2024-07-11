@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.GameEnvironment;
 import view.menus.*;
 
 public class PreGameController {
@@ -32,6 +33,7 @@ public class PreGameController {
                 alert1.setContentText("new game created.");
                 alert1.getDialogPane().getButtonTypes().add(ButtonType.OK);
                 alert1.showAndWait();
+                Client.currentClient.sendMessage("getGameEnvironment");
                 PreGameMenu.appStage.close();
                 PreGameMenu.appStage = null;
                 new GameEnvironmentMenu().start(new Stage());
@@ -73,6 +75,7 @@ public class PreGameController {
         String response = Client.currentClient.receiveResponse();
         if (response.equals("Game created successfully")) {
             ErrorText.setText("Opponent joined the game.");
+            Client.currentClient.sendMessage("getGameEnvironment");
             PreGameMenu.appStage.close();
             PreGameMenu.appStage = null;
             new GameEnvironmentMenu().start(new Stage());

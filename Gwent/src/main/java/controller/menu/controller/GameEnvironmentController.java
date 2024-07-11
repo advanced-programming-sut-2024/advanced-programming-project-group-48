@@ -50,43 +50,11 @@ public class GameEnvironmentController {
     public Deck sampleDeck = new Deck();
     public Deck enemySampleDeck = new Deck();
 
-    {
-        sampleDeck.setCommander("KingOfTemperia");
-        sampleDeck.setFaction("NorthernRealms");
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        sampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.setCommander("LordOfCommanderOfTheNorth");
-        enemySampleDeck.setFaction("NorthernRealms");
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("PoorFuckingInfantry").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Thaler").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("BitingFrost").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-        enemySampleDeck.getAllCards().add(Card.getCardByName("Trebuchet").clone());
-    }
-
-//        public GameEnvironment gameEnvironment=new GameEnvironment(User.loggedInUser.getDeck(), GameEnvironmentMenu.currentGame.opponentUser.getDeck());
-    public GameEnvironment gameEnvironment = new GameEnvironment(sampleDeck, enemySampleDeck);
+    public GameEnvironment gameEnvironment;
 
     public void initialize() {
-        commanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.commanderCard + ".jpg"))));
-        enemyCommanderCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Leaders/" + gameEnvironment.enemyCommanderCard + ".jpg"))));
-        deckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.deckLogo + ".jpg"))));
-        enemyDeckLogo.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/deck_back_" + gameEnvironment.enemyDeckLogo + ".jpg"))));
-//        drawRandomCards(sampleDeck.getAllCards(), gameEnvironment.inHandCards, 10);
-//        drawRandomCards(enemySampleDeck.getAllCards(), gameEnvironment.enemyInHandCards, 10);
+        String json = Client.currentClient.receiveResponse();
+        gameEnvironment = GameEnvironment.fromJson(json);
         updateEverything();
     }
 
@@ -399,15 +367,7 @@ public class GameEnvironmentController {
             Card card = gameEnvironment.inHandCards[cardIndex];
             closeHorn.setImage(cardNode.getImage());
             gameEnvironment.closeHorn = card;
-            cardNode.setImage(null);
-            gameEnvironment.inHandCards[cardIndex] = null;
-            gameEnvironment.hasPlayedTurn = true;
-            if (card.name.equals("Mardroeme")) {
-                Mardroeme.execute(gameEnvironment);
-            }
-            if (card.name.equals("CommandersHorn")) {
-                CommandersHorn.execute(gameEnvironment);
-            }
+            playHorn(cardIndex, cardNode, card);
         }
         if (row == 2) {
             if (rangedHorn != null) {
@@ -418,15 +378,7 @@ public class GameEnvironmentController {
             Card card = gameEnvironment.inHandCards[cardIndex];
             rangedHorn.setImage(cardNode.getImage());
             gameEnvironment.rangedHorn = card;
-            cardNode.setImage(null);
-            gameEnvironment.inHandCards[cardIndex] = null;
-            gameEnvironment.hasPlayedTurn = true;
-            if (card.name.equals("Mardroeme")) {
-                Mardroeme.execute(gameEnvironment);
-            }
-            if (card.name.equals("CommandersHorn")) {
-                CommandersHorn.execute(gameEnvironment);
-            }
+            playHorn(cardIndex, cardNode, card);
 
         }
         if (row == 3) {
@@ -438,18 +390,22 @@ public class GameEnvironmentController {
             Card card = gameEnvironment.inHandCards[cardIndex];
             siegeHorn.setImage(cardNode.getImage());
             gameEnvironment.siegeHorn = card;
-            cardNode.setImage(null);
-            gameEnvironment.inHandCards[cardIndex] = null;
-            gameEnvironment.hasPlayedTurn = true;
-            if (card.name.equals("Mardroeme")) {
-                Mardroeme.execute(gameEnvironment);
-            }
-            if (card.name.equals("CommandersHorn")) {
-                CommandersHorn.execute(gameEnvironment);
-            }
+            playHorn(cardIndex, cardNode, card);
         }
 
 
+    }
+
+    private void playHorn(int cardIndex, ImageView cardNode, Card card) {
+        cardNode.setImage(null);
+        gameEnvironment.inHandCards[cardIndex] = null;
+        gameEnvironment.hasPlayedTurn = true;
+        if (card.name.equals("Mardroeme")) {
+            Mardroeme.execute(gameEnvironment);
+        }
+        if (card.name.equals("CommandersHorn")) {
+            CommandersHorn.execute(gameEnvironment);
+        }
     }
 
     private void handleSpell(int cardIndex) {
@@ -491,27 +447,7 @@ public class GameEnvironmentController {
     private void playSpellAction(Card card) {
         if (card.name.equals("ClearWeather")) {
             // Reset power for all rows
-            for (int i = 0; i < 10; i++) {
-                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
-                    gameEnvironment.siegeRow[i].resetPower();
-                }
-                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
-                    gameEnvironment.rangedRow[i].resetPower();
-                }
-                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
-                    gameEnvironment.closedRow[i].resetPower();
-                }
-                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
-                    gameEnvironment.enemySiegeRow[i].resetPower();
-                }
-                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
-                    gameEnvironment.enemyRangedRow[i].resetPower();
-                }
-                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
-                    gameEnvironment.enemyClosedRow[i].resetPower();
-                }
-            }
-            //It should be handle to cancel scorch ability spell.
+            resetPower();
         }
         if (card.name.equals("SkelligeStorm")) {
             for (int i = 0; i < 10; i++) {
@@ -614,6 +550,29 @@ public class GameEnvironmentController {
         }
     }
 
+    private void resetPower() {
+        for (int i = 0; i < 10; i++) {
+            if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
+                gameEnvironment.siegeRow[i].resetPower();
+            }
+            if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
+                gameEnvironment.rangedRow[i].resetPower();
+            }
+            if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
+                gameEnvironment.closedRow[i].resetPower();
+            }
+            if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
+                gameEnvironment.enemySiegeRow[i].resetPower();
+            }
+            if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
+                gameEnvironment.enemyRangedRow[i].resetPower();
+            }
+            if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
+                gameEnvironment.enemyClosedRow[i].resetPower();
+            }
+        }
+    }
+
     private void handleVeto(int cardIndex) {
         if (gameEnvironment.numberOfVeto >= 2) {
             //Todo replace with alert
@@ -691,10 +650,6 @@ public class GameEnvironmentController {
         gameEnvironment.recentPlaceCardRow = 1;
         updateEverything();
         gameEnvironment.hasPlayedTurn = true;
-    }
-
-    private void handleSpy(Card card) {
-
     }
 
     private static int findEmptyIndex(Card[] row) {
@@ -841,7 +796,17 @@ public class GameEnvironmentController {
             gameEnvironment.endRound = true;
         }
         if (gameEnvironment.hasPlayedTurn) gameEnvironment.endRound = false;
+        updateEverything();
+        gameEnvironment.hasPlayedTurn = false;
+        gameEnvironment.turnNumber++;
         Client.currentClient.sendMessage(gameEnvironment.toJson());
+        String response = Client.currentClient.receiveResponse();
+        if (!response.equals("end")) {
+            gameEnvironment = GameEnvironment.fromJson(response);
+            updateEverything();
+        } else {
+            endRound();
+        }
     }
 
     private void changeTurn() {
@@ -1190,26 +1155,7 @@ public class GameEnvironmentController {
             }
         }
         if (Faction.getCommandersOfNorthernRealms().equals("TheSteelForged")) {
-            for (int i = 0; i < 10; i++) {
-                if (gameEnvironment.siegeRow[i] != null && !gameEnvironment.siegeRow[i].isHero) {
-                    gameEnvironment.siegeRow[i].resetPower();
-                }
-                if (gameEnvironment.rangedRow[i] != null && !gameEnvironment.rangedRow[i].isHero) {
-                    gameEnvironment.rangedRow[i].resetPower();
-                }
-                if (gameEnvironment.closedRow[i] != null && !gameEnvironment.closedRow[i].isHero) {
-                    gameEnvironment.closedRow[i].resetPower();
-                }
-                if (gameEnvironment.enemySiegeRow[i] != null && !gameEnvironment.enemySiegeRow[i].isHero) {
-                    gameEnvironment.enemySiegeRow[i].resetPower();
-                }
-                if (gameEnvironment.enemyRangedRow[i] != null && !gameEnvironment.enemyRangedRow[i].isHero) {
-                    gameEnvironment.enemyRangedRow[i].resetPower();
-                }
-                if (gameEnvironment.enemyClosedRow[i] != null && !gameEnvironment.enemyClosedRow[i].isHero) {
-                    gameEnvironment.enemyClosedRow[i].resetPower();
-                }
-            }
+            resetPower();
         }
         if (Faction.getCommandersOfNilfgaardianEmpire().equals("The Relentless")) {
             for (int i = 0; i < 10; i++) {
@@ -1275,7 +1221,7 @@ public class GameEnvironmentController {
     }
 
     public void playCommanderAbility(MouseEvent mouseEvent) {
-        if (gameEnvironment.hasPlayedCommander||gameEnvironment.hasPlayedTurn) {
+        if (gameEnvironment.hasPlayedCommander || gameEnvironment.hasPlayedTurn) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setHeaderText("You have already played your commander ability");
