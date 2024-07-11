@@ -69,9 +69,9 @@ public class Faction {
     public static ArrayList<String> getLeadersByFaction(String factionName) {
         return switch (factionName) {
             case "NorthernRealms" -> getCommandersOfNorthernRealms();
-            case "NilfgaardianEmpire" -> getCommandersOfNilfgaardianEmpire();
+            case "Nilfgaard" -> getCommandersOfNilfgaardianEmpire();
             case "Monsters" -> getCommandersOfMonsters();
-            case "Scoia'tael" -> getCommandersOfScoiaTaell();
+            case "ScoiaTaell" -> getCommandersOfScoiaTaell();
             case "Skellige" -> getCommandersOfSkellige();
             default -> new ArrayList<>();
         };
