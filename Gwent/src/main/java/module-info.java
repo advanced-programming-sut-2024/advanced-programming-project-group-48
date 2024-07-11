@@ -5,6 +5,7 @@ module Gwent {
     requires org.slf4j;
     requires com.google.gson;
     requires com.fasterxml.jackson.databind;
+    requires java.sql;
     exports model;
     opens model;
     exports view.menus;

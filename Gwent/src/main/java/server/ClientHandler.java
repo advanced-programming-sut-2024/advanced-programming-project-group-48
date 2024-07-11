@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,12 +74,13 @@ public class ClientHandler implements Runnable {
                     String answer2 = matcher.group("answer2");
                     String answer3 = matcher.group("answer3");
                     // Register the user
-                    if (User.usernameExists(username)) {
-                        dataOutputStream.writeUTF("Username already exists");
-                        continue;
-                    }
-                    new User(username, nickname, password, email, answer1, answer2, answer3);
-                    dataOutputStream.writeUTF("User registered successfully");
+//                    if (User.usernameExists(username)) {
+//                        dataOutputStream.writeUTF("Username already exists");
+//                        continue;
+//                    }
+//                    new User(username, nickname, password, email, answer1, answer2, answer3);
+//                    dataOutputStream.writeUTF("User registered successfully");
+                    handleRegistration(username, nickname, password, email, answer1, answer2, answer3);
                     continue;
                 }
                 matcher = Pattern.compile("login:(?<username>.+):(?<password>.+):(?<stayLoggedIn>.+)").matcher(command);
@@ -86,15 +89,16 @@ public class ClientHandler implements Runnable {
                     String username = matcher.group("username");
                     String password = matcher.group("password");
                     boolean stayLoggedIn = Boolean.parseBoolean(matcher.group("stayLoggedIn"));
-                    User user = User.getUserForLogin(username, password);
-                    if (user == null) {
-                        dataOutputStream.writeUTF("Username does not exist");
-                    } else {
-                        dataOutputStream.writeUTF("login successful");
-                        currentUser = user;
-                        User.addOnlineUser(currentUser);
-                        Server.getOnlineUsers().put(currentUser.getUsername(), this);
-                    }
+//                    User user = User.getUserForLogin(username, password);
+//                    if (user == null) {
+//                        dataOutputStream.writeUTF("Username does not exist");
+//                    } else {
+//                        dataOutputStream.writeUTF("login successful");
+//                        currentUser = user;
+//                        User.addOnlineUser(currentUser);
+//                        Server.getOnlineUsers().put(currentUser.getUsername(), this);
+//                    }
+                    handleLogin(username, password);
                     continue;
                 }
                 matcher = Pattern.compile("changePassword:(?<username>.+):(?<answerOfTheQuestion>.+):(?<numberOfQuestion>.+):(?<newPassword>.+)").matcher(command);
@@ -473,6 +477,30 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             logger.error("Error receiving message from client", e);
             return null;
+        }
+    }
+    private void handleRegistration(String username, String nickname, String password, String email, String answer1, String answer2, String answer3) {
+        try {
+            if (DatabaseHelper.userExists(username, email)) {
+                dataOutputStream.writeUTF("Username already exists");
+            } else {
+                User newUser = new User(username, nickname, password, email,answer1,answer2,answer3);
+                DatabaseHelper.insertUser(newUser);
+                dataOutputStream.writeUTF("User registered successfully");
+            }
+        } catch (SQLException e) {
+            // Handle database error
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void handleLogin(String username, String password) throws IOException {
+        User user = DatabaseHelper.getUserByUsernameAndPassword(username, password);
+        if (user != null) {
+            dataOutputStream.writeUTF("login successful");
+        } else {
+            dataOutputStream.writeUTF("Username does not exist");
         }
     }
 }

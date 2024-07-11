@@ -24,6 +24,7 @@ public class Server {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server is listening on port " + PORT);
 
+            DatabaseHelper.initializeDatabase();
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 executorService.submit(new ClientHandler(clientSocket));
