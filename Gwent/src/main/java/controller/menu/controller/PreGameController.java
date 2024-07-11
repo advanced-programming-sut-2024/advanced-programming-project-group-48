@@ -93,5 +93,25 @@ public class PreGameController {
     private void sendEnterWaitingRoomReq() {
         Client.currentClient.sendMessage("enterWaitingRoom");
     }
+
+    public void showOnlineFriends(MouseEvent mouseEvent) {
+        Client.currentClient.sendMessage("getOnlineFriends");
+        String response = Client.currentClient.receiveResponse();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Online Friends");
+        alert.setHeaderText("Online Friends");
+        alert.setContentText(response);
+        alert.showAndWait();
+    }
+
+    public void makePublicOrPrivate(MouseEvent mouseEvent) {
+        Client.currentClient.sendMessage("makePublicOrPrivate");
+        String response = Client.currentClient.receiveResponse();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Privacy");
+        alert.setHeaderText("Game Privacy");
+        alert.setContentText(response);
+        alert.showAndWait();
+    }
 }
 

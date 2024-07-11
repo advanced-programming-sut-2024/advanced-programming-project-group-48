@@ -19,6 +19,15 @@ public class User {
     private static final ArrayList<User> onlineUsers = new ArrayList<>();
     private boolean isInGame;
     private boolean isInWaitingRoom;
+    private boolean isUpcomingGamePublic;
+
+    public boolean isUpcomingGamePublic() {
+        return isUpcomingGamePublic;
+    }
+
+    public void setUpcomingGamePublic(boolean upcomingGamePublic) {
+        isUpcomingGamePublic = upcomingGamePublic;
+    }
 
     public boolean isInWaitingRoom() {
         return isInWaitingRoom;
@@ -278,6 +287,16 @@ public class User {
 
     public void setInGame(boolean b) {
         isInGame = b;
+    }
+
+    public String showOnlineFriends() {
+        StringBuilder friends = new StringBuilder();
+        for (String friend : allFriends) {
+            if (isUserOnline(getUserByUsername(friend))) {
+                friends.append(friend).append("\n");
+            }
+        }
+        return friends.toString();
     }
 }
 

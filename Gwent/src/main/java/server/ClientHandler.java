@@ -440,6 +440,23 @@ public class ClientHandler implements Runnable {
                     gameSession.gameEndLatch.await();
                     continue;
                 }
+                if(command.equals("getOnlineFriends")){
+                    if(currentUser == null){
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    dataOutputStream.writeUTF(currentUser.showOnlineFriends());
+                    continue;
+                }
+                if(command.equals("makePublicOrPrivate")){
+                    if(currentUser == null){
+                        dataOutputStream.writeUTF("You are not logged in");
+                        continue;
+                    }
+                    currentUser.setUpcomingGamePublic(!currentUser.isUpcomingGamePublic());
+                    dataOutputStream.writeUTF("Game privacy changed successfully");
+                    continue;
+                }
 
 
                 dataOutputStream.writeUTF("invalid input");

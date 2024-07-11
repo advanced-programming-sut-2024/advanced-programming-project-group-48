@@ -29,12 +29,14 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button layoutX="243.0" layoutY="238.0" mnemonicParsing="false" onMouseClicked="#goToMainMenu" text="go to main menu" textFill="#e41a1a">
+      <Button layoutX="163.0" layoutY="313.0" mnemonicParsing="false" onMouseClicked="#goToMainMenu" text="go to main menu" textFill="#e41a1a">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="237.0" layoutY="285.0" mnemonicParsing="false" onMouseClicked="#goToWaitingRoom" text="Go to waiting room" />
+      <Button layoutX="237.0" layoutY="228.0" mnemonicParsing="false" onMouseClicked="#goToWaitingRoom" text="Go to waiting room" />
       <Label fx:id="ErrorText" alignment="CENTER" layoutX="167.0" layoutY="339.0" text="..............................................................................................." />
+      <Button layoutX="283.0" layoutY="313.0" mnemonicParsing="false" onMouseClicked="#showOnlineFriends" text="play directly with your friends" />
+      <Button layoutX="252.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#makePublicOrPrivate" text="public/private" />
    </Pane>
 </AnchorPane>
